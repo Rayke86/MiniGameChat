@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PacketLibrary
 {
-    class Packet
+    public class Packet
     {
         public Flag Flag { get; set; }
         public Object Data { get; set; }

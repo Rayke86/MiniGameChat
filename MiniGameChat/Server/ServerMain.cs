@@ -32,7 +32,7 @@ namespace Server
             }
         }
 
-        public void setChat(ClientHandler client, string packet) //string veranderen in Packet
+        public void setChat(ClientHandler client, PacketLibrary.Flag packet) //string veranderen in Packet
         {
             //stuur chat naar client gui
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PacketLibrary
 {
-    enum Hands
+    public enum Hands
     {
         Rock, Paper, Scissors, Lizard, Spock
     }

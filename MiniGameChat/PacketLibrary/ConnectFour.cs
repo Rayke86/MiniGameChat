@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PacketLibrary
 {
-    class ConnectFour
+    public class ConnectFour
     {
         public GameSituation Situation { get; set; }
         public int X { get; set; }

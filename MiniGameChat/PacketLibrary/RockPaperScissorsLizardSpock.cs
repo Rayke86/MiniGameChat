@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PacketLibrary
 {
-    class RockPaperScissorsLizardSpock
+    public class RockPaperScissorsLizardSpock
     {
         public GameSituation Situation { get; set; }
         public Hands Hand { get; set; }

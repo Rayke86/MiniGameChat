@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PacketLibrary
 {
-    enum GameSituation
+    public enum GameSituation
     {
         Win, Loss, Tie, Disconnect, Normal
     }
