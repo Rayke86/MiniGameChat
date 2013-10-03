@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace PacketLibrary
 {
-    public enum Flag
+    public class HandshakeRequest
     {
-        Chat, RPSLS, Connect4, HandshakeRequest, HandshakeResponse, OnlineUserList
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

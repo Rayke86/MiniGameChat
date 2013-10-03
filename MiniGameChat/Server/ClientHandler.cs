@@ -15,6 +15,7 @@ namespace Server
         private TcpClient tcpClient;
         private ServerMain serverMain;
         private Thread listenthread;
+        public string username { get; set; }
 
         public ClientHandler(TcpClient tcpClient, ServerMain serverMain)
         {
@@ -39,6 +40,7 @@ namespace Server
                 catch (Exception e)
                 {
                     Console.WriteLine(e.StackTrace);
+                    serverMain.removeClient(this);
                 }
             }
         }
@@ -53,7 +55,17 @@ namespace Server
                     break;
                 case  Flag.RPSLS:
                     break;
+                case Flag.HandshakeRequest:
+                    serverMain.handshakeHandler(this, packet);
+                    break;
+                case Flag.OnlineUserList:
+                    break;
             }
+        }
+
+        public void send(Packet packet)
+        {
+            //TODO send the packet back to the client!
         }
     }
 }
