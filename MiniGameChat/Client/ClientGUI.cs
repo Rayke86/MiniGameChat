@@ -7,37 +7,64 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PacketLibrary;
 
 namespace Client
 {
     public partial class ClientGUI : Form
     {
-        public ClientGUI()
+        private string name { get; set; }
+        private string ip { get; set; }
+
+        public ClientGUI(string name, string ip)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            
-            tabController.TabPages.Add("BroadCast");
+
+            this.name = name;
+            this.ip = ip;
+
+            this.Text = name;
+
+            tabController.TabPages.Add("BROADCAST");
+            tabController.TabPages[0].Name = "BROADCAST";
             tabController.TabPages[0].Controls.Add(new ChatPanel());
+
+            addPages("Johannes");
+            addPages("Ray");
+        }
+
+        public void addPages(string name)
+        {
+            int number = tabController.Controls.Count;
+            tabController.TabPages.Add(name);
+            tabController.TabPages[number].Name = name;
+            tabController.TabPages[number].Controls.Add(new ChatPanel());
         }
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            //string text = textChat.Text;
-            //int index = tabController.SelectedTab.TabIndex;
-            //ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0]; 
+            //send text to server
+            string senderName = "";     //username
+            string receiver = tabController.SelectedTab.Name;
+            string text = textChat.Text;
 
-            //youChat(panel,text);
+            Packet packet = new Packet();
+            packet.Flag = Flag.Chat;
+            ChatMessage message = new ChatMessage();
+            message.Sender = senderName;
+            message.Message = text;
+            message.Receiver = receiver;
+
+            packet.Data = message;
 
             textChat.Clear();
             textChat.Focus();
         }
 
-
-
-        private void youChat(ChatPanel panel, string text)
+        public void incomingChat(string text, string name)
         {
-            panel.addChat(text);
+
         }
     }
 }
