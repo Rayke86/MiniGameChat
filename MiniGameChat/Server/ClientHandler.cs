@@ -58,8 +58,6 @@ namespace Server
                 case Flag.HandshakeRequest:
                     serverMain.handshakeHandler(this, packet);
                     break;
-                case Flag.OnlineUserList:
-                    break;
             }
         }
 

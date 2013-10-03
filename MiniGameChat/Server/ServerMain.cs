@@ -11,7 +11,7 @@ namespace Server
 {
     internal class ServerMain
     {
-        private List<string> onlineUsers;
+        private Dictionary<string, ClientHandler> onlineUsers;
  
         private static void Main(string[] args)
         {
@@ -20,7 +20,7 @@ namespace Server
 
         public ServerMain()
         {
-            onlineUsers = new List<string>();
+            onlineUsers = new Dictionary<string, ClientHandler>();
 
             TcpListener listener = new TcpListener(System.Net.IPAddress.Any, 1330);
             listener.Start();
@@ -39,29 +39,31 @@ namespace Server
             }
         }
 
-        public void setChat(ClientHandler client, Packet packet) //string veranderen in Packet
+        public void setChat(ClientHandler client, Packet packet)
         {
-            //stuur chat naar elke client gui
-            //TODO list met alle online clients.
             ChatMessage msg = (ChatMessage) packet.Data;
             if (msg.Receiver == "BROADCAST")
             {
-                //TODO send to everyone
+                foreach (ClientHandler clientHandler in onlineUsers.Values)
+                {
+                    clientHandler.send(packet);
+                }
             }
             else
             {
-                ClientHandler clientHandler = 
+                ClientHandler clientHandler = onlineUsers[msg.Receiver];
+                clientHandler.send(packet);
             }
         }
 
-        public void setRPSLS(ClientHandler client, Packet packet) //string veranderen in Packet
+        public void setRPSLS(ClientHandler client, Packet packet)
         {
             RockPaperScissorsLizardSpock data = (RockPaperScissorsLizardSpock) packet.Data;
             //stuur keuze naar client gui
             //TODO list met clients die met elkaar verbonden zijn.
         }
 
-        public void setConnectFour(ClientHandler client, Packet packet) //string veranderen in Packet
+        public void setConnectFour(ClientHandler client, Packet packet)
         {
             ConnectFour data = (ConnectFour) packet.Data;
             //stuur keuze naar client gui
@@ -75,16 +77,22 @@ namespace Server
             rePacket.Flag = Flag.HandshakeResponse;
             HandshakeResponse response = new HandshakeResponse();
 
-            if(onlineUsers.Contains(request.Username))
+            if(onlineUsers.ContainsKey(client.username))
                 response.Response = Response.INVALIDLOGIN;
             else
             {
                 response.Response = Response.OK;
-                onlineUsers.Add(request.Username);
+                addClient(client);
             }
 
             rePacket.Data = response;
             client.send(rePacket);
+        }
+
+        public void addClient(ClientHandler client)
+        {
+            onlineUsers.Add(client.username, client);
+            sendOnlineList();
         }
 
         public void removeClient(ClientHandler client)
@@ -92,6 +100,21 @@ namespace Server
             onlineUsers.Remove(client.username);
             //TODO close games of this user.
             //TODO remove user from dictionaries.
+            sendOnlineList();
+        }
+
+        public void sendOnlineList()
+        {
+            List<string> users = new List<string>(onlineUsers.Keys);
+
+            Packet packet = new Packet();
+            packet.Flag = Flag.OnlineUserList;
+            packet.Data = users;
+
+            foreach (ClientHandler client in onlineUsers.Values)
+            {
+                client.send(packet);
+            }
         }
     }
 }
