@@ -18,7 +18,14 @@ namespace Client
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ClientGUI());
+            PopUp popUop = new PopUp();
+            if (popUop.ShowDialog() == DialogResult.OK)
+            {
+                string name = popUop.name;
+                string ip = popUop.ip;
+                popUop.Dispose();
+                Application.Run(new ClientGUI(name, ip));
+            }
         }
     }
 }

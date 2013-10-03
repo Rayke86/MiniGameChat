@@ -13,10 +13,18 @@ namespace Client
 {
     public partial class ClientGUI : Form
     {
-        public ClientGUI()
+        private string name { get; set; }
+        private string ip { get; set; }
+
+        public ClientGUI(string name, string ip)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            this.name = name;
+            this.ip = ip;
+
+            this.Text = name;
 
             tabController.TabPages.Add("BROADCAST");
             tabController.TabPages[0].Name = "BROADCAST";
@@ -46,7 +54,9 @@ namespace Client
             ChatMessage message = new ChatMessage();
             message.Sender = senderName;
             message.Message = text;
-            message.Receiver = receiver; 
+            message.Receiver = receiver;
+
+            packet.Data = message;
 
             textChat.Clear();
             textChat.Focus();
@@ -54,14 +64,7 @@ namespace Client
 
         public void incomingChat(string text, string name)
         {
-            ChatPanel panel = (ChatPanel)tabController.TabPages[0].Controls[0];
-            
-            youChat(panel, text);
-        }
 
-        private void youChat(ChatPanel panel, string text)
-        {
-            panel.addChat(text);
         }
     }
 }
