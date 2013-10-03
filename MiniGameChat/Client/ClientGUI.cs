@@ -15,6 +15,10 @@ namespace Client
         public ClientGUI()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            
+            tabController.TabPages.Add("BroadCast");
+            tabController.TabPages[0].Controls.Add(new ChatPanel());
         }
     }
 }

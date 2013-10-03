@@ -45,6 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat.cs" />
+    <Compile Include="ChatPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChatPanel.Designer.cs">
+      <DependentUpon>ChatPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClientGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +60,9 @@
     <Compile Include="Communication.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChatPanel.resx">
+      <DependentUpon>ChatPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClientGUI.resx">
       <DependentUpon>ClientGUI.cs</DependentUpon>
     </EmbeddedResource>
