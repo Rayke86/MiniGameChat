@@ -9,10 +9,7 @@ namespace Client
 {
     class Communication
     {
-        public Communication()
-        {
-
-        }
+        
     }
 }
    
