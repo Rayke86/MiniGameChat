@@ -16,5 +16,12 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        public void addChat(string text)
+        {
+            textBox.AppendText(text);
+            textBox.AppendText(Environment.NewLine);
+
+        }
     }
 }

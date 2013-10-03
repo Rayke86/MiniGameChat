@@ -28,18 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.textBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+            // 
+            // textBox
+            // 
+            this.textBox.Location = new System.Drawing.Point(0, 0);
+            this.textBox.Multiline = true;
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(322, 474);
+            this.textBox.TabIndex = 0;
             // 
             // ChatPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.textBox);
             this.Name = "ChatPanel";
             this.Size = new System.Drawing.Size(322, 474);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.TextBox textBox;
     }
 }
