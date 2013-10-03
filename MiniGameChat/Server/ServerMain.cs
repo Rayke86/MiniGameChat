@@ -3,6 +3,7 @@
 using System;
 using System.Net.Sockets;
 using System.Threading;
+using PacketLibrary;
 
 namespace Server
 {
@@ -32,19 +33,24 @@ namespace Server
             }
         }
 
-        public void setChat(ClientHandler client, PacketLibrary.Flag packet) //string veranderen in Packet
+        public void setChat(ClientHandler client, Packet packet) //string veranderen in Packet
         {
-            //stuur chat naar client gui
+            //stuur chat naar elke client gui
+            //TODO list met alle online clients.
         }
 
-        public void setRPSLS(ClientHandler client, string packet) //string veranderen in Packet
+        public void setRPSLS(ClientHandler client, Packet packet) //string veranderen in Packet
         {
+            RockPaperScissorsLizardSpock data = (RockPaperScissorsLizardSpock) packet.Data;
             //stuur keuze naar client gui
+            //TODO list met clients die met elkaar verbonden zijn.
         }
 
-        public void setConnectFour(ClientHandler client, string packet) //string veranderen in Packet
+        public void setConnectFour(ClientHandler client, Packet packet) //string veranderen in Packet
         {
+            ConnectFour data = (ConnectFour) packet.Data;
             //stuur keuze naar client gui
+            //TODO list met clients die met elkaar verbonden zijn.
         }
     }
 }

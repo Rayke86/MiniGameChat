@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using PacketLibrary;
 
 namespace Server
 {
@@ -32,8 +33,8 @@ namespace Server
             {
                 try
                 {
-                    var packet = binfor.Deserialize(nwStream);// as Packet; TODO Packet class maken of library
-                    //methode aanroepen om gegevens uit de packet te halen
+                    Packet packet = binfor.Deserialize(nwStream) as Packet;
+                    packetHandler(packet);
                 }
                 catch (Exception e)
                 {
@@ -42,11 +43,15 @@ namespace Server
             }
         }
 
-        public void packetHandler(Object packet) //Object veranderen 
+        public void packetHandler(Packet packet)
         {
-            switch (packet.ToString()) //packet.toFlag wordt enum
+            switch (packet.Flag)
             {
-                case "":
+                case Flag.Chat:
+                    break;
+                case Flag.Connect4:
+                    break;
+                case  Flag.RPSLS:
                     break;
             }
         }
