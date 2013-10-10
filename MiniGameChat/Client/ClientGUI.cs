@@ -45,14 +45,13 @@ namespace Client
         private void buttonSend_Click(object sender, EventArgs e)
         {
             //send text to server
-            string senderName = "";     //username
             string receiver = tabController.SelectedTab.Name;
             string text = textChat.Text;
 
             Packet packet = new Packet();
             packet.Flag = Flag.Chat;
             ChatMessage message = new ChatMessage();
-            message.Sender = senderName;
+            message.Sender = name;
             message.Message = text;
             message.Receiver = receiver;
 
