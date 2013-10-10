@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
 using PacketLibrary;
 
@@ -14,6 +12,7 @@ namespace Server
     {
         private TcpClient tcpClient;
         private ServerMain serverMain;
+        private NetworkStream nwStream;
         private Thread listenthread;
         public string username { get; set; }
 
@@ -27,7 +26,7 @@ namespace Server
 
         public void handler()
         {
-            NetworkStream nwStream = tcpClient.GetStream();
+            nwStream = tcpClient.GetStream();
             BinaryFormatter binfor = new BinaryFormatter();
 
             while (true)
@@ -50,6 +49,7 @@ namespace Server
             switch (packet.Flag)
             {
                 case Flag.Chat:
+                    serverMain.setChat(this, packet);
                     break;
                 case Flag.Connect4:
                     break;
@@ -63,7 +63,15 @@ namespace Server
 
         public void send(Packet packet)
         {
-            //TODO send the packet back to the client!
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                formatter.Serialize(nwStream, packet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
