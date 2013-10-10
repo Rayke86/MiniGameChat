@@ -29,7 +29,7 @@ namespace Client
             handler = new Handler();
             Thread thread = new Thread(new ThreadStart(StartRunning));
 
-            Handshake();
+            
         }
 
         public void Handshake()
@@ -45,6 +45,7 @@ namespace Client
 
         public void StartRunning()
         {
+            Handshake();
             bool run = true;
             while (run)
             {

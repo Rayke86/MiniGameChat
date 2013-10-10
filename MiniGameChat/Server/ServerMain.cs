@@ -18,7 +18,7 @@ namespace Server
         {
             onlineUsers = new Dictionary<string, ClientHandler>();
 
-            TcpListener listener = new TcpListener(System.Net.IPAddress.Any, 8080);
+            TcpListener listener = new TcpListener(System.Net.IPAddress.Any, 1330);
             listener.Start();
 
             while (true)
@@ -26,13 +26,12 @@ namespace Server
                 Console.WriteLine("Listening...");
                 try
                 {
-                    TcpClient client = listener.AcceptTcpClient();
-                    new ClientHandler(client, this);
+                    TcpClient tcpClient = listener.AcceptTcpClient();
+                    ClientHandler clientHandler = new ClientHandler(tcpClient, this);
                     Console.WriteLine("Client connected.");
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine(e);
                 }
             }
         }
@@ -73,12 +72,16 @@ namespace Server
         public void handshakeHandler(ClientHandler client, Packet packet)
         {
             HandshakeRequest request = (HandshakeRequest) packet.Data;
+            client.Username = request.Username;
             Packet rePacket = new Packet();
             rePacket.Flag = Flag.HandshakeResponse;
             HandshakeResponse response = new HandshakeResponse();
 
-            if(onlineUsers.ContainsKey(client.Username))
+            if (onlineUsers.ContainsKey(client.Username))
+            {
                 response.Response = Response.INVALIDLOGIN;
+                Console.WriteLine("Invalid login received");
+            }
             else
             {
                 response.Response = Response.OK;
@@ -93,7 +96,7 @@ namespace Server
         public void addClient(ClientHandler client)
         {
             onlineUsers.Add(client.Username, client);
-            sendOnlineList();
+            //sendOnlineList();
         }
 
         public void removeClient(ClientHandler client)
@@ -101,7 +104,7 @@ namespace Server
             onlineUsers.Remove(client.Username);
             //TODO close games of this user.
             //TODO remove user from dictionaries.
-            sendOnlineList();
+            //sendOnlineList();
         }
 
         public void sendOnlineList()

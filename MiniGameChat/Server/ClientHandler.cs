@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -10,6 +11,7 @@ namespace Server
     {
         private TcpClient tcpClient;
         private ServerMain serverMain;
+        private Thread listenThread;
         private NetworkStream nwStream;
         public string Username { get; set; }
 
@@ -18,7 +20,8 @@ namespace Server
             this.tcpClient = tcpClient;
             this.serverMain = serverMain;
 
-            new Thread(new ThreadStart(handler));
+            listenThread = new Thread(new ThreadStart(handler));
+            listenThread.Start();
         }
 
         public void handler()
@@ -34,10 +37,12 @@ namespace Server
                     packetHandler(packet);
                     NoSuchAgencyHandler.writeHandler(Username, packet);
                 }
-                catch (Exception e)
+                catch (IOException)
                 {
-                    Console.WriteLine(e.StackTrace);
-                    serverMain.removeClient(this);
+                    
+                }
+                catch (Exception)
+                {
                 }
             }
         }
@@ -56,6 +61,7 @@ namespace Server
                     serverMain.setRPSLS(this, packet);
                     break;
                 case Flag.HandshakeRequest:
+                    Console.WriteLine("Handshake Request detected.");
                     serverMain.handshakeHandler(this, packet);
                     break;
             }
