@@ -21,7 +21,6 @@ namespace Client
         {
             textBox.AppendText(text);
             textBox.AppendText(Environment.NewLine);
-
         }
     }
 }

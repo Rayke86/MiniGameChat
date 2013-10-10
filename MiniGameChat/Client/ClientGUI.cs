@@ -15,6 +15,7 @@ namespace Client
     {
         private string name { get; set; }
         private string ip { get; set; }
+        public Communication Comm;
 
         public ClientGUI(string name, string ip)
         {
@@ -24,6 +25,7 @@ namespace Client
             this.name = name;
             this.ip = ip;
 
+            Comm = new Communication(ip);
             this.Text = name;
 
             tabController.TabPages.Add("BROADCAST");
