@@ -23,10 +23,12 @@ namespace Server
 
             while (true)
             {
+                Console.WriteLine("Listening...");
                 try
                 {
                     TcpClient client = listener.AcceptTcpClient();
                     new ClientHandler(client, this);
+                    Console.WriteLine("Client connected.");
                 }
                 catch (Exception e)
                 {
@@ -44,11 +46,13 @@ namespace Server
                 {
                     clientHandler.send(packet);
                 }
+                Console.WriteLine("BROADCAST : {0}", msg.Message);
             }
             else
             {
                 ClientHandler clientHandler = onlineUsers[msg.Receiver];
                 clientHandler.send(packet);
+                Console.WriteLine("from {0} to {1} : {2}", msg.Sender, msg.Receiver, msg.Message);
             }
         }
 
@@ -79,6 +83,7 @@ namespace Server
             {
                 response.Response = Response.OK;
                 addClient(client);
+                Console.WriteLine("Client accepted.");
             }
 
             rePacket.Data = response;
