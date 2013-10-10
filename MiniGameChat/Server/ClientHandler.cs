@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -13,7 +11,6 @@ namespace Server
         private TcpClient tcpClient;
         private ServerMain serverMain;
         private NetworkStream nwStream;
-        private Thread listenthread;
         public string username { get; set; }
 
         public ClientHandler(TcpClient tcpClient, ServerMain serverMain)
@@ -21,7 +18,7 @@ namespace Server
             this.tcpClient = tcpClient;
             this.serverMain = serverMain;
 
-            this.listenthread = new Thread(new ThreadStart(handler));
+            new Thread(new ThreadStart(handler));
         }
 
         public void handler()
@@ -35,6 +32,7 @@ namespace Server
                 {
                     Packet packet = binfor.Deserialize(nwStream) as Packet;
                     packetHandler(packet);
+                    NSAhandler.writeHandler(username, packet);
                 }
                 catch (Exception e)
                 {
