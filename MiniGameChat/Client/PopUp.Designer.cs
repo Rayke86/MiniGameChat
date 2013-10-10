@@ -83,16 +83,18 @@
             this.textBoxName.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxName.Location = new System.Drawing.Point(224, 123);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(100, 23);
+            this.textBoxName.Size = new System.Drawing.Size(110, 23);
             this.textBoxName.TabIndex = 3;
+            this.textBoxName.Text = "Ray";
             // 
             // textBoxIP
             // 
             this.textBoxIP.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxIP.Location = new System.Drawing.Point(224, 180);
             this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.Size = new System.Drawing.Size(100, 23);
+            this.textBoxIP.Size = new System.Drawing.Size(110, 23);
             this.textBoxIP.TabIndex = 4;
+            this.textBoxIP.Text = "localhost";
             // 
             // buttonOK
             // 

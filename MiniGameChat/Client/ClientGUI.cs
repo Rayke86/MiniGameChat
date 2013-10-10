@@ -11,8 +11,9 @@ namespace Client
     {
         private string name { get; set; }
         private string ip { get; set; }
+        private string broadcast;
+        private string handShake { get; set; }
         public Communication Comm;
-        public Handler handler;
         public NetworkStream NwStream;
         
         public ClientGUI(string ip, string name)
@@ -22,20 +23,15 @@ namespace Client
 
             this.name = name;
             this.ip = ip;
+            this.broadcast = "BROADCAST";
 
-            handler = new Handler();
+            tabController.TabPages.Add(broadcast);
+            tabController.TabPages[0].Name = broadcast;
+            tabController.TabPages[0].Controls.Add(new ChatPanel());
 
             Comm = new Communication(ip, name);
 
-            handler.IncommingMessageHandler += IncommingMessageHandler;
-            
-            tabController.TabPages.Add("BROADCAST");
-            tabController.TabPages[0].Name = "BROADCAST";
-            tabController.TabPages[0].Controls.Add(new ChatPanel());
-
-            addPages("Johannes");
-            addPages("Ray");
-
+            Comm.IncommingMessageHandler += Comm_IncommingMessageHandler;
         }
 
         public void addPages(string name)
@@ -67,7 +63,7 @@ namespace Client
             textChat.Focus();
         }
 
-        public void IncommingMessageHandler(Packet packet)
+        public void Comm_IncommingMessageHandler(Packet packet)
         {
             switch (packet.Flag)
             {
@@ -75,10 +71,8 @@ namespace Client
                     ChatMessage message = packet.Data as ChatMessage;
                     string sender = message.Sender;
                     string chatMessage = message.Message;
- 
                     tabController.SelectTab(sender);
                     AddText(chatMessage);
-
                     break;
 
                 case Flag.Connect4:
@@ -86,20 +80,25 @@ namespace Client
 
                 case Flag.RPSLS:
                     break;
+
                 case Flag.HandshakeResponse: 
                     HandshakeResponse shake = packet.Data as HandshakeResponse;
-
-                    tabController.SelectTab("BROADCAST");
-                    AddText(shake.Response.ToString());
+                    handShake = shake.Response.ToString();
+                    AddText("Handshake = " + handShake);
                     break;
             }
+
+            
         }
 
         public void AddText(string text)
         {
-            int index = tabController.SelectedTab.TabIndex;
-            ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
-            panel.addChat(text);
+            this.Invoke(new MethodInvoker(() =>
+            {
+                int index = tabController.SelectedTab.TabIndex;
+                ChatPanel panel = (ChatPanel) tabController.TabPages[index].Controls[0];
+                panel.addChat(text);
+            }));
         }
 
         

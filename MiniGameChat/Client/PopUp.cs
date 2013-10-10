@@ -18,9 +18,9 @@ namespace Client
         public PopUp()
         {
             InitializeComponent();
-
-
+            
             buttonOK.Focus();
+            buttonOK.Select();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

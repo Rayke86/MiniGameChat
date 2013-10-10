@@ -19,19 +19,18 @@ namespace Client
     {
         public TcpClient client;
         public NetworkStream NwStream;
-        private Handler handler;
         public string User;
+        public Thread thread;
+
+        public event IncommingMessageHandler IncommingMessageHandler;
 
         public Communication(string ip, string user)
         {
             client = new TcpClient(ip, 1330);
             this.User = user;
             NwStream = client.GetStream();
-            handler = new Handler();
-            Thread thread = new Thread(new ThreadStart(StartRunning));
+            thread = new Thread(new ThreadStart(StartRunning));
             thread.Start();
-
-            
         }
 
         public void Handshake()
@@ -55,10 +54,11 @@ namespace Client
                 {
                     BinaryFormatter format = new BinaryFormatter();
                     Packet packet = format.Deserialize(client.GetStream()) as Packet;
-                    handler.OnIncommingMessageHandler(packet);
+                    OnIncommingMessageHandler(packet);
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     if (e is IOException || e is SerializationException)
                     {
                         run = false;
@@ -81,6 +81,11 @@ namespace Client
             }
         }
 
+        protected virtual void OnIncommingMessageHandler(Packet packet)
+        {
+            if (packet != null)
+                IncommingMessageHandler(packet);
+        }
 
     }
 }

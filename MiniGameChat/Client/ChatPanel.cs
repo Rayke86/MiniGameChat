@@ -15,12 +15,22 @@ namespace Client
         public ChatPanel()
         {
             InitializeComponent();
+            textBox.Enabled = false;
         }
 
         public void addChat(string text)
         {
-            textBox.AppendText(text);
-            textBox.AppendText(Environment.NewLine);
+            try
+            {
+                textBox.AppendText(text);
+                textBox.AppendText(Environment.NewLine);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("can't append text");
+                Console.WriteLine(e.Message);
+            }
+            
         }
     }
 }
