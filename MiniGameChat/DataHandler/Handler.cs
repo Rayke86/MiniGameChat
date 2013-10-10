@@ -15,7 +15,7 @@ namespace DataHandler
 
         public void OnIncommingMessageHandler(Packet packet)
         {
-            if (IncommingMessageHandler != null)
+            if (packet != null)
                 IncommingMessageHandler(packet);
         }
     }

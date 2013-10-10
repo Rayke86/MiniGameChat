@@ -77,9 +77,7 @@ namespace Client
                     string chatMessage = message.Message;
  
                     tabController.SelectTab(sender);
-                    int index = tabController.SelectedTab.TabIndex;
-                    ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
-                    panel.addChat(chatMessage);
+                    AddText(chatMessage);
 
                     break;
 
@@ -88,8 +86,20 @@ namespace Client
 
                 case Flag.RPSLS:
                     break;
-            }
+                case Flag.HandshakeResponse: 
+                    HandshakeResponse shake = packet.Data as HandshakeResponse;
 
+                    tabController.SelectTab("BROADCAST");
+                    AddText(shake.Response.ToString());
+                    break;
+            }
+        }
+
+        public void AddText(string text)
+        {
+            int index = tabController.SelectedTab.TabIndex;
+            ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
+            panel.addChat(text);
         }
 
         

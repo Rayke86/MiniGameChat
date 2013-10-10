@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.Remoting.Channels;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -23,11 +24,12 @@ namespace Client
 
         public Communication(string ip, string user)
         {
-            client = new TcpClient(ip, 8080);
+            client = new TcpClient(ip, 1330);
             this.User = user;
             NwStream = client.GetStream();
             handler = new Handler();
             Thread thread = new Thread(new ThreadStart(StartRunning));
+            thread.Start();
 
             
         }
