@@ -9,7 +9,7 @@ namespace DataHandler
 {
     public delegate void IncommingMessageHandler(Packet packet);
 
-    public abstract class Handler
+    public class Handler
     {
         public event IncommingMessageHandler IncommingMessageHandler;
 

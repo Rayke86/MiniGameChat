@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using System.Windows.Forms;
 using DataHandler;
 using PacketLibrary;
@@ -15,24 +15,27 @@ namespace Client
         public Handler handler;
         public NetworkStream NwStream;
         
-        public ClientGUI(string name, string ip)
+        public ClientGUI(string ip, string name)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
             this.name = name;
             this.ip = ip;
-            
+
+            handler = new Handler();
+
+            Comm = new Communication(ip, name);
+
             handler.IncommingMessageHandler += IncommingMessageHandler;
-
-            this.Text = name;
-
+            
             tabController.TabPages.Add("BROADCAST");
             tabController.TabPages[0].Name = "BROADCAST";
             tabController.TabPages[0].Controls.Add(new ChatPanel());
 
             addPages("Johannes");
             addPages("Ray");
+
         }
 
         public void addPages(string name)

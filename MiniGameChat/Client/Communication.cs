@@ -6,7 +6,9 @@ using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using DataHandler;
 using PacketLibrary;
 
@@ -16,14 +18,33 @@ namespace Client
     {
         public TcpClient client;
         public NetworkStream NwStream;
-        public Handler handler;
+        private Handler handler;
+        public string User;
 
-        public Communication(string ip)
+        public Communication(string ip, string user)
         {
             client = new TcpClient(ip, 1330);
-
+            this.User = user;
             NwStream = client.GetStream();
+            handler = new Handler();
+            Thread thread = new Thread(new ThreadStart(StartRunning));
 
+            Handshake();
+        }
+
+        public void Handshake()
+        {
+            Packet packet = new Packet();
+
+            packet.Flag = Flag.HandshakeRequest;
+            HandshakeRequest request = new HandshakeRequest();
+            request.Username = User;
+            packet.Data = request;
+            OutgoingMessageHandler(packet);
+        }
+
+        public void StartRunning()
+        {
             bool run = true;
             while (run)
             {
@@ -53,7 +74,7 @@ namespace Client
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e.StackTrace);
             }
         }
 
