@@ -18,7 +18,7 @@ namespace Server
         {
             onlineUsers = new Dictionary<string, ClientHandler>();
 
-            TcpListener listener = new TcpListener(System.Net.IPAddress.Any, 1330);
+            TcpListener listener = new TcpListener(System.Net.IPAddress.Any, 8080);
             listener.Start();
 
             while (true)

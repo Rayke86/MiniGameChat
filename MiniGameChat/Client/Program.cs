@@ -24,7 +24,7 @@ namespace Client
                 string name = popUop.name;
                 string ip = popUop.ip;
                 popUop.Dispose();
-                Application.Run(new ClientGUI(name, ip));
+                Application.Run(new ClientGUI(ip, name));
             }
         }
     }

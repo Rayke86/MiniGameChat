@@ -23,7 +23,7 @@ namespace Client
 
         public Communication(string ip, string user)
         {
-            client = new TcpClient(ip, 1330);
+            client = new TcpClient(ip, 8080);
             this.User = user;
             NwStream = client.GetStream();
             handler = new Handler();
