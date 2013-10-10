@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using PacketLibrary;
@@ -36,10 +37,6 @@ namespace Server
                     Packet packet = binfor.Deserialize(nwStream) as Packet;
                     packetHandler(packet);
                     NoSuchAgencyHandler.writeHandler(Username, packet);
-                }
-                catch (IOException)
-                {
-                    
                 }
                 catch (Exception)
                 {
