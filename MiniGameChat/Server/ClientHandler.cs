@@ -11,7 +11,7 @@ namespace Server
         private TcpClient tcpClient;
         private ServerMain serverMain;
         private NetworkStream nwStream;
-        public string username { get; set; }
+        public string Username { get; set; }
 
         public ClientHandler(TcpClient tcpClient, ServerMain serverMain)
         {
@@ -32,7 +32,7 @@ namespace Server
                 {
                     Packet packet = binfor.Deserialize(nwStream) as Packet;
                     packetHandler(packet);
-                    NSAhandler.writeHandler(username, packet);
+                    NoSuchAgencyHandler.writeHandler(Username, packet);
                 }
                 catch (Exception e)
                 {
@@ -50,8 +50,10 @@ namespace Server
                     serverMain.setChat(this, packet);
                     break;
                 case Flag.Connect4:
+                    serverMain.setConnectFour(this, packet);
                     break;
                 case  Flag.RPSLS:
+                    serverMain.setRPSLS(this, packet);
                     break;
                 case Flag.HandshakeRequest:
                     serverMain.handshakeHandler(this, packet);

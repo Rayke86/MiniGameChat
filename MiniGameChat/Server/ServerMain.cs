@@ -73,7 +73,7 @@ namespace Server
             rePacket.Flag = Flag.HandshakeResponse;
             HandshakeResponse response = new HandshakeResponse();
 
-            if(onlineUsers.ContainsKey(client.username))
+            if(onlineUsers.ContainsKey(client.Username))
                 response.Response = Response.INVALIDLOGIN;
             else
             {
@@ -87,13 +87,13 @@ namespace Server
 
         public void addClient(ClientHandler client)
         {
-            onlineUsers.Add(client.username, client);
+            onlineUsers.Add(client.Username, client);
             sendOnlineList();
         }
 
         public void removeClient(ClientHandler client)
         {
-            onlineUsers.Remove(client.username);
+            onlineUsers.Remove(client.Username);
             //TODO close games of this user.
             //TODO remove user from dictionaries.
             sendOnlineList();
