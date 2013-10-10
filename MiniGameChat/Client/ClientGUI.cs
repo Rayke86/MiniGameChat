@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using DataHandler;
 using PacketLibrary;
 
 namespace Client
@@ -16,7 +12,9 @@ namespace Client
         private string name { get; set; }
         private string ip { get; set; }
         public Communication Comm;
-
+        public Handler handler;
+        public NetworkStream NwStream;
+        
         public ClientGUI(string name, string ip)
         {
             InitializeComponent();
@@ -24,8 +22,9 @@ namespace Client
 
             this.name = name;
             this.ip = ip;
+            
+            handler.IncommingMessageHandler += IncommingMessageHandler;
 
-            Comm = new Communication(ip);
             this.Text = name;
 
             tabController.TabPages.Add("BROADCAST");
@@ -59,13 +58,37 @@ namespace Client
 
             packet.Data = message;
 
+            Comm.OutgoingMessageHandler(packet);
+
             textChat.Clear();
             textChat.Focus();
         }
 
-        public void incomingChat(string text, string name)
+        public void IncommingMessageHandler(Packet packet)
         {
+            switch (packet.Flag)
+            {
+                case Flag.Chat:
+                    ChatMessage message = packet.Data as ChatMessage;
+                    string sender = message.Sender;
+                    string chatMessage = message.Message;
+ 
+                    tabController.SelectTab(sender);
+                    int index = tabController.SelectedTab.TabIndex;
+                    ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
+                    panel.addChat(chatMessage);
+
+                    break;
+
+                case Flag.Connect4:
+                    break;
+
+                case Flag.RPSLS:
+                    break;
+            }
 
         }
+
+        
     }
 }

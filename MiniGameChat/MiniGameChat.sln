@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketLibrary", "PacketLibrary\PacketLibrary.csproj", "{4A1F5406-5D20-4309-865E-3FE66AF6CEEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHandler", "DataHandler\DataHandler.csproj", "{38A8F003-ED17-4B49-B89B-166DCC37C15F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{4A1F5406-5D20-4309-865E-3FE66AF6CEEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A1F5406-5D20-4309-865E-3FE66AF6CEEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A1F5406-5D20-4309-865E-3FE66AF6CEEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38A8F003-ED17-4B49-B89B-166DCC37C15F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38A8F003-ED17-4B49-B89B-166DCC37C15F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38A8F003-ED17-4B49-B89B-166DCC37C15F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38A8F003-ED17-4B49-B89B-166DCC37C15F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataHandler">
+      <HintPath>..\DataHandler.dll</HintPath>
+    </Reference>
     <Reference Include="PacketLibrary">
       <HintPath>..\PacketLibrary.dll</HintPath>
     </Reference>
