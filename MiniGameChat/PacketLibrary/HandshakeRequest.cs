@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PacketLibrary
 {
+    [Serializable]
     public class HandshakeRequest
     {
         public string Username { get; set; }

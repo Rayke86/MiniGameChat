@@ -23,10 +23,12 @@ namespace Server
 
             while (true)
             {
+                Console.WriteLine("Listening...");
                 try
                 {
                     TcpClient client = listener.AcceptTcpClient();
                     new ClientHandler(client, this);
+                    Console.WriteLine("Client connected.");
                 }
                 catch (Exception e)
                 {
@@ -44,11 +46,13 @@ namespace Server
                 {
                     clientHandler.send(packet);
                 }
+                Console.WriteLine("BROADCAST : {0}", msg.Message);
             }
             else
             {
                 ClientHandler clientHandler = onlineUsers[msg.Receiver];
                 clientHandler.send(packet);
+                Console.WriteLine("from {0} to {1} : {2}", msg.Sender, msg.Receiver, msg.Message);
             }
         }
 
@@ -73,12 +77,13 @@ namespace Server
             rePacket.Flag = Flag.HandshakeResponse;
             HandshakeResponse response = new HandshakeResponse();
 
-            if(onlineUsers.ContainsKey(client.username))
+            if(onlineUsers.ContainsKey(client.Username))
                 response.Response = Response.INVALIDLOGIN;
             else
             {
                 response.Response = Response.OK;
                 addClient(client);
+                Console.WriteLine("Client accepted.");
             }
 
             rePacket.Data = response;
@@ -87,13 +92,13 @@ namespace Server
 
         public void addClient(ClientHandler client)
         {
-            onlineUsers.Add(client.username, client);
+            onlineUsers.Add(client.Username, client);
             sendOnlineList();
         }
 
         public void removeClient(ClientHandler client)
         {
-            onlineUsers.Remove(client.username);
+            onlineUsers.Remove(client.Username);
             //TODO close games of this user.
             //TODO remove user from dictionaries.
             sendOnlineList();
