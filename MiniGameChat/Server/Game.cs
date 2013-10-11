@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Server
 {
-    public class Game
+    public abstract class Game
     {
-        public String Player1 { get; set; }
-        public String Player2 { get; set; }
+        public List<String> Players { get; set; }
 
         public Game(String player)
         {
-            Player1 = player;
+            Players = new List<string> {player};
         }
+
+        public abstract void GameWinLossCheck();
     }
 }
