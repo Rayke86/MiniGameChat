@@ -10,11 +10,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
-using DataHandler;
 using PacketLibrary;
 
 namespace Client
 {
+    public delegate void IncommingMessageHandler(Packet packet);
+
     public class Communication
     {
         public TcpClient client;
