@@ -54,7 +54,7 @@ namespace Client
             packet.Flag = Flag.RPSLS;
             RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
             rpsls.Situation = GameSituation.Normal;
-            rpsls.Hand = Hands.Rock;
+            rpsls.YourHand = Hands.Rock;
             packet.Data = rpsls;
             OnRPSLSChoice(packet);
 
