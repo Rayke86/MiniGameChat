@@ -88,6 +88,11 @@ namespace Client
                 IncommingMessageHandler(packet);
         }
 
+        public void CloseConnection()
+        {
+            client.Close();
+        }
+
     }
 }
    

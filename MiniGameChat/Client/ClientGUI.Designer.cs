@@ -91,6 +91,7 @@
             this.Controls.Add(this.splitcontainer);
             this.Name = "ClientGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ClientGUI_FormClosed);
             this.splitcontainer.Panel1.ResumeLayout(false);
             this.splitcontainer.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitcontainer)).EndInit();
