@@ -59,6 +59,9 @@ namespace Server
                     Console.WriteLine("Handshake Request detected.");
                     serverMain.handshakeHandler(this, packet);
                     break;
+                case Flag.RemoveClient:
+                    serverMain.RemoveClient(this);
+                    break;
             }
         }
 
