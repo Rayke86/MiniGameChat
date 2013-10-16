@@ -47,13 +47,13 @@ namespace Server
             switch (packet.Flag)
             {
                 case Flag.Chat:
-                    serverMain.setChat(this, packet);
+                    serverMain.SetChat(this, packet);
                     break;
                 case Flag.Connect4:
-                    serverMain.setConnectFour(this, packet);
+                    serverMain.SetConnectFour(this, packet);
                     break;
                 case  Flag.RPSLS:
-                    serverMain.setRPSLS(this, packet);
+                    serverMain.SetRPSLS(this, packet);
                     break;
                 case Flag.HandshakeRequest:
                     Console.WriteLine("Handshake Request detected.");
@@ -71,7 +71,6 @@ namespace Server
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
             }
         }
     }

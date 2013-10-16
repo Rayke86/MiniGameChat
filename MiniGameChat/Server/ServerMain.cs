@@ -34,11 +34,12 @@ namespace Server
                 }
                 catch (Exception)
                 {
+                    Console.WriteLine("disconnected? I dunnooooooo");
                 }
             }
         }
 
-        public void setChat(ClientHandler client, Packet packet)
+        public void SetChat(ClientHandler client, Packet packet)
         {
             ChatMessage msg = (ChatMessage) packet.Data;
             if (msg.Receiver == "BROADCAST")
@@ -58,14 +59,14 @@ namespace Server
             client.send(packet);
         }
 
-        public void setRPSLS(ClientHandler client, Packet packet)
+        public void SetRPSLS(ClientHandler client, Packet packet)
         {
             RockPaperScissorsLizardSpock data = (RockPaperScissorsLizardSpock) packet.Data;
             //stuur keuze naar client gui
             //TODO list met clients die met elkaar verbonden zijn.
         }
 
-        public void setConnectFour(ClientHandler client, Packet packet)
+        public void SetConnectFour(ClientHandler client, Packet packet)
         {
             ConnectFour data = (ConnectFour) packet.Data;
             //stuur keuze naar client gui
@@ -88,29 +89,29 @@ namespace Server
             else
             {
                 response.Response = Response.OK;
-                addClient(client);
+                AddClient(client);
                 Console.WriteLine("Client accepted.");
             }
 
             rePacket.Data = response;
             client.send(rePacket);
-            sendOnlineList();
+            SendOnlineList();
         }
 
-        public void addClient(ClientHandler client)
+        public void AddClient(ClientHandler client)
         {
             onlineUsers.Add(client.Username, client);
         }
 
-        public void removeClient(ClientHandler client)
+        public void RemoveClient(ClientHandler client)
         {
             onlineUsers.Remove(client.Username);
             //TODO close games of this user.
             //TODO remove user from dictionaries.
-            sendOnlineList();
+            SendOnlineList();
         }
 
-        public void sendOnlineList()
+        public void SendOnlineList()
         {
             List<string> users = new List<string>(onlineUsers.Keys);
 
