@@ -80,17 +80,7 @@ namespace Client
                 case Flag.OnlineUserList: onlineUserList = packet.Data as List<string>;
                             foreach(string user in onlineUserList)
                             {
-                                if (user == name)
-                                {
-                                    InvalidNamePopUp ivnp = new InvalidNamePopUp();
-                                    if (ivnp.ShowDialog() == DialogResult.OK)
-                                    {
-                                        string newName = ivnp.name;
-                                        ivnp.Dispose();
-                                    }
-                                }
-                                else
-                                    addPages(user);
+                                addPages(user);
                             }
                     break;
 
@@ -102,7 +92,19 @@ namespace Client
 
                 case Flag.HandshakeResponse: 
                     HandshakeResponse shake = packet.Data as HandshakeResponse;
-                    handShake = shake.Response.ToString();                    
+                    handShake = shake.Response.ToString();
+
+                    if (shake.Response == Response.INVALIDLOGIN)
+                    {                                
+                        InvalidNamePopUp ivnp = new InvalidNamePopUp();
+                        if (ivnp.ShowDialog() == DialogResult.OK)
+                        {
+                            name = ivnp.name;
+                            ivnp.Dispose();
+                            Comm.Handshake();
+                        }
+                    }
+
                     AddText("Handshake = " + handShake, broadcast);
                     break;
             }
