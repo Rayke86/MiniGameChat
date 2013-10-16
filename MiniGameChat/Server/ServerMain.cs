@@ -68,9 +68,17 @@ namespace Server
 
         public void SetConnectFour(ClientHandler client, Packet packet)
         {
-            ConnectFour data = (ConnectFour) packet.Data;
+            ConnectFourServer data = (ConnectFourServer) packet.Data;
             //stuur keuze naar client gui
             //TODO list met clients die met elkaar verbonden zijn.
+
+            ConnectFourServer game = new ConnectFourServer("test"); //TODO: get the right game from list.
+            ConnectFourGameCheck(game.ConnectFourCheck, game);
+        }
+
+        public void ConnectFourGameCheck(GameCheck check, Game game)
+        {
+            check(game);
         }
 
         public void handshakeHandler(ClientHandler client, Packet packet)

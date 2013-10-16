@@ -14,4 +14,6 @@ namespace Server
 
         public abstract void GameWinLossCheck();
     }
+
+    public delegate void GameCheck(Game game);
 }
