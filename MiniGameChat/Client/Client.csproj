@@ -64,11 +64,23 @@
       <DependentUpon>ClientGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Communication.cs" />
+    <Compile Include="Connect4.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Connect4.Designer.cs">
+      <DependentUpon>Connect4.cs</DependentUpon>
+    </Compile>
     <Compile Include="InvalidNamePopUp.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="InvalidNamePopUp.Designer.cs">
       <DependentUpon>InvalidNamePopUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewGame.Designer.cs">
+      <DependentUpon>NewGame.cs</DependentUpon>
     </Compile>
     <Compile Include="PopUp.cs">
       <SubType>Form</SubType>
@@ -78,6 +90,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RPSLS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RPSLS.Designer.cs">
+      <DependentUpon>RPSLS.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ChatPanel.resx">
       <DependentUpon>ChatPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InvalidNamePopUp.resx">
       <DependentUpon>InvalidNamePopUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewGame.resx">
+      <DependentUpon>NewGame.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PopUp.resx">
       <DependentUpon>PopUp.cs</DependentUpon>
@@ -99,6 +120,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RPSLS.resx">
+      <DependentUpon>RPSLS.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -111,6 +135,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\lizard.png" />
+    <Content Include="Images\lizard2.png" />
+    <Content Include="Images\paper.png" />
+    <Content Include="Images\rock.png" />
+    <Content Include="Images\scissor.png" />
+    <Content Include="Images\spock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
