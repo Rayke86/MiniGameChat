@@ -34,11 +34,11 @@
             this.tabController = new System.Windows.Forms.TabControl();
             this.panelGame = new System.Windows.Forms.Panel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.labelSituation2 = new System.Windows.Forms.Label();
+            this.labelSituation = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.buttonRpsls = new System.Windows.Forms.Button();
             this.panelGame1 = new System.Windows.Forms.Panel();
-            this.labelSituation = new System.Windows.Forms.Label();
-            this.labelSituation2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitcontainer)).BeginInit();
             this.splitcontainer.Panel1.SuspendLayout();
             this.splitcontainer.Panel2.SuspendLayout();
@@ -92,7 +92,8 @@
             // 
             // tabController
             // 
-            this.tabController.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabController.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabController.Location = new System.Drawing.Point(2, 2);
             this.tabController.Name = "tabController";
@@ -131,6 +132,24 @@
             this.splitContainer2.SplitterDistance = 105;
             this.splitContainer2.TabIndex = 0;
             // 
+            // labelSituation2
+            // 
+            this.labelSituation2.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSituation2.ForeColor = System.Drawing.Color.Red;
+            this.labelSituation2.Location = new System.Drawing.Point(506, 63);
+            this.labelSituation2.Name = "labelSituation2";
+            this.labelSituation2.Size = new System.Drawing.Size(307, 29);
+            this.labelSituation2.TabIndex = 3;
+            // 
+            // labelSituation
+            // 
+            this.labelSituation.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSituation.ForeColor = System.Drawing.Color.Red;
+            this.labelSituation.Location = new System.Drawing.Point(506, 21);
+            this.labelSituation.Name = "labelSituation";
+            this.labelSituation.Size = new System.Drawing.Size(307, 29);
+            this.labelSituation.TabIndex = 2;
+            // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -158,24 +177,6 @@
             this.panelGame1.Name = "panelGame1";
             this.panelGame1.Size = new System.Drawing.Size(945, 649);
             this.panelGame1.TabIndex = 0;
-            // 
-            // labelSituation
-            // 
-            this.labelSituation.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSituation.ForeColor = System.Drawing.Color.Red;
-            this.labelSituation.Location = new System.Drawing.Point(506, 21);
-            this.labelSituation.Name = "labelSituation";
-            this.labelSituation.Size = new System.Drawing.Size(307, 29);
-            this.labelSituation.TabIndex = 2;
-            // 
-            // labelSituation2
-            // 
-            this.labelSituation2.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSituation2.ForeColor = System.Drawing.Color.Red;
-            this.labelSituation2.Location = new System.Drawing.Point(506, 63);
-            this.labelSituation2.Name = "labelSituation2";
-            this.labelSituation2.Size = new System.Drawing.Size(307, 29);
-            this.labelSituation2.TabIndex = 3;
             // 
             // ClientGUI
             // 
