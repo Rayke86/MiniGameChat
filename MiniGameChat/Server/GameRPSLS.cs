@@ -15,7 +15,7 @@ namespace Server
             Rounds = new List<Dictionary<string, Hands>>();
         }
 
-        public override void GameWinLossCheck()
+        public void RPSLSCheck(Game rpsls)
         {
             switch (ChosenHands[Players[0]])
             {

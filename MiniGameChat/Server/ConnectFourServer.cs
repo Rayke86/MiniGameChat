@@ -34,11 +34,7 @@ namespace Server
             }
         }
 
-        public override void GameWinLossCheck()
-        {
-        }
-
-        public void ConnectFourCheck(Game game)
+        public void ConnectFourCheck(Game connect4)
         {
             if (checkRow(1))
             {

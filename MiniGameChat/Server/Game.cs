@@ -11,8 +11,6 @@ namespace Server
         {
             Players = new List<string> {player};
         }
-
-        public abstract void GameWinLossCheck();
     }
 
     public delegate void GameCheck(Game game);
