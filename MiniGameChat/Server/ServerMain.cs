@@ -54,9 +54,9 @@ namespace Server
             {
                 ClientHandler clientHandler = onlineUsers[msg.Receiver];
                 clientHandler.send(packet);
+                client.send(packet);
                 Console.WriteLine("{0} to {1} :: '{2}'", msg.Sender, msg.Receiver, msg.Message);
             }
-            client.send(packet);
         }
 
         public void SetRPSLS(ClientHandler client, Packet packet)
