@@ -37,10 +37,13 @@ namespace Client
 
         public void addPages(string name)
         {
-            int number = tabController.Controls.Count;
-            tabController.TabPages.Add(name);
-            tabController.TabPages[number].Name = name;
-            tabController.TabPages[number].Controls.Add(new ChatPanel());
+            this.Invoke(new MethodInvoker(() =>
+            {
+                int number = tabController.Controls.Count;
+                tabController.TabPages.Add(name);
+                tabController.TabPages[number].Name = name;
+                tabController.TabPages[number].Controls.Add(new ChatPanel());
+            }));
         }
 
         private void buttonSend_Click(object sender, EventArgs e)
@@ -80,7 +83,8 @@ namespace Client
                 case Flag.OnlineUserList: onlineUserList = packet.Data as List<string>;
                             foreach(string user in onlineUserList)
                             {
-                                addPages(user);
+                                if(user != name)
+                                    addPages(user);
                             }
                     break;
 
@@ -100,6 +104,7 @@ namespace Client
                         if (ivnp.ShowDialog() == DialogResult.OK)
                         {
                             name = ivnp.name;
+                            Comm.User = name;
                             ivnp.Dispose();
                             Comm.Handshake();
                         }
@@ -107,9 +112,7 @@ namespace Client
 
                     AddText("Handshake = " + handShake, broadcast);
                     break;
-            }
-
-            
+            }            
         }
 
         public void AddText(string text, string sender)
@@ -120,10 +123,18 @@ namespace Client
                 tabController.SelectTab(sender);
                 int index = tabController.SelectedTab.TabIndex;
                 ChatPanel panel = (ChatPanel) tabController.TabPages[index].Controls[0];
-                panel.addChat(text);
+                panel.addChat(sender + " : " + text);
             }));
         }
 
+        private void ClientGUI_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Packet packet = new Packet();
+            packet.Flag = Flag.RemoveClient;
+            packet.Data = name;
+            Comm.OutgoingMessageHandler(packet);
+            Comm.CloseConnection();
+        }
         
     }
 }
