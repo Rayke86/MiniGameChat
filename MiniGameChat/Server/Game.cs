@@ -13,7 +13,6 @@ namespace Server
             Players = new List<string> {player};
             this.serverMain = serverMain;
         }
+        public abstract void GameCheck();
     }
-
-    public delegate void GameCheck(Game game);
 }

@@ -61,34 +61,41 @@ namespace Server
 
         public void SetRPSLS(ClientHandler client, Packet packet)
         {
-            RockPaperScissorsLizardSpock data = (RockPaperScissorsLizardSpock) packet.Data;
-            //stuur keuze naar client gui
-            //TODO list met clients die met elkaar verbonden zijn.
+            RockPaperScissorsLizardSpock data = packet.Data as RockPaperScissorsLizardSpock;
+            if (data != null)
+            {
+                if (data.Situation == GameSituation.Connect)
+                {
+                    //TODO: add this one to games.
+                    // also connect 2 players if possible
+                }
+                //stuur keuze naar client gui
+                //TODO list met clients die met elkaar verbonden zijn.
 
-            GameRPSLS game = new GameRPSLS(this,"test"); //TODO: get the right game from list.
-            game.Set(client.Username, data);
-            if (game.ChosenHands.Count == 0)
-                RPSLSGameCheck(game.RPSLSCheck, game);
-        }
-
-        public void RPSLSGameCheck(GameCheck check, GameRPSLS game)
-        {
-            check(game);
+                GameRPSLS game = new GameRPSLS(this, "test"); //TODO: get the right game from list.
+                game.Set(client.Username, data);
+                if (game.ChosenHands.Count == 0)
+                    game.GameCheck();
+            }
         }
 
         public void SetConnectFour(ClientHandler client, Packet packet)
         {
-            ConnectFourServer data = (ConnectFourServer) packet.Data;
-            //stuur keuze naar client gui
-            //TODO list met clients die met elkaar verbonden zijn.
+            ConnectFour data = packet.Data as ConnectFour;
+            if (data != null)
+            {
+                if (data.Situation == GameSituation.Connect)
+                {
+                    //currentGames.Add(client.Username,new ConnectFourServer(this, client.Username));
+                    //TODO: add this one to games.
+                    // also connect 2 players if possible
+                }
+                //stuur keuze naar client gui
+                //TODO list met clients die met elkaar verbonden zijn.
 
-            ConnectFourServer game = new ConnectFourServer(this,"test"); //TODO: get the right game from list.
-            ConnectFourGameCheck(game.ConnectFourCheck, game);
-        }
-
-        public void ConnectFourGameCheck(GameCheck check, ConnectFourServer game)
-        {
-            check(game);
+                ConnectFourServer game = new ConnectFourServer(this, "test"); //TODO: get the right game from list.
+                game.GameCheck();
+            }
         }
 
         public void handshakeHandler(ClientHandler client, Packet packet)

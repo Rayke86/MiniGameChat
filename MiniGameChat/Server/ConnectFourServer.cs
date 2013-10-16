@@ -40,7 +40,7 @@ namespace Server
             }
         }
 
-        public void ConnectFourCheck(Game connect4)
+        public override void GameCheck()
         {
             GameSituation situation = GameSituation.Normal;
             if (checkRow(1))
@@ -134,13 +134,13 @@ namespace Server
         private bool checkDiagonal(int player)
         {
             int boundXmin = 0;
-            int boundXmax = 7;
+            int boundXmax = game.Count-1;
             int boundYmin = 0;
-            int boundYmax = 5;
+            int boundYmax = game[0].Count-1;
             //check from topLeft to bottomRight:
-            for (int startY = 0; startY < 3; startY++)
+            for (int startY = boundYmin; startY < boundYmax-3; startY++)
             {
-                for (int startX = 7; startX >= 0; startX--)
+                for (int startX = boundXmax; startX >= 0; startX--)
                 {
                     int inDiagonal = 0;
                     int checkX = startX + 1;
