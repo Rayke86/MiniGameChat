@@ -4,12 +4,16 @@ using PacketLibrary;
 
 namespace Server
 {
-    class ConnectFourServer : Game
+    public class ConnectFourServer : Game
     {
         private List<List<int>> game;
- 
-        public ConnectFourServer(string player) : base(player)
+        private int sets;
+        private ConnectFour lastSet;
+
+        public ConnectFourServer(ServerMain serverMain, string player)
+            : base(serverMain, player)
         {
+            sets = 0;
             game = new List<List<int>>();
             for (int column = 0; column < 8; column++)
             {
@@ -24,6 +28,8 @@ namespace Server
 
         public void Set(string player, ConnectFour setConnectFour)
         {
+            lastSet = setConnectFour;
+            sets++;
             if (player == Players[0])
             {
                 game[setConnectFour.X][setConnectFour.Y] = 1;
@@ -36,29 +42,54 @@ namespace Server
 
         public void ConnectFourCheck(Game connect4)
         {
+            GameSituation situation = GameSituation.Normal;
             if (checkRow(1))
             {
-                //player 1 wins
+                situation = GameSituation.Win;
             }
             if (checkRow(2))
             {
-                //player 2 wins
+                situation = GameSituation.Loss;
             }
             if (checkColumn(1))
             {
-                //player 1 wins
+                situation = GameSituation.Win;
             }
             if (checkColumn(2))
             {
-                //player 2 wins
+                situation = GameSituation.Loss;
             }
             if (checkDiagonal(1))
             {
-                //player 1 wins
+                situation = GameSituation.Win;
             }
             if (checkDiagonal(2))
             {
-                //player 2 wins
+                situation = GameSituation.Loss;
+            }
+
+            if (sets == 48 && situation == GameSituation.Normal)
+            {
+                situation = GameSituation.Tie;
+            }
+            Packet packet = new Packet();
+            packet.Flag = Flag.Connect4;
+            ConnectFour g = new ConnectFour();
+            g.Situation = situation;
+            g.X = lastSet.X;
+            g.Y = lastSet.Y;
+            g.Player = lastSet.Player;
+            packet.Data = g;
+            foreach (string player in Players)
+            {
+                if (player == Players[1])
+                {
+                    if (situation == GameSituation.Win)
+                        situation = GameSituation.Loss;
+                    else if (situation == GameSituation.Loss)
+                        situation = GameSituation.Win;
+                }
+                serverMain.SendResolvedGameSituation(player, packet);
             }
         }
 

@@ -1,22 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using PacketLibrary;
 
 namespace Server
 {
-    class GameRPSLS : Game
+    public class GameRPSLS : Game
     {
         private List<Dictionary<string, Hands>> Rounds;
-        private Dictionary<string, Hands> ChosenHands;
+        public Dictionary<string, Hands> ChosenHands { get; set; }
 
-        public GameRPSLS(string player) : base(player)
+        public GameRPSLS(ServerMain serverMain, string player)
+            : base(serverMain, player)
         {
             ChosenHands = new Dictionary<string, Hands>();
             Rounds = new List<Dictionary<string, Hands>>();
         }
 
+        public void Set(string player, RockPaperScissorsLizardSpock rockPaperScissorsLizardSpock)
+        {
+            ChosenHands.Add(player, rockPaperScissorsLizardSpock.YourHand);
+            if (ChosenHands.Count == 2)
+            {
+                Rounds.Add(ChosenHands.ToDictionary( 
+                    x => x.Key,
+                    y => y.Value
+                    ));
+                ChosenHands = new Dictionary<string, Hands>();
+            }
+        }
+
         public void RPSLSCheck(Game rpsls)
         {
+            GameSituation situation = GameSituation.Normal;
+            RockPaperScissorsLizardSpock g = new RockPaperScissorsLizardSpock();
             switch (ChosenHands[Players[0]])
             {
                 case Hands.Rock:
@@ -24,18 +40,23 @@ namespace Server
                     {
                         case Hands.Rock:
                             // TIE
+                            situation = GameSituation.Tie;
                             break;
                         case Hands.Paper:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                         case Hands.Scissors:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                         case Hands.Lizard:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                         case Hands.Spock:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                     }
                     break;
@@ -44,18 +65,23 @@ namespace Server
                     {
                         case Hands.Rock:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                         case Hands.Paper:
                             // TIE
+                            situation = GameSituation.Tie;
                             break;
                         case Hands.Scissors:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                         case Hands.Lizard:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                         case Hands.Spock:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                     }
                     break;
@@ -64,18 +90,23 @@ namespace Server
                     {
                         case Hands.Rock:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                         case Hands.Paper:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                         case Hands.Scissors:
                             // TIE
+                            situation = GameSituation.Tie;
                             break;
                         case Hands.Lizard:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                         case Hands.Spock:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                     }
                     break;
@@ -84,18 +115,23 @@ namespace Server
                     {
                         case Hands.Rock:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                         case Hands.Paper:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                         case Hands.Scissors:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                         case Hands.Lizard:
                             // TIE
+                            situation = GameSituation.Tie;
                             break;
                         case Hands.Spock:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                     }
                     break;
@@ -104,21 +140,49 @@ namespace Server
                     {
                         case Hands.Rock:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                         case Hands.Paper:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                         case Hands.Scissors:
                             // player 1 wins
+                            situation = GameSituation.Win;
                             break;
                         case Hands.Lizard:
                             // player 2 wins
+                            situation = GameSituation.Loss;
                             break;
                         case Hands.Spock:
                             // TIE
+                            situation = GameSituation.Tie;
                             break;
                     }
                     break;
+            }
+
+            Packet packet = new Packet();
+            packet.Flag = Flag.RPSLS;
+            foreach (string player in Players)
+            {
+                if (player == Players[1])
+                {
+                    if(situation == GameSituation.Win)
+                        situation = GameSituation.Loss;
+                    else if(situation == GameSituation.Loss)
+                        situation = GameSituation.Win;
+                    g.YourHand = Rounds.Last()[Players[1]];
+                    g.OpponentHand = Rounds.Last()[Players[0]];
+                }
+                else
+                {
+                    g.YourHand = Rounds.Last()[Players[0]];
+                    g.OpponentHand = Rounds.Last()[Players[1]];
+                }
+                g.Situation = situation;
+                packet.Data = g;
+                serverMain.SendResolvedGameSituation(player, packet);
             }
         }
     }

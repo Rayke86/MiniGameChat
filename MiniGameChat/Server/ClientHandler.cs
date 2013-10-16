@@ -6,7 +6,7 @@ using PacketLibrary;
 
 namespace Server
 {
-    class ClientHandler
+    public class ClientHandler
     {
         private TcpClient tcpClient;
         private ServerMain serverMain;
@@ -72,7 +72,7 @@ namespace Server
             {
                 formatter.Serialize(nwStream, packet);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         }
