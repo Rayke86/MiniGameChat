@@ -5,6 +5,6 @@ namespace PacketLibrary
     [Serializable]
     public enum GameSituation
     {
-        Win, Loss, Tie, Disconnect, Normal
+        Win, Loss, Tie, Connect, Disconnect, Normal
     }
 }
