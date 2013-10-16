@@ -15,7 +15,7 @@ namespace Client
         private string handShake { get; set; }
         public Communication Comm;
         public NetworkStream NwStream;
-        public List<string> onlineUserList; 
+        public List<string> onlineUserList;
         
         public ClientGUI(string ip, string name)
         {
@@ -33,6 +33,8 @@ namespace Client
             Comm = new Communication(ip, name);
 
             Comm.IncommingMessageHandler += Comm_IncommingMessageHandler;
+
+            buttonRpsls.Text = "Rock - Paper - Scissors -" + Environment.NewLine +"Lizard - Spock";
         }
 
         public void addPages(string name)
@@ -80,18 +82,36 @@ namespace Client
                     AddText(chatMessage, sender);
                     break;
 
-                case Flag.OnlineUserList: onlineUserList = packet.Data as List<string>;
-                            foreach(string user in onlineUserList)
-                            {
-                                if(user != name)
-                                    addPages(user);
-                            }
+                case Flag.OnlineUserList: 
+                    onlineUserList = packet.Data as List<string>;
+                    foreach(string user in onlineUserList)
+                    {
+                        if(user != name)
+                        addPages(user);
+                    }
+                    break;
+
+                case Flag.AddClient:
+                    string newUser = packet.Data as string;
+                    addPages(newUser);
                     break;
 
                 case Flag.Connect4:
                     break;
 
                 case Flag.RPSLS:
+                    RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+                    GameSituation game = rpsls.Situation;
+                    Hands hand = rpsls.Hand;
+                    labelSituation2.Text = "Other player chose " + hand;
+                    labelSituation.Text = "You " + game;
+                    NewGame newGame = new NewGame();
+                    if (newGame.ShowDialog() == DialogResult.OK)
+                    {
+                        StartNewRpsls();
+                    }
+                    else
+                        panelGame1.Controls.Clear();
                     break;
 
                 case Flag.HandshakeResponse: 
@@ -119,7 +139,6 @@ namespace Client
         {
             this.Invoke(new MethodInvoker(() =>
             {
-                Console.WriteLine("selected tab = " + tabController.SelectedTab);
                 tabController.SelectTab(sender);
                 int index = tabController.SelectedTab.TabIndex;
                 ChatPanel panel = (ChatPanel) tabController.TabPages[index].Controls[0];
@@ -134,6 +153,37 @@ namespace Client
             packet.Data = name;
             Comm.OutgoingMessageHandler(packet);
             Comm.CloseConnection();
+        }
+
+        private void buttonRpsls_Click(object sender, EventArgs e)
+        {
+            StartNewRpsls();
+        }
+
+        public void StartNewRpsls()
+        {
+            if (tabController.SelectedTab.Name != broadcast)
+            {
+                panelGame1.Controls.Clear();
+                RPSLS rpsls = new RPSLS();
+                rpsls.RPSLSChoice += rpsls_RPSLSChoice;
+                panelGame1.Controls.Add(rpsls);
+                labelSituation.Text = "...starting game";
+            }
+        }
+
+        public void rpsls_RPSLSChoice(Packet packet)
+        {
+            RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+            Hands hand = rpsls.Hand;
+            labelSituation.Text = "You chose " + hand.ToString();
+            labelSituation2.Text = "...waiting for other player";
+            Comm.OutgoingMessageHandler(packet);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            panelGame1.Controls.Clear();
         }
         
     }
