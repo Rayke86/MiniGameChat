@@ -90,17 +90,27 @@ namespace Server
             {
                 response.Response = Response.OK;
                 AddClient(client);
+                SendOnlineList(client);
                 Console.WriteLine("Client accepted.");
             }
 
             rePacket.Data = response;
             client.send(rePacket);
-            SendOnlineList();
         }
 
         public void AddClient(ClientHandler client)
         {
             onlineUsers.Add(client.Username, client);
+            Packet packet = new Packet();
+            packet.Flag = Flag.AddClient;
+            packet.Data = client.Username;
+            foreach (ClientHandler clientHandler in onlineUsers.Values)
+            {
+                if (client != clientHandler)
+                {
+                    clientHandler.send(packet);
+                }
+            }
         }
 
         public void RemoveClient(ClientHandler client)
@@ -108,21 +118,24 @@ namespace Server
             onlineUsers.Remove(client.Username);
             //TODO close games of this user.
             //TODO remove user from dictionaries.
-            SendOnlineList();
+
+            Packet packet = new Packet();
+            packet.Flag = Flag.RemoveClient;
+            packet.Data = client.Username;
+            foreach (ClientHandler clientHandler in onlineUsers.Values)
+            {
+                clientHandler.send(packet);
+            }
+            client.Disconnect();
         }
 
-        public void SendOnlineList()
+        public void SendOnlineList(ClientHandler client)
         {
             List<string> users = new List<string>(onlineUsers.Keys);
-
             Packet packet = new Packet();
             packet.Flag = Flag.OnlineUserList;
             packet.Data = users;
-
-            foreach (ClientHandler client in onlineUsers.Values)
-            {
-                client.send(packet);
-            }
+            client.send(packet);
         }
     }
 }

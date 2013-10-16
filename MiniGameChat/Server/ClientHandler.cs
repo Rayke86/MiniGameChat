@@ -73,5 +73,18 @@ namespace Server
             {
             }
         }
+
+        public void Disconnect()
+        {
+            try
+            {
+                nwStream.Close(0);
+                tcpClient.Close();
+                listenThread.Abort(0);
+            }
+            catch (Exception)
+            {
+            }
+        }
     }
 }
