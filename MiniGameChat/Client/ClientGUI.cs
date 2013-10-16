@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
 using PacketLibrary;
+using System.Collections.Generic;
 
 namespace Client
 {
@@ -14,7 +15,7 @@ namespace Client
         private string handShake { get; set; }
         public Communication Comm;
         public NetworkStream NwStream;
-        //public List
+        public List<string> onlineUserList; 
         
         public ClientGUI(string ip, string name)
         {
@@ -76,7 +77,21 @@ namespace Client
                     AddText(chatMessage, sender);
                     break;
 
-                case Flag.OnlineUserList: 
+                case Flag.OnlineUserList: onlineUserList = packet.Data as List<string>;
+                            foreach(string user in onlineUserList)
+                            {
+                                if (user == name)
+                                {
+                                    InvalidNamePopUp ivnp = new InvalidNamePopUp();
+                                    if (ivnp.ShowDialog() == DialogResult.OK)
+                                    {
+                                        string newName = ivnp.name;
+                                        ivnp.Dispose();
+                                    }
+                                }
+                                else
+                                    addPages(user);
+                            }
                     break;
 
                 case Flag.Connect4:

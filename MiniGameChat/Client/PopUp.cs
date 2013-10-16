@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PacketLibrary;
 
 namespace Client
 {
@@ -18,7 +19,7 @@ namespace Client
         public PopUp()
         {
             InitializeComponent();
-            
+
             buttonOK.Focus();
             buttonOK.Select();
         }
