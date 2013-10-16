@@ -102,9 +102,10 @@ namespace Client
                 case Flag.RPSLS:
                     RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
                     GameSituation game = rpsls.Situation;
-                    Hands hand = rpsls.Hand;
-                    labelSituation2.Text = "Other player chose " + hand;
-                    labelSituation.Text = "You " + game;
+                    Hands myhand = rpsls.YourHand;
+                    Hands opponenthand = rpsls.OpponentHand;
+                    labelSituation2.Text = "Other player chose " + opponenthand;
+                    labelSituation.Text = "You chose " + myhand;
                     NewGame newGame = new NewGame();
                     if (newGame.ShowDialog() == DialogResult.OK)
                     {
@@ -175,7 +176,7 @@ namespace Client
         public void rpsls_RPSLSChoice(Packet packet)
         {
             RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
-            Hands hand = rpsls.Hand;
+            Hands hand = rpsls.YourHand;
             labelSituation.Text = "You chose " + hand.ToString();
             labelSituation2.Text = "...waiting for other player";
             Comm.OutgoingMessageHandler(packet);
