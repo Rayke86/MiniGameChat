@@ -14,6 +14,7 @@ namespace Client
         private string handShake { get; set; }
         public Communication Comm;
         public NetworkStream NwStream;
+        //public List
         
         public ClientGUI(string ip, string name)
         {
@@ -70,8 +71,12 @@ namespace Client
                     ChatMessage message = packet.Data as ChatMessage;
                     string sender = message.Sender;
                     string chatMessage = message.Message;
-                    tabController.SelectTab(sender);
-                    AddText(chatMessage);
+                    if (sender == name)
+                        sender = message.Receiver;
+                    AddText(chatMessage, sender);
+                    break;
+
+                case Flag.OnlineUserList: 
                     break;
 
                 case Flag.Connect4:
@@ -82,18 +87,20 @@ namespace Client
 
                 case Flag.HandshakeResponse: 
                     HandshakeResponse shake = packet.Data as HandshakeResponse;
-                    handShake = shake.Response.ToString();
-                    AddText("Handshake = " + handShake);
+                    handShake = shake.Response.ToString();                    
+                    AddText("Handshake = " + handShake, broadcast);
                     break;
             }
 
             
         }
 
-        public void AddText(string text)
+        public void AddText(string text, string sender)
         {
             this.Invoke(new MethodInvoker(() =>
             {
+                Console.WriteLine("selected tab = " + tabController.SelectedTab);
+                tabController.SelectTab(sender);
                 int index = tabController.SelectedTab.TabIndex;
                 ChatPanel panel = (ChatPanel) tabController.TabPages[index].Controls[0];
                 panel.addChat(text);
