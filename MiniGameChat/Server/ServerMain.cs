@@ -5,7 +5,7 @@ using PacketLibrary;
 
 namespace Server
 {
-    internal class ServerMain
+    public class ServerMain
     {
         private Dictionary<string, ClientHandler> onlineUsers;
         private Dictionary<string, Game> currentGames; // fill with games when user chooses one.
@@ -64,6 +64,16 @@ namespace Server
             RockPaperScissorsLizardSpock data = (RockPaperScissorsLizardSpock) packet.Data;
             //stuur keuze naar client gui
             //TODO list met clients die met elkaar verbonden zijn.
+
+            GameRPSLS game = new GameRPSLS(this,"test"); //TODO: get the right game from list.
+            game.Set(client.Username, data);
+            if (game.ChosenHands.Count == 0)
+                RPSLSGameCheck(game.RPSLSCheck, game);
+        }
+
+        public void RPSLSGameCheck(GameCheck check, GameRPSLS game)
+        {
+            check(game);
         }
 
         public void SetConnectFour(ClientHandler client, Packet packet)
@@ -72,11 +82,11 @@ namespace Server
             //stuur keuze naar client gui
             //TODO list met clients die met elkaar verbonden zijn.
 
-            ConnectFourServer game = new ConnectFourServer("test"); //TODO: get the right game from list.
+            ConnectFourServer game = new ConnectFourServer(this,"test"); //TODO: get the right game from list.
             ConnectFourGameCheck(game.ConnectFourCheck, game);
         }
 
-        public void ConnectFourGameCheck(GameCheck check, Game game)
+        public void ConnectFourGameCheck(GameCheck check, ConnectFourServer game)
         {
             check(game);
         }
@@ -144,6 +154,11 @@ namespace Server
             packet.Flag = Flag.OnlineUserList;
             packet.Data = users;
             client.send(packet);
+        }
+
+        public void SendResolvedGameSituation(string user, Packet packet)
+        {
+            onlineUsers[user].send(packet);
         }
     }
 }

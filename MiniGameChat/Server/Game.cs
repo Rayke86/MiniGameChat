@@ -6,13 +6,13 @@ namespace Server
     public abstract class Game
     {
         public List<String> Players { get; set; }
+        public ServerMain serverMain;
 
-        public Game(String player)
+        public Game(ServerMain serverMain, String player)
         {
             Players = new List<string> {player};
+            this.serverMain = serverMain;
         }
-
-        public abstract void GameWinLossCheck();
     }
 
     public delegate void GameCheck(Game game);
