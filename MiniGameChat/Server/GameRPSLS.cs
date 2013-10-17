@@ -29,7 +29,7 @@ namespace Server
             }
         }
 
-        public void RPSLSCheck(Game rpsls)
+        public override void GameCheck()
         {
             GameSituation situation = GameSituation.Normal;
             RockPaperScissorsLizardSpock g = new RockPaperScissorsLizardSpock();
