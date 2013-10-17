@@ -40,16 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatMessage.cs" />
-    <Compile Include="ConnectFour.cs" />
-    <Compile Include="Flag.cs" />
-    <Compile Include="GameSituation.cs" />
-    <Compile Include="Hands.cs" />
+    <Compile Include="Games.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="HandshakeRequest.cs" />
     <Compile Include="HandshakeResponse.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response.cs" />
-    <Compile Include="RockPaperScissorsLizardSpock.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

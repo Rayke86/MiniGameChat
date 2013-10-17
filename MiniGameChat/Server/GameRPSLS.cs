@@ -16,11 +16,13 @@ namespace Server
             Rounds = new List<Dictionary<string, Hands>>();
         }
 
-        public void Set(string player, RockPaperScissorsLizardSpock rockPaperScissorsLizardSpock)
+        public override void Set(string player, BaseGame baseGame)
         {
+            RockPaperScissorsLizardSpock rockPaperScissorsLizardSpock = (RockPaperScissorsLizardSpock) baseGame;
             ChosenHands.Add(player, rockPaperScissorsLizardSpock.YourHand);
             if (ChosenHands.Count == 2)
             {
+                GameCheck();
                 Rounds.Add(ChosenHands.ToDictionary( 
                     x => x.Key,
                     y => y.Value
@@ -32,7 +34,6 @@ namespace Server
         public override void GameCheck()
         {
             GameSituation situation = GameSituation.Normal;
-            RockPaperScissorsLizardSpock g = new RockPaperScissorsLizardSpock();
             switch (ChosenHands[Players[0]])
             {
                 case Hands.Rock:
@@ -164,25 +165,21 @@ namespace Server
 
             Packet packet = new Packet();
             packet.Flag = Flag.RPSLS;
-            foreach (string player in Players)
+            for (int i = 0; i < Players.Count; i++)
             {
-                if (player == Players[1])
+                if (i == 1)
                 {
                     if(situation == GameSituation.Win)
                         situation = GameSituation.Loss;
                     else if(situation == GameSituation.Loss)
                         situation = GameSituation.Win;
-                    g.YourHand = Rounds.Last()[Players[1]];
-                    g.OpponentHand = Rounds.Last()[Players[0]];
                 }
-                else
-                {
-                    g.YourHand = Rounds.Last()[Players[0]];
-                    g.OpponentHand = Rounds.Last()[Players[1]];
-                }
-                g.Situation = situation;
+                RockPaperScissorsLizardSpock g = new RockPaperScissorsLizardSpock(Players[i], Players[(i+1)%Players.Count], situation);
+                g.YourHand = Rounds.Last()[Players[i]];
+                g.OpponentHand = Rounds.Last()[Players[(i+1)%Players.Count]];
+                
                 packet.Data = g;
-                serverMain.SendResolvedGameSituation(player, packet);
+                serverMain.SendResolvedGameSituation(Players[i], packet);
             }
         }
     }

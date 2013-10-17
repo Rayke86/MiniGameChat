@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using PacketLibrary;
 
 namespace Server
 {
@@ -14,5 +15,6 @@ namespace Server
             this.serverMain = serverMain;
         }
         public abstract void GameCheck();
+        public abstract void Set(string player, BaseGame baseGame);
     }
 }

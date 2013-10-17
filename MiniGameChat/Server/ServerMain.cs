@@ -8,7 +8,7 @@ namespace Server
     public class ServerMain
     {
         private Dictionary<string, ClientHandler> onlineUsers;
-        private Dictionary<string, Game> currentGames; // fill with games when user chooses one.
+        private Dictionary<string, List<Game>> currentGames; // fill with games when user chooses one.
  
         private static void Main(string[] args)
         {
@@ -18,7 +18,7 @@ namespace Server
         public ServerMain()
         {
             onlineUsers = new Dictionary<string, ClientHandler>();
-            currentGames = new Dictionary<string, Game>();
+            currentGames = new Dictionary<string, List<Game>>();
 
             TcpListener listener = new TcpListener(System.Net.IPAddress.Any, 1330);
             listener.Start();
@@ -64,18 +64,16 @@ namespace Server
             RockPaperScissorsLizardSpock data = packet.Data as RockPaperScissorsLizardSpock;
             if (data != null)
             {
-                if (data.Situation == GameSituation.Connect)
+                foreach (Game currentGame in currentGames[client.Username])
                 {
-                    //TODO: add this one to games.
-                    // also connect 2 players if possible
+                    if (currentGame.Players.Contains(data.Opponent))
+                    {
+                        if (currentGame is GameRPSLS)
+                        {
+                            ((GameRPSLS) currentGame).Set(client.Username, data);
+                        }
+                    }
                 }
-                //stuur keuze naar client gui
-                //TODO list met clients die met elkaar verbonden zijn.
-
-                GameRPSLS game = new GameRPSLS(this, "test"); //TODO: get the right game from list.
-                game.Set(client.Username, data);
-                if (game.ChosenHands.Count == 0)
-                    game.GameCheck();
             }
         }
 

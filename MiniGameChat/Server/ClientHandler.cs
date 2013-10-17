@@ -62,6 +62,12 @@ namespace Server
                 case Flag.RemoveClient:
                     serverMain.RemoveClient(this);
                     break;
+                case Flag.GameRequest:
+                    //TODO
+                    break;
+                case Flag.GameResponse:
+                    //TODO
+                    break;
             }
         }
 

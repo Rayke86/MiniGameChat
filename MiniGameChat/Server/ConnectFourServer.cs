@@ -26,8 +26,9 @@ namespace Server
             }
         }
 
-        public void Set(string player, ConnectFour setConnectFour)
+        public override void Set(string player, BaseGame baseGame)
         {
+            ConnectFour setConnectFour = (ConnectFour)baseGame;
             lastSet = setConnectFour;
             sets++;
             if (player == Players[0])
@@ -74,22 +75,21 @@ namespace Server
             }
             Packet packet = new Packet();
             packet.Flag = Flag.Connect4;
-            ConnectFour g = new ConnectFour();
-            g.Situation = situation;
-            g.X = lastSet.X;
-            g.Y = lastSet.Y;
-            g.Player = lastSet.Player;
-            packet.Data = g;
-            foreach (string player in Players)
+            for (int i = 0; i < Players.Count; i++)
             {
-                if (player == Players[1])
+                if (i == 1)
                 {
                     if (situation == GameSituation.Win)
                         situation = GameSituation.Loss;
                     else if (situation == GameSituation.Loss)
                         situation = GameSituation.Win;
                 }
-                serverMain.SendResolvedGameSituation(player, packet);
+                ConnectFour g = new ConnectFour(Players[i], Players[(i + 1) % Players.Count], situation);
+                g.X = lastSet.X;
+                g.Y = lastSet.Y;
+                g.SetPlayedBy = lastSet.SetPlayedBy;
+                packet.Data = g;
+                serverMain.SendResolvedGameSituation(Players[i], packet);
             }
         }
 
@@ -187,7 +187,6 @@ namespace Server
                         return true;
                 }
             }
-
             return false;
         }
     }
