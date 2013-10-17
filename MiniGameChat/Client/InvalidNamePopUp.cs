@@ -26,7 +26,6 @@ namespace Client
 
             if (name != "")
             {
-                name = name;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

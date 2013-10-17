@@ -66,13 +66,13 @@
             // 
             this.splitcontainer.Panel2.Controls.Add(this.panelGame);
             this.splitcontainer.Size = new System.Drawing.Size(1284, 762);
-            this.splitcontainer.SplitterDistance = 331;
+            this.splitcontainer.SplitterDistance = 330;
             this.splitcontainer.TabIndex = 0;
             // 
             // buttonSend
             // 
             this.buttonSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSend.Location = new System.Drawing.Point(234, 502);
+            this.buttonSend.Location = new System.Drawing.Point(233, 502);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(98, 32);
             this.buttonSend.TabIndex = 1;
@@ -87,7 +87,7 @@
             this.textChat.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textChat.Location = new System.Drawing.Point(2, 502);
             this.textChat.Name = "textChat";
-            this.textChat.Size = new System.Drawing.Size(230, 23);
+            this.textChat.Size = new System.Drawing.Size(229, 23);
             this.textChat.TabIndex = 0;
             this.textChat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textChat_KeyPress);
             // 
@@ -99,7 +99,7 @@
             this.tabController.Location = new System.Drawing.Point(2, 2);
             this.tabController.Name = "tabController";
             this.tabController.SelectedIndex = 0;
-            this.tabController.Size = new System.Drawing.Size(330, 500);
+            this.tabController.Size = new System.Drawing.Size(329, 500);
             this.tabController.TabIndex = 0;
             // 
             // panelGame
@@ -107,7 +107,7 @@
             this.panelGame.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelGame.Controls.Add(this.splitContainer2);
-            this.panelGame.Location = new System.Drawing.Point(0, 0);
+            this.panelGame.Location = new System.Drawing.Point(1, 0);
             this.panelGame.Name = "panelGame";
             this.panelGame.Size = new System.Drawing.Size(949, 762);
             this.panelGame.TabIndex = 0;

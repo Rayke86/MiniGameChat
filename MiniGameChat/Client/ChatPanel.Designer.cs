@@ -33,20 +33,23 @@
             // 
             // textBox
             // 
+            this.textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox.Location = new System.Drawing.Point(0, 0);
             this.textBox.Multiline = true;
             this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(322, 474);
+            this.textBox.Size = new System.Drawing.Size(325, 477);
             this.textBox.TabIndex = 0;
             // 
             // ChatPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
             this.Controls.Add(this.textBox);
             this.Name = "ChatPanel";
-            this.Size = new System.Drawing.Size(322, 474);
+            this.Size = new System.Drawing.Size(325, 477);
             this.ResumeLayout(false);
             this.PerformLayout();
 

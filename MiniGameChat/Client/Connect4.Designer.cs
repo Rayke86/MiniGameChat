@@ -28,10 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // Connect4
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "Connect4";
+            this.Size = new System.Drawing.Size(949, 640);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+
+
     }
 }

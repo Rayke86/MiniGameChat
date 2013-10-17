@@ -57,6 +57,9 @@
     <Compile Include="ChatPanel.Designer.cs">
       <DependentUpon>ChatPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChoisePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ClientGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClientGUI.resx">
       <DependentUpon>ClientGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Connect4.resx">
+      <DependentUpon>Connect4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InvalidNamePopUp.resx">
       <DependentUpon>InvalidNamePopUp.cs</DependentUpon>
