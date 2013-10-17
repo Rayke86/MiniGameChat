@@ -13,6 +13,7 @@ namespace Client
         private string ip { get; set; }
         private string broadcast;
         private string handShake { get; set; }
+        public string Tab;
         public Communication Comm;
         public NetworkStream NwStream;
         public List<string> onlineUserList;
@@ -25,7 +26,7 @@ namespace Client
             this.name = name;
             this.ip = ip;
             this.broadcast = "BROADCAST";
-
+            this.Text = name;
             tabController.TabPages.Add(broadcast);
             tabController.TabPages[0].Name = broadcast;
             tabController.TabPages[0].Controls.Add(new ChatPanel());
@@ -49,6 +50,11 @@ namespace Client
         }
 
         private void buttonSend_Click(object sender, EventArgs e)
+        {
+            Send();
+        }
+
+        public void Send()
         {
             //send text to server
             string receiver = tabController.SelectedTab.Name;
@@ -78,8 +84,12 @@ namespace Client
                     string sender = message.Sender;
                     string chatMessage = message.Message;
                     if (sender == name)
-                        sender = message.Receiver;
-                    AddText(chatMessage, sender);
+                    {
+                        Tab = message.Receiver;
+                        AddText(chatMessage, Tab,true);
+                    }
+                    else
+                        AddText(chatMessage, sender,false);
                     break;
 
                 case Flag.OnlineUserList: 
@@ -131,19 +141,29 @@ namespace Client
                         }
                     }
 
-                    AddText("Handshake = " + handShake, broadcast);
+                    AddText("Handshake = " + handShake, broadcast,false);
                     break;
             }            
         }
 
-        public void AddText(string text, string sender)
+        public void AddText(string text, string sender,bool isMe)
         {
             this.Invoke(new MethodInvoker(() =>
             {
-                tabController.SelectTab(sender);
-                int index = tabController.SelectedTab.TabIndex;
-                ChatPanel panel = (ChatPanel) tabController.TabPages[index].Controls[0];
-                panel.addChat(sender + " : " + text);
+                if (isMe)
+                {
+                    tabController.SelectTab(sender);
+                    int index = tabController.SelectedTab.TabIndex;
+                    ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
+                    panel.addChat(name + " : " + text);
+                }
+                else
+                {
+                    tabController.SelectTab(sender);
+                    int index = tabController.SelectedTab.TabIndex;
+                    ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
+                    panel.addChat(sender + " : " + text);
+                }
             }));
         }
 
@@ -186,6 +206,16 @@ namespace Client
         {
             panelGame1.Controls.Clear();
         }
+
+        private void textChat_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Convert.ToInt32(e.KeyChar) == 13)
+            {
+                Send();
+                e.Handled = true;
+            }
+        }
+
         
     }
 }

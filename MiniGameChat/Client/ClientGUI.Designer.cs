@@ -74,7 +74,7 @@
             this.buttonSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSend.Location = new System.Drawing.Point(234, 502);
             this.buttonSend.Name = "buttonSend";
-            this.buttonSend.Size = new System.Drawing.Size(98, 40);
+            this.buttonSend.Size = new System.Drawing.Size(98, 32);
             this.buttonSend.TabIndex = 1;
             this.buttonSend.Text = "Verzend";
             this.buttonSend.UseVisualStyleBackColor = true;
@@ -84,11 +84,12 @@
             // 
             this.textChat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textChat.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textChat.Location = new System.Drawing.Point(2, 502);
-            this.textChat.Multiline = true;
             this.textChat.Name = "textChat";
-            this.textChat.Size = new System.Drawing.Size(230, 40);
+            this.textChat.Size = new System.Drawing.Size(230, 23);
             this.textChat.TabIndex = 0;
+            this.textChat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textChat_KeyPress);
             // 
             // tabController
             // 

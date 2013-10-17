@@ -66,22 +66,66 @@ namespace Client
 
         private void buttonLizard_Click(object sender, EventArgs e)
         {
+            Packet packet = new Packet();
+            packet.Flag = Flag.RPSLS;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
+            rpsls.Situation = GameSituation.Normal;
+            rpsls.YourHand = Hands.Lizard;
+            packet.Data = rpsls;
+            OnRPSLSChoice(packet);
 
+            buttonRock.Enabled = false;
+            buttonPaper.Enabled = false;
+            buttonSpock.Enabled = false;
+            buttonSiccors.Enabled = false;
         }
 
         private void buttonPaper_Click(object sender, EventArgs e)
         {
+            Packet packet = new Packet();
+            packet.Flag = Flag.RPSLS;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
+            rpsls.Situation = GameSituation.Normal;
+            rpsls.YourHand = Hands.Paper;
+            packet.Data = rpsls;
+            OnRPSLSChoice(packet);
 
+            buttonLizard.Enabled = false;
+            buttonRock.Enabled = false;
+            buttonSpock.Enabled = false;
+            buttonSiccors.Enabled = false;
         }
 
         private void buttonSpock_Click(object sender, EventArgs e)
         {
+            Packet packet = new Packet();
+            packet.Flag = Flag.RPSLS;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
+            rpsls.Situation = GameSituation.Normal;
+            rpsls.YourHand = Hands.Spock;
+            packet.Data = rpsls;
+            OnRPSLSChoice(packet);
 
+            buttonLizard.Enabled = false;
+            buttonPaper.Enabled = false;
+            buttonRock.Enabled = false;
+            buttonSiccors.Enabled = false;
         }
 
         private void buttonSiccors_Click(object sender, EventArgs e)
         {
+            Packet packet = new Packet();
+            packet.Flag = Flag.RPSLS;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
+            rpsls.Situation = GameSituation.Normal;
+            rpsls.YourHand = Hands.Scissors;
+            packet.Data = rpsls;
+            OnRPSLSChoice(packet);
 
+            buttonLizard.Enabled = false;
+            buttonPaper.Enabled = false;
+            buttonSpock.Enabled = false;
+            buttonRock.Enabled = false;
         }
 
         protected virtual void OnRPSLSChoice(Packet packet)
