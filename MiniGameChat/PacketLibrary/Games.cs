@@ -23,6 +23,7 @@ namespace PacketLibrary
         public int X { get; set; }
         public int Y { get; set; }
         public string SetPlayedBy { get; set; }
+        public bool ItIsYourTurn { get; set; }
 
         public ConnectFour(string you, string opponent, GameSituation situation) : base(you, opponent, situation)
         {

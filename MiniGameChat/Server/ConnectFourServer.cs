@@ -44,27 +44,11 @@ namespace Server
         public override void GameCheck()
         {
             GameSituation situation = GameSituation.Normal;
-            if (checkRow(1))
+            if (checkRow(1) || checkColumn(1) || checkDiagonal(1))
             {
                 situation = GameSituation.Win;
             }
-            if (checkRow(2))
-            {
-                situation = GameSituation.Loss;
-            }
-            if (checkColumn(1))
-            {
-                situation = GameSituation.Win;
-            }
-            if (checkColumn(2))
-            {
-                situation = GameSituation.Loss;
-            }
-            if (checkDiagonal(1))
-            {
-                situation = GameSituation.Win;
-            }
-            if (checkDiagonal(2))
+            if (checkRow(2) || checkColumn(2) || checkDiagonal(2))
             {
                 situation = GameSituation.Loss;
             }
@@ -88,6 +72,7 @@ namespace Server
                 g.X = lastSet.X;
                 g.Y = lastSet.Y;
                 g.SetPlayedBy = lastSet.SetPlayedBy;
+                g.ItIsYourTurn = (lastSet.SetPlayedBy != Players[i]);
                 packet.Data = g;
                 serverMain.SendResolvedGameSituation(Players[i], packet);
             }
