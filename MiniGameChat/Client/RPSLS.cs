@@ -16,10 +16,15 @@ namespace Client
     public partial class RPSLS : UserControl
     {
         public event RPSLSChoice RPSLSChoice;
+        public string name;
+        public string opponent;
 
-        public RPSLS()
+        public RPSLS(string name, string opponent)
         {
             InitializeComponent();
+            this.name = name;
+            this.opponent = opponent;
+
             buttonLizard.BackgroundImage = getImage("lizard2");
             buttonPaper.BackgroundImage = getImage("paper2");
             buttonSiccors.BackgroundImage = getImage("scissor2");
@@ -52,8 +57,7 @@ namespace Client
         {
             Packet packet = new Packet();
             packet.Flag = Flag.RPSLS;
-            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
-            rpsls.Situation = GameSituation.Normal;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Normal);
             rpsls.YourHand = Hands.Rock;
             packet.Data = rpsls;
             OnRPSLSChoice(packet);
@@ -68,8 +72,7 @@ namespace Client
         {
             Packet packet = new Packet();
             packet.Flag = Flag.RPSLS;
-            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
-            rpsls.Situation = GameSituation.Normal;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Normal);
             rpsls.YourHand = Hands.Lizard;
             packet.Data = rpsls;
             OnRPSLSChoice(packet);
@@ -84,8 +87,7 @@ namespace Client
         {
             Packet packet = new Packet();
             packet.Flag = Flag.RPSLS;
-            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
-            rpsls.Situation = GameSituation.Normal;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Normal);
             rpsls.YourHand = Hands.Paper;
             packet.Data = rpsls;
             OnRPSLSChoice(packet);
@@ -100,8 +102,7 @@ namespace Client
         {
             Packet packet = new Packet();
             packet.Flag = Flag.RPSLS;
-            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
-            rpsls.Situation = GameSituation.Normal;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Normal);
             rpsls.YourHand = Hands.Spock;
             packet.Data = rpsls;
             OnRPSLSChoice(packet);
@@ -116,8 +117,7 @@ namespace Client
         {
             Packet packet = new Packet();
             packet.Flag = Flag.RPSLS;
-            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock();
-            rpsls.Situation = GameSituation.Normal;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Normal);
             rpsls.YourHand = Hands.Scissors;
             packet.Data = rpsls;
             OnRPSLSChoice(packet);
@@ -126,6 +126,11 @@ namespace Client
             buttonPaper.Enabled = false;
             buttonSpock.Enabled = false;
             buttonRock.Enabled = false;
+        }
+
+        public void sendRequest(Packet packet)
+        {
+            OnRPSLSChoice(packet);
         }
 
         protected virtual void OnRPSLSChoice(Packet packet)

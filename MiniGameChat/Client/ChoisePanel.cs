@@ -13,6 +13,7 @@ namespace Client
             this.SetStyle(System.Windows.Forms.ControlStyles.AllPaintingInWmPaint | 
                 System.Windows.Forms.ControlStyles.UserPaint | 
                 System.Windows.Forms.ControlStyles.DoubleBuffer, true);
+            this.BorderStyle = System.Windows.Forms.BorderStyle.None;
         }
     }
 }

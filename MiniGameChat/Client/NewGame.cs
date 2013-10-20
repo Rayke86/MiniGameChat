@@ -15,12 +15,18 @@ namespace Client
         public NewGame()
         {
             InitializeComponent();
+            this.Focus();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
+        }
+
+        public void setLabel(string text)
+        {
+            label1.Text = text;
         }
 
         private void button2_Click(object sender, EventArgs e)

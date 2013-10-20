@@ -36,7 +36,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.labelSituation2 = new System.Windows.Forms.Label();
             this.labelSituation = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonConnect4 = new System.Windows.Forms.Button();
             this.buttonRpsls = new System.Windows.Forms.Button();
             this.panelGame1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitcontainer)).BeginInit();
@@ -101,6 +101,7 @@
             this.tabController.SelectedIndex = 0;
             this.tabController.Size = new System.Drawing.Size(329, 500);
             this.tabController.TabIndex = 0;
+            this.tabController.SelectedIndexChanged += new System.EventHandler(this.tabController_SelectedIndexChanged);
             // 
             // panelGame
             // 
@@ -123,7 +124,7 @@
             // 
             this.splitContainer2.Panel1.Controls.Add(this.labelSituation2);
             this.splitContainer2.Panel1.Controls.Add(this.labelSituation);
-            this.splitContainer2.Panel1.Controls.Add(this.button2);
+            this.splitContainer2.Panel1.Controls.Add(this.buttonConnect4);
             this.splitContainer2.Panel1.Controls.Add(this.buttonRpsls);
             // 
             // splitContainer2.Panel2
@@ -151,16 +152,16 @@
             this.labelSituation.Size = new System.Drawing.Size(307, 29);
             this.labelSituation.TabIndex = 2;
             // 
-            // button2
+            // buttonConnect4
             // 
-            this.button2.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(246, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(200, 80);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Connect 4";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonConnect4.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonConnect4.Location = new System.Drawing.Point(246, 12);
+            this.buttonConnect4.Name = "buttonConnect4";
+            this.buttonConnect4.Size = new System.Drawing.Size(200, 80);
+            this.buttonConnect4.TabIndex = 1;
+            this.buttonConnect4.Text = "Connect 4";
+            this.buttonConnect4.UseVisualStyleBackColor = true;
+            this.buttonConnect4.Click += new System.EventHandler(this.buttonConnect4_Click);
             // 
             // buttonRpsls
             // 
@@ -211,7 +212,7 @@
         private System.Windows.Forms.Panel panelGame;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Panel panelGame1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonConnect4;
         private System.Windows.Forms.Button buttonRpsls;
         private System.Windows.Forms.Label labelSituation;
         private System.Windows.Forms.Label labelSituation2;

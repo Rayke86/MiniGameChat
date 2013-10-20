@@ -27,17 +27,19 @@ namespace Client
         public Panel ChoiseP;
         public int X,Y;
         public bool isPressed = false;
-        public bool isMyTurn = false;
+        public bool isMyTurn = true;
         public string name;
         public Image img;
         public Image img_red;
         public Image img_yellow;
         public event connect4SChoice connect4SChoice;
+        public string opponent;
 
-        public Connect4(string name)
+        public Connect4(string name, string opponent)
         {
             InitializeComponent();
             this.name = name;
+            this.opponent = opponent;
             boxesColumn1 = new List<PictureBox>();
             boxesColumn2 = new List<PictureBox>();
             boxesColumn3 = new List<PictureBox>();
@@ -105,8 +107,7 @@ namespace Client
             ConnectFour con4 = packet.Data as ConnectFour;
             int column = con4.X;
             OpponentDrop(column);
-            Y = 4;
-            isMyTurn = true;            
+            isMyTurn = con4.ItIsYourTurn;       
         }
 
         public Image getImage(string img)
@@ -161,39 +162,38 @@ namespace Client
                 Y = 100;
 
                 if (X > 0 && X < 80)
-                    drop(boxesColumn1, img_red);
+                    drop(boxesColumn1, img_red,1);
                 if (X > 80 && X < 160)
-                    drop(boxesColumn2, img_red);
+                    drop(boxesColumn2, img_red,2);
                 if (X > 160 && X < 240)
-                    drop(boxesColumn3, img_red);
+                    drop(boxesColumn3, img_red,3);
                 if (X > 240 && X < 320)
-                    drop(boxesColumn4, img_red);
+                    drop(boxesColumn4, img_red,4);
                 if (X > 320 && X < 400)
-                    drop(boxesColumn5, img_red);
+                    drop(boxesColumn5, img_red,5);
                 if (X > 400 && X < 480)
-                    drop(boxesColumn6, img_red);
+                    drop(boxesColumn6, img_red,6);
                 if (X > 480 && X < 560)
-                    drop(boxesColumn7, img_red);
+                    drop(boxesColumn7, img_red,7);
                 if (X > 560 && X < 640)
-                    drop(boxesColumn8, img_red);
+                    drop(boxesColumn8, img_red,8);
             }
             isMyTurn = false;
         }
 
-        public void forSending(int column)
+        public void forSending(int column, int row)
         {
             Packet packet = new Packet();
             packet.Flag = Flag.Connect4;
-            ConnectFour con4 = new ConnectFour();
+            ConnectFour con4 = new ConnectFour(name, opponent, GameSituation.Normal);
             con4.X = column;
-            con4.Y = 1;
-            con4.Player = name;
-            con4.Situation = GameSituation.Normal;
+            con4.Y = row;
+            con4.ItIsYourTurn = true;
             packet.Data = con4;
             OnConnect4SChoice(packet);
         }
 
-        public void drop(List<PictureBox> boxesColumn, Image image)
+        public void drop(List<PictureBox> boxesColumn, Image image, int column)
         {
             bool done = false;
 
@@ -210,11 +210,10 @@ namespace Client
                             box.Image = image;
                             if (isMyTurn)
                             {
-                                forSending(1);
+                                forSending(column, 1);
                             }                            
                             done = true;
                         }
-                        break;
                         break;
                     case "pb_2":
                         if (box.Image == img_red || box.Image == img_yellow)
@@ -224,11 +223,10 @@ namespace Client
                             box.Image = image;
                             if (isMyTurn)
                             {
-                                forSending(2);
+                                forSending(column,2);
                             }
                             done = true;
                         }
-                        break;
                         break;
                     case "pb_3":
                         if (box.Image == img_red || box.Image == img_yellow)
@@ -238,11 +236,10 @@ namespace Client
                             box.Image = image;
                             if (isMyTurn)
                             {
-                                forSending(3);
+                                forSending(column,3);
                             }
                             done = true;
                         }
-                        break;
                         break;
                     case "pb_4":
                         if (box.Image == img_red || box.Image == img_yellow)
@@ -252,11 +249,10 @@ namespace Client
                             box.Image = image;
                             if (isMyTurn)
                             {
-                                forSending(4);
+                                forSending(column,4);
                             }
                             done = true;
                         }
-                        break;
                         break;
                     case "pb_5":
                         if (box.Image == img_red || box.Image == img_yellow)
@@ -266,7 +262,7 @@ namespace Client
                             box.Image = image;
                             if (isMyTurn)
                             {
-                                forSending(5);
+                                forSending(column,5);
                             }
                             done = true;
                         }
@@ -279,7 +275,7 @@ namespace Client
                             box.Image = image;
                             if (isMyTurn)
                             {
-                                forSending(6);
+                                forSending(column,6);
                             }
                             done = true;
                         }
@@ -294,21 +290,21 @@ namespace Client
         {
             switch(column)
             {
-                case 1: drop(boxesColumn1, img_yellow);
+                case 1: drop(boxesColumn1, img_yellow, column);
                     break;
-                case 2: drop(boxesColumn2, img_yellow);
+                case 2: drop(boxesColumn2, img_yellow, column);
                     break;
-                case 3: drop(boxesColumn3, img_yellow);
+                case 3: drop(boxesColumn3, img_yellow, column);
                     break;
-                case 4: drop(boxesColumn4, img_yellow);
+                case 4: drop(boxesColumn4, img_yellow, column);
                     break;
-                case 5: drop(boxesColumn5, img_yellow);
+                case 5: drop(boxesColumn5, img_yellow, column);
                     break;
-                case 6: drop(boxesColumn6, img_yellow);
+                case 6: drop(boxesColumn6, img_yellow, column);
                     break;
-                case 7: drop(boxesColumn7, img_yellow);
+                case 7: drop(boxesColumn7, img_yellow, column);
                     break;
-                case 8: drop(boxesColumn8, img_yellow);
+                case 8: drop(boxesColumn8, img_yellow, column);
                     break;
             }
         }
