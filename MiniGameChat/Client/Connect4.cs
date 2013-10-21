@@ -107,7 +107,8 @@ namespace Client
             ConnectFour con4 = packet.Data as ConnectFour;
             int column = con4.X;
             OpponentDrop(column);
-            isMyTurn = con4.ItIsYourTurn;       
+            isMyTurn = con4.ItIsYourTurn;
+            Y = 4;
         }
 
         public Image getImage(string img)
