@@ -126,6 +126,13 @@ namespace Client
                             newGame.setLabel(opponent + " verzoekt om te spelen");
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
+                                packet = new Packet();
+                                packet.Flag = Flag.GameResponse;
+                                con4.Situation = GameSituation.Connect;
+                                con4.You = name;
+                                con4.Opponent = opponent;
+                                packet.Data = con4;
+                                Comm.OutgoingMessageHandler(packet);
                                 tabController.SelectTab(opponent);
                                 StartNewConnect4(opponent,false);
                             }
@@ -152,6 +159,13 @@ namespace Client
                                 newGame.setLabel(opponent + " verzoekt om te spelen");
                                 if (newGame.ShowDialog() == DialogResult.OK)
                                 {
+                                    packet = new Packet();
+                                    packet.Flag = Flag.GameResponse;
+                                    rpsls.Situation = GameSituation.Connect;
+                                    rpsls.You = name;
+                                    rpsls.Opponent = opponent;
+                                    packet.Data = rpsls;
+                                    Comm.OutgoingMessageHandler(packet);
                                     tabController.SelectTab(opponent);
                                     StartNewRpsls(opponent,false);
                                 }
@@ -422,7 +436,7 @@ namespace Client
             {
                 RockPaperScissorsLizardSpock rpslsgame = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Connect);
                 packet.Data = rpslsgame;
-                packet.Flag = Flag.GameResponse;
+                packet.Flag = Flag.GameRequest;
             }
 
             if(packet != null)
