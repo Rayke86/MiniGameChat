@@ -119,12 +119,13 @@ namespace Client
                     if(packet.Data is ConnectFour)
                     {
                         ConnectFour con4 = packet.Data as ConnectFour;
+                        opponent = con4.Opponent;
                         switch (con4.Situation)
                         {
                             case GameSituation.Connect : 
                             newGame = new NewGame();
                             newGame.setLabel(opponent + " verzoekt om te spelen");
-                            if (newGame.ShowDialog() == DialogResult.OK)
+                            if(newGame.ShowDialog() == DialogResult.OK)
                             {
                                 packet = new Packet();
                                 packet.Flag = Flag.GameResponse;
@@ -152,6 +153,7 @@ namespace Client
                     if (packet.Data is RPSLS)
                     {
                         RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+                        opponent = rpsls.You;
                         switch (rpsls.Situation)
                         {
                             case GameSituation.Connect:
@@ -436,7 +438,7 @@ namespace Client
             {
                 RockPaperScissorsLizardSpock rpslsgame = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Connect);
                 packet.Data = rpslsgame;
-                packet.Flag = Flag.GameRequest;
+                packet.Flag = Flag.GameResponse;
             }
 
             if(packet != null)
