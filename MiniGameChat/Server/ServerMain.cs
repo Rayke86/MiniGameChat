@@ -82,17 +82,60 @@ namespace Server
             ConnectFour data = packet.Data as ConnectFour;
             if (data != null)
             {
-                if (data.Situation == GameSituation.Connect)
+                foreach (Game currentGame in currentGames[client.Username])
                 {
-                    //currentGames.Add(client.Username,new ConnectFourServer(this, client.Username));
-                    //TODO: add this one to games.
-                    // also connect 2 players if possible
+                    if (currentGame.Players.Contains(data.Opponent))
+                    {
+                        if (currentGame is ConnectFourServer)
+                        {
+                            ((ConnectFourServer) currentGame).Set(client.Username, data);
+                        }
+                    }
                 }
-                //stuur keuze naar client gui
-                //TODO list met clients die met elkaar verbonden zijn.
+            }
+        }
 
-                ConnectFourServer game = new ConnectFourServer(this, "test"); //TODO: get the right game from list.
-                game.GameCheck();
+        public void createGame(Packet packet)
+        {
+            switch (packet.Flag)
+            {
+                case Flag.Connect4:
+                    ConnectFour c4data = packet.Data as ConnectFour;
+                    if (c4data.Situation == GameSituation.Connect)
+                    {
+                        bool found = false;
+                        foreach (string opp in currentGames.Keys)
+                        {
+                            if (opp == c4data.Opponent)
+                            {
+                                foreach (Game game in currentGames[opp])
+                                {
+                                    if (game.Players.Count == 1 && game is ConnectFourServer)
+                                    {
+                                        found = true;
+                                        game.Players.Add(c4data.You);
+                                        //TODO start game! 
+                                    }
+                                }
+                            }
+                        }
+                        if (!found)
+                        {
+                            ConnectFourServer c4game = new ConnectFourServer(this, c4data.You);
+                            if (currentGames.ContainsKey(c4data.You))
+                            {
+                                currentGames[c4data.You].Add(c4game);
+                            }
+                            else
+                            {
+                                currentGames.Add(c4data.You, new List<Game> {c4game});
+                            }
+                            //TODO: send request to opponent.
+                        }
+                    }
+                    break;
+                case Flag.RPSLS:
+                    break;
             }
         }
 

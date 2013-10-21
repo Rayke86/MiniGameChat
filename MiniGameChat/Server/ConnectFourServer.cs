@@ -39,6 +39,7 @@ namespace Server
             {
                 game[setConnectFour.X][setConnectFour.Y] = 2;
             }
+            GameCheck();
         }
 
         public override void GameCheck()
