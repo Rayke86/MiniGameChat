@@ -63,8 +63,7 @@ namespace Client
             ChoiseP.MouseUp += new MouseEventHandler(createChoicePanel_MouseUp);            
 
             Y = 4;
-            X = 38;
-            
+            X = 38;            
         }
 
         public void createChoicePanel()
@@ -100,6 +99,11 @@ namespace Client
                 pb.Image = img;
                 list.Add(pb);
             }
+        }
+
+        public void start(bool start)
+        {
+            isMyTurn = start;
         }
 
         public void Play(Packet packet)
