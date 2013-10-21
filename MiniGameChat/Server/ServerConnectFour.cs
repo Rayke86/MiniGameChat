@@ -1,17 +1,18 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using PacketLibrary;
 
 namespace Server
 {
-    public class ConnectFourServer : Game
+    public class ServerConnectFour : Game
     {
         private List<List<int>> game;
         private int sets;
         private ConnectFour lastSet;
 
-        public ConnectFourServer(ServerMain serverMain, string player)
-            : base(serverMain, player)
+        public ServerConnectFour(ServerMain serverMain, string player1, string player2)
+            : base(serverMain, player1, player2)
         {
             sets = 0;
             game = new List<List<int>>();

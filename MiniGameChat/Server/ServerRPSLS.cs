@@ -4,13 +4,13 @@ using PacketLibrary;
 
 namespace Server
 {
-    public class GameRPSLS : Game
+    public class ServerRPSLS : Game
     {
         private List<Dictionary<string, Hands>> Rounds;
         public Dictionary<string, Hands> ChosenHands { get; set; }
 
-        public GameRPSLS(ServerMain serverMain, string player)
-            : base(serverMain, player)
+        public ServerRPSLS(ServerMain serverMain, string player1, string player2)
+            : base(serverMain, player1, player2)
         {
             ChosenHands = new Dictionary<string, Hands>();
             Rounds = new List<Dictionary<string, Hands>>();

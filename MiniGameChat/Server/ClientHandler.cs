@@ -54,36 +54,14 @@ namespace Server
                     ConnectFour c4data = packet.Data as ConnectFour;
                     if (c4data != null)
                     {
-                        if (c4data.Situation == GameSituation.Connect)
-                        {
-                            // create new game
-                        }
-                        else if (c4data.Situation == GameSituation.Disconnect)
-                        {
-                            // disconnect the game
-                        }
-                        else
-                        {
-                            serverMain.SetConnectFour(this, packet);
-                        }
+                        serverMain.SetConnectFour(this, packet);
                     }
                     break;
                 case  Flag.RPSLS:
                     RockPaperScissorsLizardSpock rpsdata = packet.Data as RockPaperScissorsLizardSpock;
                     if (rpsdata != null)
                     {
-                        if (rpsdata.Situation == GameSituation.Connect)
-                        {
-                            // create new game
-                        }
-                        else if (rpsdata.Situation == GameSituation.Disconnect)
-                        {
-                            // disconnect the game
-                        }
-                        else
-                        {
-                            serverMain.SetRPSLS(this, packet);
-                        }
+                        serverMain.SetRPSLS(this, packet);
                     }
                     break;
                 case Flag.HandshakeRequest:
@@ -94,10 +72,25 @@ namespace Server
                     serverMain.RemoveClient(this);
                     break;
                 case Flag.GameRequest:
-                    //TODO
+                    serverMain.HandleGameRequest(packet);
                     break;
                 case Flag.GameResponse:
-                    //TODO
+                    BaseGame g = packet.Data as BaseGame;
+                    if (g.Situation == GameSituation.Connect)
+                    {
+                        if (packet.Data is ConnectFour)
+                        {
+                            serverMain.CreateGame(packet, Flag.Connect4);
+                        }
+                        else if (packet.Data is RockPaperScissorsLizardSpock)
+                        {
+                            serverMain.CreateGame(packet, Flag.RPSLS);
+                        }
+                    }
+                    else if (g.Situation == GameSituation.Disconnect)
+                    {
+                        serverMain.HandleGameRequest(packet);
+                    }
                     break;
             }
         }

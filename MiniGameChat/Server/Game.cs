@@ -9,9 +9,9 @@ namespace Server
         public List<String> Players { get; set; }
         public ServerMain serverMain;
 
-        public Game(ServerMain serverMain, String player)
+        public Game(ServerMain serverMain, String player1, String player2)
         {
-            Players = new List<string> {player};
+            Players = new List<string> {player1, player2};
             this.serverMain = serverMain;
         }
         public abstract void GameCheck();

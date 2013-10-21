@@ -46,9 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientHandler.cs" />
-    <Compile Include="ConnectFourServer.cs" />
+    <Compile Include="ServerConnectFour.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameRPSLS.cs" />
+    <Compile Include="ServerRPSLS.cs" />
     <Compile Include="NoSuchAgencyHandler.cs" />
     <Compile Include="ServerMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

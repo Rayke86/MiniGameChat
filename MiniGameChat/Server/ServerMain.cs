@@ -68,9 +68,9 @@ namespace Server
                 {
                     if (currentGame.Players.Contains(data.Opponent))
                     {
-                        if (currentGame is GameRPSLS)
+                        if (currentGame is ServerRPSLS)
                         {
-                            ((GameRPSLS) currentGame).Set(client.Username, data);
+                            ((ServerRPSLS) currentGame).Set(client.Username, data);
                         }
                     }
                 }
@@ -86,56 +86,12 @@ namespace Server
                 {
                     if (currentGame.Players.Contains(data.Opponent))
                     {
-                        if (currentGame is ConnectFourServer)
+                        if (currentGame is ServerConnectFour)
                         {
-                            ((ConnectFourServer) currentGame).Set(client.Username, data);
+                            ((ServerConnectFour) currentGame).Set(client.Username, data);
                         }
                     }
                 }
-            }
-        }
-
-        public void createGame(Packet packet)
-        {
-            switch (packet.Flag)
-            {
-                case Flag.Connect4:
-                    ConnectFour c4data = packet.Data as ConnectFour;
-                    if (c4data.Situation == GameSituation.Connect)
-                    {
-                        bool found = false;
-                        foreach (string opp in currentGames.Keys)
-                        {
-                            if (opp == c4data.Opponent)
-                            {
-                                foreach (Game game in currentGames[opp])
-                                {
-                                    if (game.Players.Count == 1 && game is ConnectFourServer)
-                                    {
-                                        found = true;
-                                        game.Players.Add(c4data.You);
-                                        //TODO start game! 
-                                    }
-                                }
-                            }
-                        }
-                        if (!found)
-                        {
-                            ConnectFourServer c4game = new ConnectFourServer(this, c4data.You);
-                            if (currentGames.ContainsKey(c4data.You))
-                            {
-                                currentGames[c4data.You].Add(c4game);
-                            }
-                            else
-                            {
-                                currentGames.Add(c4data.You, new List<Game> {c4game});
-                            }
-                            //TODO: send request to opponent.
-                        }
-                    }
-                    break;
-                case Flag.RPSLS:
-                    break;
             }
         }
 
@@ -207,6 +163,83 @@ namespace Server
         public void SendResolvedGameSituation(string user, Packet packet)
         {
             onlineUsers[user].send(packet);
+        }
+
+        public void CreateGame(Packet packet, Flag flag)
+        {
+            switch (flag)
+            {
+                case Flag.Connect4:
+                    ConnectFour c4data = packet.Data as ConnectFour;
+                    if (c4data != null)
+                    {
+                        ServerConnectFour c4game = new ServerConnectFour(this, c4data.You, c4data.Opponent);
+                        if (currentGames.ContainsKey(c4data.You))
+                        {
+                            currentGames[c4data.You].Add(c4game);
+                        }
+                        else
+                        {
+                            currentGames.Add(c4data.You, new List<Game>(){c4game});
+                        }
+                        if (currentGames.ContainsKey(c4data.Opponent))
+                        {
+                            currentGames[c4data.Opponent].Add(c4game);
+                        }
+                        else
+                        {
+                            currentGames.Add(c4data.Opponent, new List<Game>() { c4game });
+                        }
+                        Random r = new Random();
+                        int starting = r.Next(0, 2);
+                        foreach(string player in c4game.Players)
+                        {
+                            c4data.ItIsYourTurn = starting == c4game.Players.IndexOf(player);
+                            packet.Data = c4data;
+                            onlineUsers[player].send(packet);
+                        }
+                    }
+                    break;
+                case Flag.RPSLS:
+                    RockPaperScissorsLizardSpock rpslsData = packet.Data as RockPaperScissorsLizardSpock;
+                    if (rpslsData != null)
+                    {
+                        ServerRPSLS rpslsGame = new ServerRPSLS(this, rpslsData.You, rpslsData.Opponent);
+                        if (currentGames.ContainsKey(rpslsData.You))
+                        {
+                            currentGames[rpslsData.You].Add(rpslsGame);
+                        }
+                        else
+                        {
+                            currentGames.Add(rpslsData.You, new List<Game>() { rpslsGame });
+                        }
+                        if (currentGames.ContainsKey(rpslsData.Opponent))
+                        {
+                            currentGames[rpslsData.Opponent].Add(rpslsGame);
+                        }
+                        else
+                        {
+                            currentGames.Add(rpslsData.Opponent, new List<Game>() { rpslsGame });
+                        }
+                        foreach (string player in rpslsGame.Players)
+                        {
+                            onlineUsers[player].send(packet);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        public void RemoveGame(Packet packet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HandleGameRequest(Packet packet)
+        {
+            BaseGame g = packet.Data as BaseGame;
+            if (g != null)
+                onlineUsers[g.Opponent].send(packet);
         }
     }
 }
