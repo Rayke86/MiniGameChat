@@ -119,7 +119,7 @@ namespace Client
                     if(packet.Data is ConnectFour)
                     {
                         ConnectFour con4 = packet.Data as ConnectFour;
-                        opponent = con4.Opponent;
+                        opponent = con4.You;
                         switch (con4.Situation)
                         {
                             case GameSituation.Connect : 
@@ -134,8 +134,8 @@ namespace Client
                                 con4.Opponent = opponent;
                                 packet.Data = con4;
                                 Comm.OutgoingMessageHandler(packet);
-                                tabController.SelectTab(opponent);
-                                StartNewConnect4(opponent,false);
+                                //tabController.SelectTab(opponent);
+                                //StartNewConnect4(opponent,false);
                             }
                             else
                             {
@@ -192,8 +192,9 @@ namespace Client
                         switch (con4.Situation)
                         {
                             case GameSituation.Connect :
-                                tabController.SelectTab(opponent);
+                                //tabController.SelectTab(opponent);
                                 StartNewConnect4(opponent,false);
+                                connect4.start(con4.ItIsYourTurn);
                                 break;
 
                             case GameSituation.Disconnect: 
@@ -434,12 +435,6 @@ namespace Client
                 packet.Data = rpslsRequest;
                 packet.Flag = Flag.GameRequest;
             }
-            else
-            {
-                RockPaperScissorsLizardSpock rpslsgame = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Connect);
-                packet.Data = rpslsgame;
-                packet.Flag = Flag.GameResponse;
-            }
 
             if(packet != null)
                 Comm.OutgoingMessageHandler(packet);
@@ -455,34 +450,31 @@ namespace Client
 
         public void StartNewConnect4(string opponent, bool accept)
         {
-            panelGame1.Controls.Clear();
-            connect4 = new Connect4(name,opponent);
-            connect4.connect4SChoice += connect4_connect4Choice;
-
-            Packet packet = new Packet();
-
-            if (accept)
+            this.Invoke(new MethodInvoker(() =>
             {
-                ConnectFour con4 = new ConnectFour(name, opponent, GameSituation.Connect);
-                packet.Data = con4;
-                packet.Flag = Flag.GameRequest;
-            }
-            else
-            {
-                ConnectFour con4 = new ConnectFour(name, opponent, GameSituation.Connect);
-                packet.Data = con4;
-                packet.Flag = Flag.GameResponse;
-            }
+                panelGame1.Controls.Clear();
+                connect4 = new Connect4(name,opponent);                
+                connect4.connect4SChoice += connect4_connect4Choice;
 
-            if (packet != null)
-                Comm.OutgoingMessageHandler(packet);
+                Packet packet = new Packet();
 
-            panelGame1.Controls.Add(connect4);
-            labelSituation.Text = "...starting game";
-            if (openGames.ContainsKey(opponent))
-                openGames.Remove(opponent);
-            openGames.Add(opponent, "connect4");
-            buttonConnect4.Enabled = false;
+                if (accept)
+                {
+                    ConnectFour con4 = new ConnectFour(name, opponent, GameSituation.Connect);
+                    packet.Data = con4;
+                    packet.Flag = Flag.GameRequest;
+                }
+
+                if (packet != null)
+                    Comm.OutgoingMessageHandler(packet);
+
+                panelGame1.Controls.Add(connect4);
+                labelSituation.Text = "...starting game";
+                if (openGames.ContainsKey(opponent))
+                    openGames.Remove(opponent);
+                openGames.Add(opponent, "connect4");
+                buttonConnect4.Enabled = false;
+            }));
         }
 
         public void connect4_connect4Choice(Packet packet)
