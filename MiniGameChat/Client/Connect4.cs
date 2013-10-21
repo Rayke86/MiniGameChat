@@ -27,7 +27,7 @@ namespace Client
         public Panel ChoiseP;
         public int X,Y;
         public bool isPressed = false;
-        public bool isMyTurn = true;
+        public bool isMyTurn = false;
         public string name;
         public Image img;
         public Image img_red;
