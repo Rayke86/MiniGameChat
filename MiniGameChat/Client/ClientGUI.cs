@@ -115,19 +115,19 @@ namespace Client
                     addPages(newUser);
                     break;
 
-                case Flag.Connect4:
-                    ConnectFour con4 = packet.Data as ConnectFour;
-                    opponent = con4.You;
-
-                    switch (con4.Situation)
+                case Flag.GameRequest: 
+                    if(packet.Data is ConnectFour)
                     {
-                        case GameSituation.Connect : 
+                        ConnectFour con4 = packet.Data as ConnectFour;
+                        switch (con4.Situation)
+                        {
+                            case GameSituation.Connect : 
                             newGame = new NewGame();
                             newGame.setLabel(opponent + " verzoekt om te spelen");
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
                                 tabController.SelectTab(opponent);
-                                StartNewConnect4(opponent);
+                                StartNewConnect4(opponent,false);
                             }
                             else
                             {
@@ -139,6 +139,76 @@ namespace Client
                                 Comm.OutgoingMessageHandler(DRpacket);
                             }
                             break;
+                        }
+                    }
+
+                    if (packet.Data is RPSLS)
+                    {
+                        RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+                        switch (rpsls.Situation)
+                        {
+                            case GameSituation.Connect:
+                                newGame = new NewGame();
+                                newGame.setLabel(opponent + " verzoekt om te spelen");
+                                if (newGame.ShowDialog() == DialogResult.OK)
+                                {
+                                    tabController.SelectTab(opponent);
+                                    StartNewRpsls(opponent,false);
+                                }
+                                else
+                                {
+                                    Packet DRpacket = new Packet(); // DR = Denied Request
+                                    rpsls.You = name;
+                                    rpsls.Opponent = opponent;
+                                    rpsls.Situation = GameSituation.Disconnect;
+                                    DRpacket.Data = rpsls;
+                                    Comm.OutgoingMessageHandler(DRpacket);
+                                }
+                                break;
+                        }
+                    }
+                    break;
+
+                case Flag.GameResponse : 
+                    if(packet.Data is ConnectFour)
+                    {
+                        ConnectFour con4 = packet.Data as ConnectFour;
+                        switch (con4.Situation)
+                        {
+                            case GameSituation.Connect :
+                                tabController.SelectTab(opponent);
+                                StartNewConnect4(opponent,false);
+                                break;
+
+                            case GameSituation.Disconnect: 
+                                labelSituation.Text = "Game afgewezen";
+                                break;
+                        }
+                    }
+
+                    if (packet.Data is RPSLS)
+                    {
+                        RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+                        switch (rpsls.Situation)
+                        {
+                            case GameSituation.Connect:
+                                tabController.SelectTab(opponent);
+                                StartNewRpsls(opponent,false);                                
+                                break;
+
+                            case GameSituation.Disconnect:
+                                labelSituation.Text = "Game afgewezen";
+                                break;
+                        }
+                    }
+                    break;
+
+                case Flag.Connect4:
+                    ConnectFour connect_four = packet.Data as ConnectFour;
+                    opponent = connect_four.You;
+
+                    switch (connect_four.Situation)
+                    {                        
                         case GameSituation.Disconnect:
                             if(openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
@@ -152,7 +222,7 @@ namespace Client
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                StartNewConnect4(opponent);
+                                StartNewConnect4(opponent,false);
                             }
                             else
                             {
@@ -167,7 +237,7 @@ namespace Client
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                StartNewConnect4(opponent);
+                                StartNewConnect4(opponent,false);
                             }
                             else
                             {
@@ -182,7 +252,7 @@ namespace Client
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                StartNewConnect4(opponent);
+                                StartNewConnect4(opponent,false);
                             }
                             else
                             {
@@ -201,35 +271,16 @@ namespace Client
                     break;
 
                 case Flag.RPSLS:
-                    RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
-                    GameSituation game = rpsls.Situation;
-                    Hands myhand = rpsls.YourHand;
-                    Hands opponenthand = rpsls.OpponentHand;
-                    opponent = rpsls.You;
+                    RockPaperScissorsLizardSpock ropasilisp = packet.Data as RockPaperScissorsLizardSpock;
+                    GameSituation game = ropasilisp.Situation;
+                    Hands myhand = ropasilisp.YourHand;
+                    Hands opponenthand = ropasilisp.OpponentHand;
+                    opponent = ropasilisp.You;
 
                     labelSituation2.Text = "Other player chose " + opponenthand;
                     labelSituation.Text = "You chose " + myhand;
                     switch(game)
                     {
-                        case GameSituation.Connect: 
-                            newGame = new NewGame();
-                            newGame.setLabel(opponent + " verzoekt om te spelen");
-                            if (newGame.ShowDialog() == DialogResult.OK)
-                            {
-                                tabController.SelectTab(opponent);
-                                StartNewRpsls(opponent);
-                            }
-                            else
-                            {
-                                Packet DRpacket = new Packet(); // DR = Denied Request
-                                rpsls.You = name;
-                                rpsls.Opponent = opponent;
-                                rpsls.Situation = GameSituation.Disconnect;
-                                DRpacket.Data = rpsls;
-                                Comm.OutgoingMessageHandler(DRpacket);
-                            }
-                            break;
-
                         case GameSituation.Disconnect:
                             {
                                 if (openGames.ContainsKey(opponent))
@@ -246,7 +297,7 @@ namespace Client
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                StartNewRpsls(opponent);
+                                StartNewRpsls(opponent,false);
                             }
                             else
                             {
@@ -262,7 +313,7 @@ namespace Client
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                 StartNewRpsls(opponent);
+                                 StartNewRpsls(opponent,false);
                             }
                             else
                             {
@@ -278,7 +329,7 @@ namespace Client
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                StartNewRpsls(opponent);
+                                StartNewRpsls(opponent,false);
                             }
                             else
                             {
@@ -348,23 +399,34 @@ namespace Client
             {
                 string opponent = tabController.SelectedTab.Name;
                 if (opponent != null)
-                    StartNewRpsls(opponent);
+                    StartNewRpsls(opponent, true);
             }
             buttonConnect4.Enabled = true;
         }
 
-        public void StartNewRpsls(string opponent)
+        public void StartNewRpsls(string opponent, bool accept)
         {
             panelGame1.Controls.Clear();
             RPSLS rpsls = new RPSLS(name, opponent);            
             rpsls.RPSLSChoice += rpsls_RPSLSChoice;
 
             Packet packet = new Packet();
-            packet.Flag = Flag.RPSLS;
-            
-            RockPaperScissorsLizardSpock rpslsRequest = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Connect);
-            packet.Data = rpslsRequest;
-            Comm.OutgoingMessageHandler(packet); 
+
+            if (accept)
+            {   
+                RockPaperScissorsLizardSpock rpslsRequest = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Connect);
+                packet.Data = rpslsRequest;
+                packet.Flag = Flag.GameRequest;
+            }
+            else
+            {
+                RockPaperScissorsLizardSpock rpslsgame = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Connect);
+                packet.Data = rpslsgame;
+                packet.Flag = Flag.GameResponse;
+            }
+
+            if(packet != null)
+                Comm.OutgoingMessageHandler(packet);
 
             panelGame1.Controls.Add(rpsls);
             labelSituation.Text = "...starting game";
@@ -375,17 +437,29 @@ namespace Client
        
         }
 
-        public void StartNewConnect4(string opponent)
+        public void StartNewConnect4(string opponent, bool accept)
         {
             panelGame1.Controls.Clear();
             connect4 = new Connect4(name,opponent);
             connect4.connect4SChoice += connect4_connect4Choice;
 
             Packet packet = new Packet();
-            packet.Flag = Flag.Connect4;
 
-            ConnectFour connectFourRequest = new ConnectFour(name, opponent,GameSituation.Connect);
-            packet.Data = connectFourRequest;
+            if (accept)
+            {
+                ConnectFour con4 = new ConnectFour(name, opponent, GameSituation.Connect);
+                packet.Data = con4;
+                packet.Flag = Flag.GameRequest;
+            }
+            else
+            {
+                ConnectFour con4 = new ConnectFour(name, opponent, GameSituation.Connect);
+                packet.Data = con4;
+                packet.Flag = Flag.GameResponse;
+            }
+
+            if (packet != null)
+                Comm.OutgoingMessageHandler(packet);
 
             panelGame1.Controls.Add(connect4);
             labelSituation.Text = "...starting game";
@@ -414,7 +488,7 @@ namespace Client
             if (tabController.SelectedTab.Name != broadcast)
             {
                 string opponent = tabController.SelectedTab.Name;
-                StartNewConnect4(opponent);
+                StartNewConnect4(opponent,true);
             }
             buttonRpsls.Enabled = true;
         }
