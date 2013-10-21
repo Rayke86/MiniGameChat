@@ -74,10 +74,13 @@ namespace Server
                 case Flag.GameRequest:
                     serverMain.HandleGameRequest(packet);
                     Console.WriteLine("GameRequest from {0}", Username);
+                    BaseGame game = packet.Data as BaseGame;
+                    Console.WriteLine(game.Opponent);
                     break;
                 case Flag.GameResponse:
                     Console.WriteLine("GameResponse from {0}", Username);
                     BaseGame g = packet.Data as BaseGame;
+                    Console.WriteLine(g.Opponent);
                     if (g.Situation == GameSituation.Connect)
                     {
                         if (packet.Data is ConnectFour)
