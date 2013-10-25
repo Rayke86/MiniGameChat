@@ -193,6 +193,7 @@ namespace Client
             ConnectFour con4 = new ConnectFour(name, opponent, GameSituation.Normal);
             con4.X = column;
             con4.Y = row;
+            con4.SetPlayedBy = name;
             con4.ItIsYourTurn = true;
             packet.Data = con4;
             OnConnect4SChoice(packet);
