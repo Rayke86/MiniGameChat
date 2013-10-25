@@ -39,6 +39,7 @@
             this.buttonConnect4 = new System.Windows.Forms.Button();
             this.buttonRpsls = new System.Windows.Forms.Button();
             this.panelGame1 = new System.Windows.Forms.Panel();
+            this.buttonForfeit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitcontainer)).BeginInit();
             this.splitcontainer.Panel1.SuspendLayout();
             this.splitcontainer.Panel2.SuspendLayout();
@@ -122,6 +123,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.buttonForfeit);
             this.splitContainer2.Panel1.Controls.Add(this.labelSituation2);
             this.splitContainer2.Panel1.Controls.Add(this.labelSituation);
             this.splitContainer2.Panel1.Controls.Add(this.buttonConnect4);
@@ -180,6 +182,16 @@
             this.panelGame1.Size = new System.Drawing.Size(945, 649);
             this.panelGame1.TabIndex = 0;
             // 
+            // buttonForfeit
+            // 
+            this.buttonForfeit.Location = new System.Drawing.Point(862, 42);
+            this.buttonForfeit.Name = "buttonForfeit";
+            this.buttonForfeit.Size = new System.Drawing.Size(75, 23);
+            this.buttonForfeit.TabIndex = 4;
+            this.buttonForfeit.Text = "Opgeven";
+            this.buttonForfeit.UseVisualStyleBackColor = true;
+            this.buttonForfeit.Click += new System.EventHandler(this.buttonForfeit_Click);
+            // 
             // ClientGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,6 +228,7 @@
         private System.Windows.Forms.Button buttonRpsls;
         private System.Windows.Forms.Label labelSituation;
         private System.Windows.Forms.Label labelSituation2;
+        private System.Windows.Forms.Button buttonForfeit;
     }
 }
 

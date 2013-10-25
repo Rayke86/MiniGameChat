@@ -42,7 +42,10 @@ namespace Client
             Comm.IncommingMessageHandler += Comm_IncommingMessageHandler;
 
             buttonRpsls.Text = "Rock - Paper - Scissors -" + Environment.NewLine +"Lizard - Spock";
-            panelGame1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;            
+            panelGame1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;   
+         
+            buttonConnect4.Enabled = false;
+                buttonRpsls.Enabled = false;
         }
 
         public void addPages(string name)
@@ -188,14 +191,12 @@ namespace Client
                     if(packet.Data is ConnectFour)
                     {
                         ConnectFour con4 = packet.Data as ConnectFour;
-                        Console.WriteLine("gameresponse");
 
                         switch (con4.Situation)
                         {
                             case GameSituation.Connect :
-                                Console.WriteLine("connect");
                                                                 
-                                StartNewConnect4(con4.Opponent);
+                                StartNewConnect4(con4.Opponent, con4.ItIsYourTurn);
 
                                 connect4.start(con4.ItIsYourTurn);
                                 break;
@@ -241,25 +242,15 @@ namespace Client
                         case GameSituation.Win:
                             labelSituation.Text = "You WON!!!";
                             labelSituation2.Text = "";
-                            newGame = new NewGame();
-                            if (newGame.ShowDialog() == DialogResult.OK)
-                            {
-                                StartNewConnect4(opponent);
-                            }
-                            else
-                            {
-                                if (openGames.ContainsKey(opponent))
-                                    openGames.Remove(opponent);
-                                panelGame1.Controls.Clear();
-                            }
                             break;
+
                         case GameSituation.Loss:
                             labelSituation.Text = "You Lost...";
                             labelSituation2.Text = "";
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                StartNewConnect4(opponent);
+                                SendConnect4Request();
                             }
                             else
                             {
@@ -272,22 +263,15 @@ namespace Client
                             labelSituation.Text = "It's a Tie";
                             labelSituation2.Text = ""; 
                             newGame = new NewGame();
-                            if (newGame.ShowDialog() == DialogResult.OK)
-                            {
-                                StartNewConnect4(opponent);
-                            }
-                            else
-                            {
-                                if (openGames.ContainsKey(opponent))
-                                    openGames.Remove(opponent);
-                                panelGame1.Controls.Clear();
-                            }
                             break;
 
                         case GameSituation.Normal:
                             labelSituation.Text = "Playing...";
                             labelSituation2.Text = "Your Move";
-                            connect4.Play(packet);
+                            this.Invoke(new MethodInvoker(() =>
+                            {
+                                connect4.Play(packet);
+                            }));
                             break;
                     }
                     break;
@@ -419,15 +403,19 @@ namespace Client
         {
             if (tabController.SelectedTab.Name != broadcast)
             {
-                string opp = tabController.SelectedTab.Name;
-                ConnectFour con4Request = new ConnectFour(name, opp, GameSituation.Connect);
-                Packet packet = new Packet();
-                packet.Flag = Flag.GameRequest;
-                packet.Data = con4Request;
-                Comm.OutgoingMessageHandler(packet);
+                SendConnect4Request();
             }
-            buttonRpsls.Enabled = true;
+            buttonRpsls.Enabled = false;
+        }
 
+        public void SendConnect4Request()
+        {
+            string opp = tabController.SelectedTab.Name;
+            ConnectFour con4Request = new ConnectFour(name, opp, GameSituation.Connect);
+            Packet packet = new Packet();
+            packet.Flag = Flag.GameRequest;
+            packet.Data = con4Request;
+            Comm.OutgoingMessageHandler(packet);
         }
 
         private void buttonRpsls_Click(object sender, EventArgs e)
@@ -441,7 +429,7 @@ namespace Client
                 packet.Data = rpsls;
                 Comm.OutgoingMessageHandler(packet);
             }
-            buttonConnect4.Enabled = true;
+            buttonConnect4.Enabled = false;
         }
 
         public void StartNewRpsls(string opp)
@@ -462,9 +450,8 @@ namespace Client
             }));
         }
 
-        public void StartNewConnect4(string opp)
+        public void StartNewConnect4(string opp,bool turn)
         {
-            Console.WriteLine("In Start new connect 4");
             this.Invoke(new MethodInvoker(() =>
             {
                 panelGame1.Controls.Clear();
@@ -473,6 +460,10 @@ namespace Client
                                                 
                 panelGame1.Controls.Add(connect4);
                 labelSituation.Text = "...starting game";
+                if(turn)
+                    labelSituation.Text = "It's your turn";
+                else
+                    labelSituation.Text = "It's not your turn";
 
                 if (openGames.ContainsKey(opp))
                     openGames.Remove(opp);
@@ -484,6 +475,7 @@ namespace Client
 
         public void connect4_connect4Choice(Packet packet)
         {
+            labelSituation.Text = "It's not your turn";
             Comm.OutgoingMessageHandler(packet);
         }
 
@@ -531,6 +523,17 @@ namespace Client
                 buttonConnect4.Enabled = true;
             }
 
+        }
+
+        private void buttonForfeit_Click(object sender, EventArgs e)
+        {
+            panelGame1.Controls.Clear();
+            if (openGames.ContainsKey(tabController.SelectedTab.Name))
+            {
+                openGames.Remove(tabController.SelectedTab.Name);
+            }
+            buttonRpsls.Enabled = true;
+            buttonConnect4.Enabled = true;
         }
 
         
