@@ -53,6 +53,7 @@ namespace Client
 
             img_red = getImage("connect4_red");
             img = getImage("connect4");
+            img_yellow = getImage("connect4_yellow");
             createGrid();
 
             createChoicePanel();
@@ -182,8 +183,7 @@ namespace Client
                     drop(boxesColumn7, img_red,7);
                 if (X > 560 && X < 640)
                     drop(boxesColumn8, img_red,8);
-            }
-            isMyTurn = false;
+            }            
         }
 
         public void forSending(int column, int row)
@@ -203,85 +203,92 @@ namespace Client
         {
             bool done = false;
 
-
             foreach(PictureBox box in boxesColumn)
             {
                 switch (box.Name)
                 {
                     case "pb_1":
                         if (box.Image == img_red || box.Image == img_yellow)
-                            break;
+                        {
+                            done = false;
+                        }
                         else
                         {
                             box.Image = image;
                             if (isMyTurn)
                             {
                                 forSending(column, 1);
-                            }                            
+                                isMyTurn = false;
+                            }
                             done = true;
                         }
                         break;
                     case "pb_2":
                         if (box.Image == img_red || box.Image == img_yellow)
-                            break;
+                        { }
                         else
                         {
                             box.Image = image;
                             if (isMyTurn)
                             {
                                 forSending(column,2);
+                                isMyTurn = false;
                             }
                             done = true;
                         }
                         break;
                     case "pb_3":
                         if (box.Image == img_red || box.Image == img_yellow)
-                            break;
+                        { }
                         else
                         {
                             box.Image = image;
                             if (isMyTurn)
                             {
                                 forSending(column,3);
+                                isMyTurn = false;
                             }
                             done = true;
                         }
                         break;
                     case "pb_4":
                         if (box.Image == img_red || box.Image == img_yellow)
-                            break;
+                        { }
                         else
                         {
                             box.Image = image;
                             if (isMyTurn)
                             {
                                 forSending(column,4);
+                                isMyTurn = false;
                             }
                             done = true;
                         }
                         break;
                     case "pb_5":
                         if (box.Image == img_red || box.Image == img_yellow)
-                            break;
+                        { }
                         else
                         {
                             box.Image = image;
                             if (isMyTurn)
                             {
                                 forSending(column,5);
+                                isMyTurn = false;
                             }
                             done = true;
                         }
                         break;
                     case "pb_6":
                         if (box.Image == img_red || box.Image == img_yellow)
-                            break;
+                        { }
                         else
                         {
                             box.Image = image;
                             if (isMyTurn)
                             {
                                 forSending(column,6);
+                                isMyTurn = false;
                             }
                             done = true;
                         }
@@ -289,6 +296,10 @@ namespace Client
                 }
                 if (done)
                     break;
+                else
+                {
+                    Y = 4;
+                }
             }
         }
 
