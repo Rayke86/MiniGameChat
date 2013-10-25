@@ -237,9 +237,12 @@ namespace Server
             }
         }
 
-        public void RemoveGame(Packet packet)
+        public void RemoveGame(Game game)
         {
-            throw new NotImplementedException();
+            foreach (string player in game.Players)
+            {
+                currentGames[player].Remove(game);
+            }
         }
 
         public void HandleGameRequest(Packet packet)

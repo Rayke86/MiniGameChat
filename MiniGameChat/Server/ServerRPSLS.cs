@@ -19,15 +19,22 @@ namespace Server
         public override void Set(string player, BaseGame baseGame)
         {
             RockPaperScissorsLizardSpock rockPaperScissorsLizardSpock = (RockPaperScissorsLizardSpock) baseGame;
-            ChosenHands.Add(player, rockPaperScissorsLizardSpock.YourHand);
-            if (ChosenHands.Count == 2)
+            if (rockPaperScissorsLizardSpock.Situation == GameSituation.Disconnect)
             {
-                GameCheck();
-                Rounds.Add(ChosenHands.ToDictionary( 
-                    x => x.Key,
-                    y => y.Value
-                    ));
-                ChosenHands = new Dictionary<string, Hands>();
+                serverMain.RemoveGame(this);
+            }
+            else
+            {
+                ChosenHands.Add(player, rockPaperScissorsLizardSpock.YourHand);
+                if (ChosenHands.Count == 2)
+                {
+                    GameCheck();
+                    Rounds.Add(ChosenHands.ToDictionary(
+                        x => x.Key,
+                        y => y.Value
+                        ));
+                    ChosenHands = new Dictionary<string, Hands>();
+                }
             }
         }
 

@@ -31,16 +31,23 @@ namespace Server
         {
             ConnectFour setConnectFour = (ConnectFour)baseGame;
             lastSet = setConnectFour;
-            sets++;
-            if (player == Players[0])
+            if (setConnectFour.Situation == GameSituation.Disconnect)
             {
-                game[setConnectFour.X][setConnectFour.Y] = 1;
+                serverMain.RemoveGame(this);
             }
             else
             {
-                game[setConnectFour.X][setConnectFour.Y] = 2;
+                sets++;
+                if (player == Players[0])
+                {
+                    game[setConnectFour.X][setConnectFour.Y] = 1;
+                }
+                else
+                {
+                    game[setConnectFour.X][setConnectFour.Y] = 2;
+                }
+                GameCheck();
             }
-            GameCheck();
         }
 
         public override void GameCheck()
