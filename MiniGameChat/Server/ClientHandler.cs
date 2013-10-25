@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -51,18 +50,10 @@ namespace Server
                     serverMain.SetChat(this, packet);
                     break;
                 case Flag.Connect4:
-                    ConnectFour c4data = packet.Data as ConnectFour;
-                    if (c4data != null)
-                    {
-                        serverMain.SetConnectFour(this, packet);
-                    }
+                    serverMain.SetConnectFour(this, packet);
                     break;
                 case  Flag.RPSLS:
-                    RockPaperScissorsLizardSpock rpsdata = packet.Data as RockPaperScissorsLizardSpock;
-                    if (rpsdata != null)
-                    {
-                        serverMain.SetRPSLS(this, packet);
-                    }
+                    serverMain.SetRPSLS(this, packet);
                     break;
                 case Flag.HandshakeRequest:
                     Console.WriteLine("Handshake Request detected.");
