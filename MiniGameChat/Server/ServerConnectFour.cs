@@ -100,10 +100,10 @@ namespace Server
                         inCol = 0;
                     if (col[i] == player)
                         inCol++;
-                }
-                if (inCol == 4)
-                {
-                    return true;
+                    if (inCol == 4)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -122,10 +122,10 @@ namespace Server
                         inRow = 0;
                     if (game[x][y] == player)
                         inRow++;
-                }
-                if (inRow == 4)
-                {
-                    return true;
+                    if (inRow == 4)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
