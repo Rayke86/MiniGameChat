@@ -101,7 +101,10 @@ namespace Server
                     if (col[i] == player)
                         inCol++;
                 }
-                if (inCol == 4) return true;
+                if (inCol == 4)
+                {
+                    return true;
+                }
             }
             return false;
         }
@@ -111,16 +114,19 @@ namespace Server
             for (int y = 0; y < game[0].Count; y++)
             {
                 int inRow = 0;
-                if (game[y][0] == player)
+                if (game[0][y] == player)
                     inRow++;
-                for (int i = 1; i < 6; i++)
+                for (int x = 1; x < game.Count; x++)
                 {
-                    if (game[y][i] != game[y][i - 1])
+                    if (game[x][y] != game[x-1][y])
                         inRow = 0;
-                    if (game[y][i] == player)
+                    if (game[x][y] == player)
                         inRow++;
                 }
-                if(inRow == 4) return true;
+                if (inRow == 4)
+                {
+                    return true;
+                }
             }
             return false;
         }
