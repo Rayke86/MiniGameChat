@@ -40,11 +40,11 @@ namespace Server
                 sets++;
                 if (player == Players[0])
                 {
-                    game[setConnectFour.X][setConnectFour.Y] = 1;
+                    game[setConnectFour.X-1][setConnectFour.Y-1] = 1;
                 }
                 else
                 {
-                    game[setConnectFour.X][setConnectFour.Y] = 2;
+                    game[setConnectFour.X-1][setConnectFour.Y-1] = 2;
                 }
                 GameCheck();
             }
@@ -87,40 +87,40 @@ namespace Server
             }
         }
 
-        private bool checkRow(int player)
+        private bool checkColumn(int player)
         {
-            foreach (List<int> row in game)
+            foreach (List<int> col in game)
             {
-                int inRow = 0;
-                if (row[0] == player)
-                    inRow++;
-                for (int i = 1; i < row.Count; i++)
+                int inCol = 0;
+                if (col[0] == player)
+                    inCol++;
+                for (int i = 1; i < col.Count; i++)
                 {
-                    if (row[i-1] != row[i])
-                        inRow = 0;
-                    if (row[i] == player)
-                        inRow++;
+                    if (col[i-1] != col[i])
+                        inCol = 0;
+                    if (col[i] == player)
+                        inCol++;
                 }
-                if (inRow == 4) return true;
+                if (inCol == 4) return true;
             }
             return false;
         }
 
-        private bool checkColumn(int player)
+        private bool checkRow(int player)
         {
             for (int y = 0; y < game[0].Count; y++)
             {
-                int inCol = 0;
+                int inRow = 0;
                 if (game[y][0] == player)
-                    inCol++;
-                for (int i = 1; i < game.Count; i++)
+                    inRow++;
+                for (int i = 1; i < 6; i++)
                 {
                     if (game[y][i] != game[y][i - 1])
-                        inCol = 0;
+                        inRow = 0;
                     if (game[y][i] == player)
-                        inCol++;
+                        inRow++;
                 }
-                if(inCol == 4) return true;
+                if(inRow == 4) return true;
             }
             return false;
         }
@@ -137,19 +137,19 @@ namespace Server
                 for (int startX = boundXmax; startX >= 0; startX--)
                 {
                     int inDiagonal = 0;
-                    int checkX = startX + 1;
-                    int checkY = startY + 1;
+                    int checkX = startX;
+                    int checkY = startY;
                     if (game[startX][startY] == player)
                         inDiagonal++;
                     while ((checkX >= boundXmin && 
                             checkX <= boundXmax && 
                             checkY >= boundYmin && 
-                            checkY <= boundYmax) ||
-                            checkX < startX+4)
+                            checkY <= boundYmax) &&
+                            checkX > startX-4)
                     {
                         if (game[checkX][checkY] == player)
                             inDiagonal++;
-                        checkX++;
+                        checkX--;
                         checkY++;
                     }
                     if(inDiagonal == 4)
@@ -169,12 +169,12 @@ namespace Server
                     while ((checkX >= boundXmin &&
                             checkX <= boundXmax &&
                             checkY >= boundYmin &&
-                            checkY <= boundYmax) ||
-                            checkX > startX - 4)
+                            checkY <= boundYmax) &&
+                            checkX < startX + 4)
                     {
                         if (game[checkX][checkY] == player)
                             inDiagonal++;
-                        checkX--;
+                        checkX++;
                         checkY++;
                     }
                     if (inDiagonal == 4)
