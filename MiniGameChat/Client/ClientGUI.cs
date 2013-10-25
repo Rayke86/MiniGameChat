@@ -137,11 +137,10 @@ namespace Client
                                 con4.Opponent = opponent;
                                 packet.Data = con4;
                                 Comm.OutgoingMessageHandler(packet);
-                                //tabController.SelectTab(opponent);
                             }
                             else
                             {
-                                Packet DRpacket = new Packet(); // DR = Denied Request
+                                Packet DRpacket = new Packet();
                                 con4.You = name;
                                 con4.Opponent = opponent;
                                 con4.Situation = GameSituation.Disconnect;
@@ -152,39 +151,37 @@ namespace Client
                         }
                     }
 
-                    //if (packet.Data is RPSLS)
-                    //{
-                    //    RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
-                    //    opponent = rpsls.You;
-                    //    switch (rpsls.Situation)
-                    //    {
-                    //        case GameSituation.Connect:
-                    //            newGame = new NewGame();
-                    //            newGame.setLabel(opponent + " verzoekt om te spelen");
-                    //            if (newGame.ShowDialog() == DialogResult.OK)
-                    //            {
-                    //                packet = new Packet();
-                    //                packet.Flag = Flag.GameResponse;
-                    //                rpsls.Situation = GameSituation.Connect;
-                    //                rpsls.You = name;
-                    //                rpsls.Opponent = opponent;
-                    //                packet.Data = rpsls;
-                    //                Comm.OutgoingMessageHandler(packet);
-                    //                tabController.SelectTab(opponent);
-                    //                StartNewRpsls(opponent,false);
-                    //            }
-                    //            else
-                    //            {
-                    //                Packet DRpacket = new Packet(); // DR = Denied Request
-                    //                rpsls.You = name;
-                    //                rpsls.Opponent = opponent;
-                    //                rpsls.Situation = GameSituation.Disconnect;
-                    //                DRpacket.Data = rpsls;
-                    //                Comm.OutgoingMessageHandler(DRpacket);
-                    //            }
-                    //            break;
-                    //    }
-                    //}
+                    if (packet.Data is RPSLS)
+                    {
+                        RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+                        opponent = rpsls.You;
+                        switch (rpsls.Situation)
+                        {
+                            case GameSituation.Connect:
+                                newGame = new NewGame();
+                                newGame.setLabel(opponent + " verzoekt om te spelen");
+                                if (newGame.ShowDialog() == DialogResult.OK)
+                                {
+                                    packet = new Packet();
+                                    packet.Flag = Flag.GameResponse;
+                                    rpsls.Situation = GameSituation.Connect;
+                                    rpsls.You = name;
+                                    rpsls.Opponent = opponent;
+                                    packet.Data = rpsls;
+                                    Comm.OutgoingMessageHandler(packet);
+                                }
+                                else
+                                {
+                                    Packet DRpacket = new Packet();
+                                    rpsls.You = name;
+                                    rpsls.Opponent = opponent;
+                                    rpsls.Situation = GameSituation.Disconnect;
+                                    DRpacket.Data = rpsls;
+                                    Comm.OutgoingMessageHandler(DRpacket);
+                                }
+                                break;
+                        }
+                    }
                     break;
 
                 case Flag.GameResponse : 
@@ -194,10 +191,8 @@ namespace Client
 
                         switch (con4.Situation)
                         {
-                            case GameSituation.Connect :
-                                                                
+                            case GameSituation.Connect :                                                                
                                 StartNewConnect4(con4.Opponent, con4.ItIsYourTurn);
-
                                 connect4.start(con4.ItIsYourTurn);
                                 break;
 
@@ -210,21 +205,20 @@ namespace Client
                         }
                     }
 
-                    //if (packet.Data is RPSLS)
-                    //{
-                    //    RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
-                    //    switch (rpsls.Situation)
-                    //    {
-                    //        case GameSituation.Connect:
-                    //            tabController.SelectTab(opponent);
-                    //            StartNewRpsls(opponent,false);                                
-                    //            break;
+                    if (packet.Data is RockPaperScissorsLizardSpock)
+                    {
+                        RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+                        switch (rpsls.Situation)
+                        {
+                            case GameSituation.Connect:
+                                StartNewRpsls(opponent);
+                                break;
 
-                    //        case GameSituation.Disconnect:
-                    //            labelSituation.Text = "Game afgewezen";
-                    //            break;
-                    //    }
-                    //}
+                            case GameSituation.Disconnect:
+                                labelSituation.Text = "Game afgewezen";
+                                break;
+                        }
+                    }
                     break;
 
                 case Flag.Connect4:
@@ -270,84 +264,74 @@ namespace Client
                             this.Invoke(new MethodInvoker(() =>
                             {
                                 labelSituation.Text = "Playing...";
-                                labelSituation2.Text = "Your Move";
+
                                 if (connect_four.SetPlayedBy != name)
                                     connect4.Play(packet);
+                                else
+                                    labelSituation2.Text = "Your Move";
+                                
                             }));
                             break;
                     }
                     break;
 
-                //case Flag.RPSLS:
-                //    RockPaperScissorsLizardSpock ropasilisp = packet.Data as RockPaperScissorsLizardSpock;
-                //    GameSituation game = ropasilisp.Situation;
-                //    Hands myhand = ropasilisp.YourHand;
-                //    Hands opponenthand = ropasilisp.OpponentHand;
-                //    opponent = ropasilisp.You;
+                case Flag.RPSLS:
+                    RockPaperScissorsLizardSpock ropasilisp = packet.Data as RockPaperScissorsLizardSpock;
+                    GameSituation game = ropasilisp.Situation;
+                    Hands myhand = ropasilisp.YourHand;
+                    Hands opponenthand = ropasilisp.OpponentHand;
+                    opponent = ropasilisp.You;
+                                        
+                    labelSituation.Text = "You chose " + myhand;
+                    labelSituation2.Text = "Other player chose " + opponenthand;
+    
+                switch (game)
+                    {
+                        case GameSituation.Disconnect:
+                            {
+                                if (openGames.ContainsKey(opponent))
+                                    openGames.Remove(opponent);
 
-                //    labelSituation2.Text = "Other player chose " + opponenthand;
-                //    labelSituation.Text = "You chose " + myhand;
-                //    switch (game)
-                //    {
-                //        case GameSituation.Disconnect:
-                //            {
-                //                if (openGames.ContainsKey(opponent))
-                //                    openGames.Remove(opponent);
-                //                panelGame1.Controls.Clear();
-                //            }
-                //            buttonRpsls.Enabled = true;
-                //            panelGame1.Controls.Clear();
-                //            break;
+                                panelGame1.Controls.Clear();
+                            }
+                            buttonRpsls.Enabled = true;
+                            break;
 
-                //        case GameSituation.Tie:
-                //            labelSituation2.Text = "It's a Tie";
-                //            labelSituation.Text = "";
-                //            newGame = new NewGame();
-                //            if (newGame.ShowDialog() == DialogResult.OK)
-                //            {
-                //                StartNewRpsls(opponent);
-                //            }
-                //            else
-                //            {
-                //                if (openGames.ContainsKey(opponent))
-                //                    openGames.Remove(opponent);
-                //                panelGame1.Controls.Clear();
-                //            }
-                //            break;
+                        case GameSituation.Tie:
+                            labelSituation2.Text = "It's a Tie";
+                            labelSituation.Text = "";
+                            
+                            if (openGames.ContainsKey(opponent))
+                                openGames.Remove(opponent);
+                                
+                            panelGame1.Controls.Clear();                            
+                            break;
 
-                //        case GameSituation.Loss:
-                //            labelSituation2.Text = "You lost...";
-                //            labelSituation.Text = "";
-                //            newGame = new NewGame();
-                //            if (newGame.ShowDialog() == DialogResult.OK)
-                //            {
-                //                StartNewRpsls(opponent);
-                //            }
-                //            else
-                //            {
-                //                if (openGames.ContainsKey(opponent))
-                //                    openGames.Remove(opponent);
-                //                panelGame1.Controls.Clear();
-                //            }
-                //            break;
+                        case GameSituation.Loss:
+                            labelSituation2.Text = "You lost...";
+                            labelSituation.Text = "";
+                            newGame = new NewGame();
+                            if (newGame.ShowDialog() == DialogResult.OK)
+                            {
+                                sendRpslsRequest();
+                            }
+                            else
+                            {
+                                if (openGames.ContainsKey(opponent))
+                                    openGames.Remove(opponent);
+                                panelGame1.Controls.Clear();
+                            }
+                            break;
 
-                //        case GameSituation.Win:
-                //            labelSituation2.Text = "YOU WON!!!";
-                //            labelSituation.Text = "";
-                //            newGame = new NewGame();
-                //            if (newGame.ShowDialog() == DialogResult.OK)
-                //            {
-                //                StartNewRpsls(opponent);
-                //            }
-                //            else
-                //            {
-                //                if (openGames.ContainsKey(opponent))
-                //                    openGames.Remove(opponent);
-                //                panelGame1.Controls.Clear();
-                //            }
-                //            break;
-                //    }
+                        case GameSituation.Win:
+                            labelSituation2.Text = "YOU WON!!!";
+                            labelSituation.Text = "";
 
+                             if (openGames.ContainsKey(opponent))
+                                openGames.Remove(opponent);
+                            panelGame1.Controls.Clear();
+                            break;
+                    }
                     break;
 
                 case Flag.HandshakeResponse: 
@@ -439,28 +423,33 @@ namespace Client
             Comm.OutgoingMessageHandler(packet);
         }
 
-        //public void StartNewRpsls(string opp)
-        //{
-        //    this.Invoke(new MethodInvoker(() =>
-        //    {
-        //        tabController.SelectTab(opp);
-        //        panelGame1.Controls.Clear();
-        //        RPSLS rpsls = new RPSLS(name, opp);
-        //        rpsls.RPSLSChoice += rpsls_RPSLSChoice;
+        public void StartNewRpsls(string opp)
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                tabController.SelectTab(opp);
 
-        //        panelGame1.Controls.Add(rpsls);
-        //        labelSituation.Text = "...starting game";
-        //        if (openGames.ContainsKey(opp))
-        //            openGames.Remove(opp);
-        //        openGames.Add(opp, "rpsls");
-        //        buttonRpsls.Enabled = false;
-        //    }));
-        //}
+                panelGame1.Controls.Clear();
+                RPSLS rpsls = new RPSLS(name, opp);
+                rpsls.RPSLSChoice += rpsls_RPSLSChoice;
+
+                panelGame1.Controls.Add(rpsls);
+                labelSituation.Text = "...starting game";
+
+                if (openGames.ContainsKey(opp))
+                    openGames.Remove(opp);
+
+                openGames.Add(opp, "rpsls");
+                buttonRpsls.Enabled = false;
+            }));
+        }
 
         public void StartNewConnect4(string opp,bool turn)
         {
             this.Invoke(new MethodInvoker(() =>
             {
+                tabController.SelectTab(opp);
+
                 panelGame1.Controls.Clear();
                 connect4 = new Connect4(name, opp);                
                 connect4.connect4SChoice += connect4_connect4Choice;
@@ -487,14 +476,14 @@ namespace Client
             Comm.OutgoingMessageHandler(packet);
         }
 
-        //public void rpsls_RPSLSChoice(Packet packet)
-        //{
-        //    RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
-        //    Hands hand = rpsls.YourHand;
-        //    labelSituation.Text = "You chose " + hand.ToString();
-        //    labelSituation2.Text = "...waiting for other player";
-        //    Comm.OutgoingMessageHandler(packet);
-        //}        
+        public void rpsls_RPSLSChoice(Packet packet)
+        {
+            RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+            Hands hand = rpsls.YourHand;
+            labelSituation.Text = "You chose " + hand.ToString();
+            labelSituation2.Text = "...waiting for other player";
+            Comm.OutgoingMessageHandler(packet);
+        }        
 
         private void textChat_KeyPress(object sender, KeyPressEventArgs e)
         {
