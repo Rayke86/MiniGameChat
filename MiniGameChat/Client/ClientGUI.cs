@@ -424,14 +424,19 @@ namespace Client
         {
             if (tabController.SelectedTab.Name != broadcast)
             {
-                string opp = tabController.SelectedTab.Name;
-                RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opp, GameSituation.Connect);
-                Packet packet = new Packet();
-                packet.Flag = Flag.GameRequest;
-                packet.Data = rpsls;
-                Comm.OutgoingMessageHandler(packet);
+                sendRpslsRequest();
             }
             buttonConnect4.Enabled = false;
+        }
+
+        public void sendRpslsRequest()
+        {
+            string opp = tabController.SelectedTab.Name;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opp, GameSituation.Connect);
+            Packet packet = new Packet();
+            packet.Flag = Flag.GameRequest;
+            packet.Data = rpsls;
+            Comm.OutgoingMessageHandler(packet);
         }
 
         //public void StartNewRpsls(string opp)
