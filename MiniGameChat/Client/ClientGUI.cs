@@ -188,15 +188,21 @@ namespace Client
                     if(packet.Data is ConnectFour)
                     {
                         ConnectFour con4 = packet.Data as ConnectFour;
+                        Console.WriteLine("gameresponse");
+
                         switch (con4.Situation)
                         {
                             case GameSituation.Connect :
-                                tabController.SelectTab(con4.Opponent);
+                                Console.WriteLine("connect");
+                                                                
                                 StartNewConnect4(con4.Opponent);
+
                                 connect4.start(con4.ItIsYourTurn);
                                 break;
 
-                            case GameSituation.Disconnect: 
+                            case GameSituation.Disconnect:
+                                Console.WriteLine("disconnect");
+
                                 labelSituation.Text = "Game afgewezen";
                                 break;
                         }
@@ -442,6 +448,7 @@ namespace Client
         {
             this.Invoke(new MethodInvoker(() =>
             {
+                tabController.SelectTab(opp);
                 panelGame1.Controls.Clear();
                 RPSLS rpsls = new RPSLS(name, opp);
                 rpsls.RPSLSChoice += rpsls_RPSLSChoice;
@@ -457,6 +464,7 @@ namespace Client
 
         public void StartNewConnect4(string opp)
         {
+            Console.WriteLine("In Start new connect 4");
             this.Invoke(new MethodInvoker(() =>
             {
                 panelGame1.Controls.Clear();
