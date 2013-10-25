@@ -48,14 +48,12 @@ namespace Server
                 {
                     clientHandler.send(packet);
                 }
-                Console.WriteLine("{0} BROADCAST :: '{1}'", msg.Sender, msg.Message);
             }
             else
             {
                 ClientHandler clientHandler = onlineUsers[msg.Receiver];
                 clientHandler.send(packet);
                 client.send(packet);
-                Console.WriteLine("{0} to {1} :: '{2}'", msg.Sender, msg.Receiver, msg.Message);
             }
         }
 
@@ -192,11 +190,13 @@ namespace Server
                         }
                         Random r = new Random();
                         int starting = r.Next(0, 2);
-                        foreach(string player in c4game.Players)
+                        for (int i = 0; i < c4game.Players.Count; i++)
                         {
-                            c4data.ItIsYourTurn = starting == c4game.Players.IndexOf(player);
+                            c4data.ItIsYourTurn = starting == c4game.Players.IndexOf(c4game.Players[i]);
+                            c4data.You = c4game.Players[i];
+                            c4data.Opponent = c4game.Players[(i + 1)%2];
                             packet.Data = c4data;
-                            onlineUsers[player].send(packet);
+                            onlineUsers[c4game.Players[i]].send(packet);
                         }
                     }
                     break;
@@ -224,6 +224,13 @@ namespace Server
                         foreach (string player in rpslsGame.Players)
                         {
                             onlineUsers[player].send(packet);
+                        }
+                        for (int i = 0; i < rpslsGame.Players.Count; i++)
+                        {
+                            rpslsData.You = rpslsGame.Players[i];
+                            rpslsData.Opponent = rpslsGame.Players[(i + 1) % 2];
+                            packet.Data = rpslsData;
+                            onlineUsers[rpslsGame.Players[i]].send(packet);
                         }
                     }
                     break;
