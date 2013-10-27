@@ -136,21 +136,21 @@ namespace Server
             //check from topLeft to bottomRight:
             for (int startX = 0; startX < game.Count-3; startX++)
             {
-                for (int startY = 0; startY < game[0].Count-2; startY++)
+                for (int startY = 0; startY < game[0].Count-3; startY++)
                 {
-                    if (game[startX][startY] == player && 
-                        game[startX+1][startY+1] == player && 
-                        game[startX+2][startY+2] == player && 
-                        game[startX+3][startY+3] == player)
+                    if (game[startX][startY] == player &&
+                        game[startX + 1][startY + 1] == player &&
+                        game[startX + 2][startY + 2] == player &&
+                        game[startX + 3][startY + 3] == player)
                     {
                         return true;
                     }
                 }
             }
             //check from topRight to bottomLeft:
-            for (int startX = 7; startX > 3; startX--)
+            for (int startX = 7; startX > 2; startX--)
             {
-                for (int startY = 0; startY < game[0].Count - 2; startY++)
+                for (int startY = 0; startY < game[0].Count - 3; startY++)
                 {
                     if (game[startX][startY] == player &&
                         game[startX - 1][startY + 1] == player &&
