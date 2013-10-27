@@ -133,58 +133,32 @@ namespace Server
 
         private bool checkDiagonal(int player)
         {
-            int boundXmin = 0;
-            int boundXmax = game.Count-1;
-            int boundYmin = 0;
-            int boundYmax = game[0].Count-1;
             //check from topLeft to bottomRight:
-            for (int startY = boundYmin; startY < boundYmax-3; startY++)
+            for (int startX = 0; startX < game.Count-3; startX++)
             {
-                for (int startX = boundXmax; startX >= 0; startX--)
+                for (int startY = 0; startY < game[0].Count-2; startY++)
                 {
-                    int inDiagonal = 0;
-                    int checkX = startX;
-                    int checkY = startY;
-                    if (game[startX][startY] == player)
-                        inDiagonal++;
-                    while ((checkX >= boundXmin && 
-                            checkX <= boundXmax && 
-                            checkY >= boundYmin && 
-                            checkY <= boundYmax) &&
-                            checkX > startX-4)
+                    if (game[startX][startY] == player && 
+                        game[startX+1][startY+1] == player && 
+                        game[startX+2][startY+2] == player && 
+                        game[startX+3][startY+3] == player)
                     {
-                        if (game[checkX][checkY] == player)
-                            inDiagonal++;
-                        checkX--;
-                        checkY++;
-                    }
-                    if(inDiagonal == 4)
                         return true;
+                    }
                 }
             }
             //check from topRight to bottomLeft:
-            for (int startY = 0; startY < 3; startY++)
+            for (int startX = 7; startX > 3; startX--)
             {
-                for (int startX = 0; startX <= 7; startX++)
+                for (int startY = 0; startY < game[0].Count - 2; startY++)
                 {
-                    int inDiagonal = 0;
-                    int checkX = startX - 1;
-                    int checkY = startY + 1;
-                    if (game[startX][startY] == player)
-                        inDiagonal++;
-                    while ((checkX >= boundXmin &&
-                            checkX <= boundXmax &&
-                            checkY >= boundYmin &&
-                            checkY <= boundYmax) &&
-                            checkX < startX + 4)
+                    if (game[startX][startY] == player &&
+                        game[startX - 1][startY + 1] == player &&
+                        game[startX - 2][startY + 2] == player &&
+                        game[startX - 3][startY + 3] == player)
                     {
-                        if (game[checkX][checkY] == player)
-                            inDiagonal++;
-                        checkX++;
-                        checkY++;
-                    }
-                    if (inDiagonal == 4)
                         return true;
+                    }
                 }
             }
             return false;
