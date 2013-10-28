@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using PacketLibrary;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Client
 {
@@ -45,7 +46,24 @@ namespace Client
             panelGame1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;   
          
             buttonConnect4.Enabled = false;
-                buttonRpsls.Enabled = false;
+            buttonRpsls.Enabled = false;
+
+            this.BackgroundImage = getImage("eclipse");
+        }
+
+        public Image getImage(string img)
+        {
+            Image image = null;
+
+            try
+            {
+                image = Image.FromFile("../../Images/" + img + ".gif");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return image;
         }
 
         public void addPages(string name)
@@ -142,7 +160,7 @@ namespace Client
                         {
                             case GameSituation.Connect : 
                             newGame = new NewGame();
-                            newGame.setLabel(opponent + " verzoekt om " + Environment.NewLine + " Connect 4 te spelen");
+                            newGame.setLabel(opponent + " verzoekt om " + Environment.NewLine + " Connect 4" + Environment.NewLine + "te spelen");
                             if(newGame.ShowDialog() == DialogResult.OK)
                             {
                                 packet = new Packet();
@@ -174,7 +192,7 @@ namespace Client
                         {
                             case GameSituation.Connect:
                                 newGame = new NewGame();
-                                newGame.setLabel(opponent + " verzoekt om" + Environment.NewLine + " RockPaperScissorsLizardSpock te spelen");
+                                newGame.setLabel(opponent + " verzoekt om" + Environment.NewLine + "RockPaperScissorsLizardSpock" + Environment.NewLine + "te spelen");
                                 if (newGame.ShowDialog() == DialogResult.OK)
                                 {
                                     packet = new Packet();
