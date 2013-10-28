@@ -33,7 +33,6 @@ namespace Server
                         x => x.Key,
                         y => y.Value
                         ));
-                    //ChosenHands = new Dictionary<string, Hands>();
                 }
             }
         }
@@ -188,6 +187,11 @@ namespace Server
                 //g.OpponentHand = Rounds.Last()[Players[(i+1)%Players.Count]];
                 packet.Data = g;
                 serverMain.SendResolvedGameSituation(Players[i], packet);
+
+                if (situation == GameSituation.Win || situation == GameSituation.Tie || situation == GameSituation.Loss)
+                {
+                    serverMain.RemoveGame(this);
+                }
             }
         }
     }

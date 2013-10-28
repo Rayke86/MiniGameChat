@@ -94,6 +94,11 @@ namespace Server
                 g.ItIsYourTurn = (lastSet.SetPlayedBy != Players[i]);
                 packet.Data = g;
                 serverMain.SendResolvedGameSituation(Players[i], packet);
+
+                if (situation == GameSituation.Win || situation == GameSituation.Tie || situation == GameSituation.Loss)
+                {
+                    serverMain.RemoveGame(this);
+                }
             }
         }
 
