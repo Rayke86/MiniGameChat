@@ -34,7 +34,6 @@
             this.tabController = new System.Windows.Forms.TabControl();
             this.panelGame = new System.Windows.Forms.Panel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.buttonForfeit = new System.Windows.Forms.Button();
             this.labelSituation2 = new System.Windows.Forms.Label();
             this.labelSituation = new System.Windows.Forms.Label();
             this.buttonConnect4 = new System.Windows.Forms.Button();
@@ -123,7 +122,6 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.buttonForfeit);
             this.splitContainer2.Panel1.Controls.Add(this.labelSituation2);
             this.splitContainer2.Panel1.Controls.Add(this.labelSituation);
             this.splitContainer2.Panel1.Controls.Add(this.buttonConnect4);
@@ -135,16 +133,6 @@
             this.splitContainer2.Size = new System.Drawing.Size(949, 762);
             this.splitContainer2.SplitterDistance = 105;
             this.splitContainer2.TabIndex = 0;
-            // 
-            // buttonForfeit
-            // 
-            this.buttonForfeit.Location = new System.Drawing.Point(862, 42);
-            this.buttonForfeit.Name = "buttonForfeit";
-            this.buttonForfeit.Size = new System.Drawing.Size(75, 23);
-            this.buttonForfeit.TabIndex = 4;
-            this.buttonForfeit.Text = "Opgeven";
-            this.buttonForfeit.UseVisualStyleBackColor = true;
-            this.buttonForfeit.Click += new System.EventHandler(this.buttonForfeit_Click);
             // 
             // labelSituation2
             // 
@@ -229,7 +217,6 @@
         private System.Windows.Forms.Button buttonRpsls;
         private System.Windows.Forms.Label labelSituation;
         private System.Windows.Forms.Label labelSituation2;
-        private System.Windows.Forms.Button buttonForfeit;
     }
 }
 

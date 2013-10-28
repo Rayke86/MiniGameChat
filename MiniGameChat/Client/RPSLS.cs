@@ -138,5 +138,14 @@ namespace Client
             if (packet != null)
                 RPSLSChoice(packet);
         }
+
+        private void buttonGiveUp_Click(object sender, EventArgs e)
+        {
+            Packet packet = new Packet();
+            packet.Flag = Flag.RPSLS;
+            RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opponent, GameSituation.Win);
+            packet.Data = rpsls;
+            OnRPSLSChoice(packet);
+        }
     }
 }

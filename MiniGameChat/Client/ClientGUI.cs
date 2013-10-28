@@ -227,7 +227,6 @@ namespace Client
                             case GameSituation.Connect :                                                                
                                 StartNewConnect4(con4.Opponent, con4.ItIsYourTurn);
                                 connect4.start(con4.ItIsYourTurn);
-                                openGames.Add(con4.Opponent, "Connect4");
                                 break;
 
                             case GameSituation.Disconnect:
@@ -279,7 +278,7 @@ namespace Client
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                SendConnect4Request();
+                                SendConnect4Request(opponent);
                             }
                             else
                             {
@@ -449,14 +448,15 @@ namespace Client
         {
             if (tabController.SelectedTab.Name != broadcast)
             {
-                SendConnect4Request();
+                string opp = tabController.SelectedTab.Name;
+                SendConnect4Request(opp);
             }
             buttonRpsls.Enabled = false;
         }
 
-        public void SendConnect4Request()
+        public void SendConnect4Request(string opp)
         {
-            string opp = tabController.SelectedTab.Name;
+            
             ConnectFour con4Request = new ConnectFour(name, opp, GameSituation.Connect);
             Packet packet = new Packet();
             packet.Flag = Flag.GameRequest;
@@ -495,6 +495,7 @@ namespace Client
 
                 panelGame1.Controls.Add(rpsls);
                 labelSituation.Text = "...starting game";
+                labelSituation2.Text = "";
 
                 if (openGames.ContainsKey(opp))
                     openGames.Remove(opp);
@@ -516,6 +517,7 @@ namespace Client
                                                 
                 panelGame1.Controls.Add(connect4);
                 labelSituation.Text = "...starting game";
+                labelSituation2.Text = "";
                 if(turn)
                     labelSituation.Text = "It's your turn";
                 else
@@ -531,17 +533,49 @@ namespace Client
 
         public void connect4_connect4Choice(Packet packet)
         {
-            labelSituation2.Text = "It's not your turn";
-            labelSituation.Text = "";
+            ConnectFour con4 = packet.Data as ConnectFour;
+            if (con4.Situation != GameSituation.Win)
+            {
+                labelSituation2.Text = "It's not your turn";
+                labelSituation.Text = "";
+            }
+            else
+            {
+                clearPanel();
+                if (openGames.ContainsKey(tabController.SelectedTab.Name))
+                {
+                    openGames.Remove(tabController.SelectedTab.Name);
+                }
+                buttonRpsls.Enabled = true;
+                buttonConnect4.Enabled = true;
+
+                EndGameLabel("");
+            }
+            
             Comm.OutgoingMessageHandler(packet);
         }
 
         public void rpsls_RPSLSChoice(Packet packet)
         {
             RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
-            Hands hand = rpsls.YourHand;
-            labelSituation.Text = "You chose " + hand.ToString();
-            labelSituation2.Text = "...waiting for other player";
+            if (rpsls.Situation != GameSituation.Win)
+            {
+                Hands hand = rpsls.YourHand;
+                labelSituation.Text = "You chose " + hand.ToString();
+                labelSituation2.Text = "...waiting for other player";
+            }
+            else
+            {
+                clearPanel();
+                if (openGames.ContainsKey(tabController.SelectedTab.Name))
+                {
+                    openGames.Remove(tabController.SelectedTab.Name);
+                }
+                buttonRpsls.Enabled = true;
+                buttonConnect4.Enabled = true;
+                
+                EndGameLabel("");
+            }
             Comm.OutgoingMessageHandler(packet);
         }        
 
@@ -577,28 +611,7 @@ namespace Client
                 buttonRpsls.Enabled = true;
                 buttonConnect4.Enabled = true;
             }
-
-        }
-
-        private void buttonForfeit_Click(object sender, EventArgs e)
-        {
-            clearPanel();
-            if (openGames.ContainsKey(tabController.SelectedTab.Name))
-            {
-                openGames.Remove(tabController.SelectedTab.Name);
-            }
-            buttonRpsls.Enabled = true;
-            buttonConnect4.Enabled = true;
-
-            string opp = tabController.SelectedTab.Name;
-
-            Packet packet = new Packet();
-            ConnectFour con4 = new ConnectFour(name, opp, GameSituation.Win);
-            packet.Flag = Flag.Connect4;
-            packet.Data = con4;
-
-            Comm.OutgoingMessageHandler(packet);
-        }
+        }        
 
         private void ClientGUI_FormClosing(object sender, FormClosingEventArgs e)
         {

@@ -331,5 +331,14 @@ namespace Client
             if (packet != null)
                 connect4SChoice(packet);
         }
+
+        private void buttonGiveUp_Click(object sender, EventArgs e)
+        {
+            Packet packet = new Packet();
+            packet.Flag = Flag.Connect4;
+            ConnectFour con4 = new ConnectFour(name, opponent, GameSituation.Win);
+            packet.Data = con4;
+            OnConnect4SChoice(packet);
+        }
     }
 }

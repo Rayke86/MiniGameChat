@@ -39,6 +39,7 @@
             this.labelCovers = new System.Windows.Forms.Label();
             this.labelCrushes = new System.Windows.Forms.Label();
             this.labelCenter = new System.Windows.Forms.Label();
+            this.buttonGiveUp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonRock
@@ -128,10 +129,21 @@
             this.labelCenter.Size = new System.Drawing.Size(410, 285);
             this.labelCenter.TabIndex = 10;
             // 
+            // buttonGiveUp
+            // 
+            this.buttonGiveUp.Location = new System.Drawing.Point(870, 5);
+            this.buttonGiveUp.Name = "buttonGiveUp";
+            this.buttonGiveUp.Size = new System.Drawing.Size(75, 30);
+            this.buttonGiveUp.TabIndex = 11;
+            this.buttonGiveUp.Text = "Opgeven";
+            this.buttonGiveUp.UseVisualStyleBackColor = true;
+            this.buttonGiveUp.Click += new System.EventHandler(this.buttonGiveUp_Click);
+            // 
             // RPSLS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonGiveUp);
             this.Controls.Add(this.labelCrushes);
             this.Controls.Add(this.labelCovers);
             this.Controls.Add(this.labelpoisons);
@@ -162,5 +174,6 @@
         private System.Windows.Forms.Label labelCovers;
         private System.Windows.Forms.Label labelCrushes;
         private System.Windows.Forms.Label labelCenter;
+        private System.Windows.Forms.Button buttonGiveUp;
     }
 }
