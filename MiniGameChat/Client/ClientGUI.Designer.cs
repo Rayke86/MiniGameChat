@@ -38,7 +38,7 @@
             this.labelSituation = new System.Windows.Forms.Label();
             this.buttonConnect4 = new System.Windows.Forms.Button();
             this.buttonRpsls = new System.Windows.Forms.Button();
-            this.panelGame1 = new System.Windows.Forms.Panel();
+            this.tabControlGame = new System.Windows.Forms.TabControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitcontainer)).BeginInit();
             this.splitcontainer.Panel1.SuspendLayout();
             this.splitcontainer.Panel2.SuspendLayout();
@@ -129,7 +129,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.panelGame1);
+            this.splitContainer2.Panel2.Controls.Add(this.tabControlGame);
             this.splitContainer2.Size = new System.Drawing.Size(949, 762);
             this.splitContainer2.SplitterDistance = 105;
             this.splitContainer2.TabIndex = 0;
@@ -166,19 +166,20 @@
             // buttonRpsls
             // 
             this.buttonRpsls.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRpsls.Location = new System.Drawing.Point(20, 12);
+            this.buttonRpsls.Location = new System.Drawing.Point(17, 12);
             this.buttonRpsls.Name = "buttonRpsls";
             this.buttonRpsls.Size = new System.Drawing.Size(200, 80);
             this.buttonRpsls.TabIndex = 0;
             this.buttonRpsls.UseVisualStyleBackColor = true;
             this.buttonRpsls.Click += new System.EventHandler(this.buttonRpsls_Click);
             // 
-            // panelGame1
+            // tabControlGame
             // 
-            this.panelGame1.Location = new System.Drawing.Point(1, 1);
-            this.panelGame1.Name = "panelGame1";
-            this.panelGame1.Size = new System.Drawing.Size(945, 649);
-            this.panelGame1.TabIndex = 0;
+            this.tabControlGame.Location = new System.Drawing.Point(3, 3);
+            this.tabControlGame.Name = "tabControlGame";
+            this.tabControlGame.SelectedIndex = 0;
+            this.tabControlGame.Size = new System.Drawing.Size(946, 647);
+            this.tabControlGame.TabIndex = 1;
             // 
             // ClientGUI
             // 
@@ -212,11 +213,11 @@
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.Panel panelGame;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.Panel panelGame1;
         private System.Windows.Forms.Button buttonConnect4;
         private System.Windows.Forms.Button buttonRpsls;
         private System.Windows.Forms.Label labelSituation;
         private System.Windows.Forms.Label labelSituation2;
+        private System.Windows.Forms.TabControl tabControlGame;
     }
 }
 

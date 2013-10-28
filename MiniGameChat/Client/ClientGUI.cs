@@ -20,6 +20,7 @@ namespace Client
         public NetworkStream NwStream;
         public List<string> onlineUserList;
         public Connect4 connect4;
+        public Panel panelGame1;
         private Dictionary<string, string> openGames;
         
         public ClientGUI(string ip, string name)
@@ -27,6 +28,7 @@ namespace Client
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
+            panelGame1 = new Panel();
             this.name = name;
             this.ip = ip;
             this.broadcast = "BROADCAST";
@@ -43,8 +45,8 @@ namespace Client
             Comm.IncommingMessageHandler += Comm_IncommingMessageHandler;
 
             buttonRpsls.Text = "Rock - Paper - Scissors -" + Environment.NewLine +"Lizard - Spock";
-            panelGame1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;   
-         
+            
+                     
             buttonConnect4.Enabled = false;
             buttonRpsls.Enabled = false;
 
@@ -77,12 +79,50 @@ namespace Client
             }));
         }
 
+        public void addGamePages(string opp, string game)
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                int number = tabControlGame.Controls.Count;
+                tabControlGame.TabPages.Add(opp);
+                tabControlGame.TabPages[number].Name = opp;
+                switch (game)
+                {
+                    case "rpsls": RPSLS rpsls = new RPSLS(name, opp);
+                        rpsls.BackColor = Color.Gray;
+                        tabControlGame.TabPages[number].Controls.Add(rpsls);
+                        tabControlGame.TabPages[number].BackColor = Color.Gray;
+                        rpsls.RPSLSChoice += rpsls_RPSLSChoice;
+                        break;
+
+                    case "connect4": connect4 = new Connect4(name, opp);
+                        connect4.BackColor = Color.Gray;
+                        tabControlGame.TabPages[number].Controls.Add(connect4);
+                        tabControlGame.TabPages[number].BackColor = Color.Gray;
+                        connect4.connect4SChoice += connect4_connect4Choice;
+                        break;
+                }
+
+            }));
+        }
+
         public void removePages(string name)
         {
             this.Invoke(new MethodInvoker(() =>
             {
                 int number = tabController.Controls.Count;
                 tabController.TabPages.RemoveByKey(name);
+            }));
+        }
+
+        public void removeGamePages(string tab)
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                if(tab != null)
+                tabControlGame.TabPages.RemoveByKey(tab);
+                buttonConnect4.Enabled = true;
+                buttonRpsls.Enabled = true;
             }));
         }
 
@@ -267,18 +307,18 @@ namespace Client
                                 openGames.Remove(opponent);
                             EndGameLabel("Disconnected");
                             buttonConnect4.Enabled = true;
-                            clearPanel();
+                            removeGamePages(opponent);
                             break;
 
                         case GameSituation.Win:
-                            clearPanel();
+                            removeGamePages(opponent);
                             EndGameLabel("You WON!!!");
                             break;
 
                         case GameSituation.Loss:
                             playingConnect4(connect_four, packet);
                             EndGameLabel("You Lost...");
-                            clearPanel();
+                            removeGamePages(opponent);
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
@@ -296,7 +336,7 @@ namespace Client
                             if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
 
-                            clearPanel();
+                            removeGamePages(opponent);
 
                             buttonConnect4.Enabled = true;
                             buttonRpsls.Enabled = true;
@@ -322,13 +362,13 @@ namespace Client
                                 if (openGames.ContainsKey(opponent))
                                     openGames.Remove(opponent);
 
-                                clearPanel();
+                                removeGamePages(opponent);
                             }
                             buttonRpsls.Enabled = true;
                             break;
 
                         case GameSituation.Tie:
-                            clearPanel();
+                            removeGamePages(opponent);
                             EndGameLabel("It's a Tie");
                             
                             if (openGames.ContainsKey(opponent))
@@ -340,7 +380,7 @@ namespace Client
                             break;
 
                         case GameSituation.Loss:
-                            clearPanel();
+                            removeGamePages(opponent);
                             EndGameLabel("You Lost...");                            
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
@@ -355,7 +395,7 @@ namespace Client
                             break;
 
                         case GameSituation.Win:
-                            clearPanel();
+                            removeGamePages(opponent);
                             EndGameLabel("You WON!!!");
                              if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
@@ -402,6 +442,7 @@ namespace Client
 
                 if (connect_four.SetPlayedBy != name)
                 {
+                    tabControlGame.SelectTab(connect_four.Opponent);
                     connect4.Play(packet);
                     labelSituation2.Text = "Your Move";
                 }
@@ -432,8 +473,10 @@ namespace Client
             }));
         }
 
-        private void clearPanel()
+        private void clearPanel(string opp)
         {
+            removeGamePages(opp);
+            
             this.Invoke(new MethodInvoker(() =>
             {
                 if(panelGame1 != null)
@@ -499,11 +542,11 @@ namespace Client
             {
                 tabController.SelectTab(opp);
 
-                clearPanel();
-                RPSLS rpsls = new RPSLS(name, opp);
-                rpsls.RPSLSChoice += rpsls_RPSLSChoice;
+                if (tabControlGame.TabPages.ContainsKey(opp))
+                    removeGamePages(opp);
+                //RPSLS rpsls = new RPSLS(name, opp);              
 
-                panelGame1.Controls.Add(rpsls);
+                addGamePages(opp, "rpsls");
                 labelSituation.Text = "...starting game";
                 labelSituation2.Text = "";
 
@@ -520,12 +563,10 @@ namespace Client
             this.Invoke(new MethodInvoker(() =>
             {
                 tabController.SelectTab(opp);
+                removeGamePages(opponent);              
 
-                clearPanel();
-                connect4 = new Connect4(name, opp);                
-                connect4.connect4SChoice += connect4_connect4Choice;
-                                                
-                panelGame1.Controls.Add(connect4);
+                addGamePages(opp,"connect4");
+
                 labelSituation.Text = "...starting game";
                 labelSituation2.Text = "";
                 if(turn)
@@ -551,10 +592,10 @@ namespace Client
             }
             else
             {
-                clearPanel();
-                if (openGames.ContainsKey(tabController.SelectedTab.Name))
+                removeGamePages(con4.Opponent);
+                if (openGames.ContainsKey(con4.Opponent))
                 {
-                    openGames.Remove(tabController.SelectedTab.Name);
+                    openGames.Remove(con4.Opponent);
                 }
                 buttonRpsls.Enabled = true;
                 buttonConnect4.Enabled = true;
@@ -576,10 +617,10 @@ namespace Client
             }
             else
             {
-                clearPanel();
-                if (openGames.ContainsKey(tabController.SelectedTab.Name))
+                removeGamePages(rpsls.Opponent);
+                if (openGames.ContainsKey(rpsls.Opponent))
                 {
-                    openGames.Remove(tabController.SelectedTab.Name);
+                    openGames.Remove(rpsls.Opponent);
                 }
                 buttonRpsls.Enabled = true;
                 buttonConnect4.Enabled = true;
@@ -615,6 +656,11 @@ namespace Client
                         buttonConnect4.Enabled = false;
                         break;
                 }
+            }
+            else if (tabController.SelectedTab.Name == broadcast)
+            {
+                buttonRpsls.Enabled = false;
+                buttonConnect4.Enabled = false;
             }
             else
             {
