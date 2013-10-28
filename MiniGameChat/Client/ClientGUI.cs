@@ -156,6 +156,7 @@ namespace Client
                     {
                         ConnectFour con4 = packet.Data as ConnectFour;
                         opponent = con4.You;
+                        EndGameLabel("");
                         switch (con4.Situation)
                         {
                             case GameSituation.Connect : 
@@ -188,11 +189,12 @@ namespace Client
                     {
                         RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
                         opponent = rpsls.You;
+                        EndGameLabel("");
                         switch (rpsls.Situation)
                         {
                             case GameSituation.Connect:
                                 newGame = new NewGame();
-                                newGame.setLabel(opponent + " verzoekt om" + Environment.NewLine + "RockPaperScissorsLizardSpock" + Environment.NewLine + "te spelen");
+                                newGame.setLabel(opponent + " verzoekt om" + Environment.NewLine + "Rock-Paper-Scissors-Lizard-Spock" + Environment.NewLine + "te spelen");
                                 if (newGame.ShowDialog() == DialogResult.OK)
                                 {
                                     packet = new Packet();
@@ -221,7 +223,7 @@ namespace Client
                     if(packet.Data is ConnectFour)
                     {
                         ConnectFour con4 = packet.Data as ConnectFour;
-
+                        EndGameLabel("");
                         switch (con4.Situation)
                         {
                             case GameSituation.Connect :                                                                
@@ -240,6 +242,7 @@ namespace Client
                     if (packet.Data is RockPaperScissorsLizardSpock)
                     {
                         RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
+                        EndGameLabel("");
                         switch (rpsls.Situation)
                         {
                             case GameSituation.Connect:
@@ -256,12 +259,13 @@ namespace Client
                 case Flag.Connect4:
                     ConnectFour connect_four = packet.Data as ConnectFour;
                     opponent = connect_four.Opponent;
-
+                    EndGameLabel("Playing...");
                     switch (connect_four.Situation)
                     {                        
                         case GameSituation.Disconnect:
                             if(openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
+                            EndGameLabel("Disconnected");
                             buttonConnect4.Enabled = true;
                             clearPanel();
                             break;
@@ -291,6 +295,8 @@ namespace Client
                             
                             if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
+
+                            clearPanel();
 
                             buttonConnect4.Enabled = true;
                             buttonRpsls.Enabled = true;
@@ -326,7 +332,9 @@ namespace Client
                             
                             if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
-                        
+
+                            clearPanel();
+
                             buttonConnect4.Enabled = true;
                             buttonRpsls.Enabled = true;
                         
@@ -344,7 +352,7 @@ namespace Client
                             else
                             {
                                 if (openGames.ContainsKey(opponent))
-                                    openGames.Remove(opponent);                                
+                                    openGames.Remove(opponent);
                             }
                             break;
 
@@ -432,6 +440,10 @@ namespace Client
             {
                 if(panelGame1 != null)
                     panelGame1.Controls.Clear();
+
+                EndGameLabel("");
+                buttonConnect4.Enabled = true;
+                buttonRpsls.Enabled = true;
             }));
         }
 

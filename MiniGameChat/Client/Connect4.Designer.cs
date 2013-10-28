@@ -37,7 +37,7 @@
             this.buttonGiveUp.Name = "buttonGiveUp";
             this.buttonGiveUp.Size = new System.Drawing.Size(75, 30);
             this.buttonGiveUp.TabIndex = 0;
-            this.buttonGiveUp.Text = "Opgeven";
+            this.buttonGiveUp.Text = "Concede";
             this.buttonGiveUp.UseVisualStyleBackColor = true;
             this.buttonGiveUp.Click += new System.EventHandler(this.buttonGiveUp_Click);
             // 

@@ -15,6 +15,8 @@ namespace Client
         public ChatPanel()
         {
             InitializeComponent();
+            textBox.BackColor = Color.LightGray;
+            textBox.ForeColor = Color.Black;
             textBox.Enabled = false;
         }
 

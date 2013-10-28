@@ -47,6 +47,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.Controls.Add(this.textBox);
             this.Name = "ChatPanel";
             this.Size = new System.Drawing.Size(325, 477);

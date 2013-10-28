@@ -219,6 +219,7 @@ namespace Client
                             {
                                 forSending(column, 1);
                                 isMyTurn = false;
+                                Y = 100;
                             }
                             done = true;
                         }
@@ -233,6 +234,7 @@ namespace Client
                             {
                                 forSending(column,2);
                                 isMyTurn = false;
+                                Y = 100;
                             }
                             done = true;
                         }
@@ -247,6 +249,7 @@ namespace Client
                             {
                                 forSending(column,3);
                                 isMyTurn = false;
+                                Y = 100;
                             }
                             done = true;
                         }
@@ -261,6 +264,7 @@ namespace Client
                             {
                                 forSending(column,4);
                                 isMyTurn = false;
+                                Y = 100;
                             }
                             done = true;
                         }
@@ -275,6 +279,7 @@ namespace Client
                             {
                                 forSending(column,5);
                                 isMyTurn = false;
+                                Y = 100;
                             }
                             done = true;
                         }
@@ -289,6 +294,7 @@ namespace Client
                             {
                                 forSending(column,6);
                                 isMyTurn = false;
+                                Y = 100;
                             }
                             done = true;
                         }

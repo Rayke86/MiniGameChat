@@ -137,7 +137,7 @@
             // labelSituation2
             // 
             this.labelSituation2.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSituation2.ForeColor = System.Drawing.Color.Red;
+            this.labelSituation2.ForeColor = System.Drawing.Color.Black;
             this.labelSituation2.Location = new System.Drawing.Point(506, 63);
             this.labelSituation2.Name = "labelSituation2";
             this.labelSituation2.Size = new System.Drawing.Size(307, 29);
@@ -146,7 +146,7 @@
             // labelSituation
             // 
             this.labelSituation.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSituation.ForeColor = System.Drawing.Color.Red;
+            this.labelSituation.ForeColor = System.Drawing.Color.Black;
             this.labelSituation.Location = new System.Drawing.Point(506, 21);
             this.labelSituation.Name = "labelSituation";
             this.labelSituation.Size = new System.Drawing.Size(307, 29);
