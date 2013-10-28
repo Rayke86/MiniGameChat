@@ -328,12 +328,11 @@ namespace Client
                             break;
 
                         case GameSituation.Tie:
+                            clearPanel();
                             EndGameLabel("It's a Tie");
                             
                             if (openGames.ContainsKey(opponent))
-                                openGames.Remove(opponent);
-
-                            clearPanel();
+                                openGames.Remove(opponent);                            
 
                             buttonConnect4.Enabled = true;
                             buttonRpsls.Enabled = true;
@@ -342,8 +341,8 @@ namespace Client
                             break;
 
                         case GameSituation.Loss:
-                            EndGameLabel("You Lost...");
                             clearPanel();
+                            EndGameLabel("You Lost...");                            
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
@@ -357,11 +356,11 @@ namespace Client
                             break;
 
                         case GameSituation.Win:
+                            clearPanel();
                             EndGameLabel("You WON!!!");
-
                              if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
-                             clearPanel();
+                             
                             break;
                     }
                     break;
