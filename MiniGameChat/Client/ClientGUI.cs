@@ -246,17 +246,18 @@ namespace Client
                             if(openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
                             buttonConnect4.Enabled = true;
-                            panelGame1.Controls.Clear();
+                            clearPanel();
                             break;
 
                         case GameSituation.Win:
-                            panelGame1.Controls.Clear();
+                            clearPanel();
                             EndGameLabel("You WON!!!");
                             break;
 
                         case GameSituation.Loss:
                             playingConnect4(connect_four, packet);
                             EndGameLabel("You Lost...");
+                            clearPanel();
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
@@ -265,8 +266,7 @@ namespace Client
                             else
                             {
                                 if (openGames.ContainsKey(opponent))
-                                    openGames.Remove(opponent);
-                                panelGame1.Controls.Clear();
+                                    openGames.Remove(opponent);                                
                             }
                             break;
                         case GameSituation.Tie:
@@ -297,7 +297,7 @@ namespace Client
                                 if (openGames.ContainsKey(opponent))
                                     openGames.Remove(opponent);
 
-                                panelGame1.Controls.Clear();
+                                clearPanel();
                             }
                             buttonRpsls.Enabled = true;
                             break;
@@ -308,8 +308,8 @@ namespace Client
                             
                             if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
-                                
-                            panelGame1.Controls.Clear();                            
+
+                            clearPanel();                            
                             break;
 
                         case GameSituation.Loss:
@@ -323,7 +323,7 @@ namespace Client
                             {
                                 if (openGames.ContainsKey(opponent))
                                     openGames.Remove(opponent);
-                                panelGame1.Controls.Clear();
+                                clearPanel();
                             }
                             break;
 
@@ -332,7 +332,7 @@ namespace Client
 
                              if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
-                            panelGame1.Controls.Clear();
+                             clearPanel();
                             break;
                     }
                     break;
@@ -376,10 +376,10 @@ namespace Client
                 if (connect_four.SetPlayedBy != name)
                 {
                     connect4.Play(packet);
-                    labelSituation2.Text = "Opponent's Move";
+                    labelSituation2.Text = "Your Move";
                 }
                 else
-                    labelSituation2.Text = "Your Move";
+                    labelSituation2.Text = "Opponent's  Move";
 
             }));
         }
@@ -402,6 +402,14 @@ namespace Client
                     ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
                     panel.addChat(sender + " : " + text);
                 }
+            }));
+        }
+
+        private void clearPanel()
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                panelGame1.Controls.Clear();
             }));
         }
 
@@ -458,7 +466,7 @@ namespace Client
             {
                 tabController.SelectTab(opp);
 
-                panelGame1.Controls.Clear();
+                clearPanel();
                 RPSLS rpsls = new RPSLS(name, opp);
                 rpsls.RPSLSChoice += rpsls_RPSLSChoice;
 
@@ -479,7 +487,7 @@ namespace Client
             {
                 tabController.SelectTab(opp);
 
-                panelGame1.Controls.Clear();
+                clearPanel();
                 connect4 = new Connect4(name, opp);                
                 connect4.connect4SChoice += connect4_connect4Choice;
                                                 
@@ -551,7 +559,7 @@ namespace Client
 
         private void buttonForfeit_Click(object sender, EventArgs e)
         {
-            panelGame1.Controls.Clear();
+            clearPanel();
             if (openGames.ContainsKey(tabController.SelectedTab.Name))
             {
                 openGames.Remove(tabController.SelectedTab.Name);

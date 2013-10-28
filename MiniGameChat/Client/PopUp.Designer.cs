@@ -94,7 +94,7 @@
             this.textBoxIP.Name = "textBoxIP";
             this.textBoxIP.Size = new System.Drawing.Size(110, 23);
             this.textBoxIP.TabIndex = 4;
-            this.textBoxIP.Text = "localhost";
+            this.textBoxIP.Text = "145.48.133..37";
             // 
             // buttonOK
             // 
