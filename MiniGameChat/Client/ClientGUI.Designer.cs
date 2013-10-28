@@ -34,12 +34,12 @@
             this.tabController = new System.Windows.Forms.TabControl();
             this.panelGame = new System.Windows.Forms.Panel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.buttonForfeit = new System.Windows.Forms.Button();
             this.labelSituation2 = new System.Windows.Forms.Label();
             this.labelSituation = new System.Windows.Forms.Label();
             this.buttonConnect4 = new System.Windows.Forms.Button();
             this.buttonRpsls = new System.Windows.Forms.Button();
             this.panelGame1 = new System.Windows.Forms.Panel();
-            this.buttonForfeit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitcontainer)).BeginInit();
             this.splitcontainer.Panel1.SuspendLayout();
             this.splitcontainer.Panel2.SuspendLayout();
@@ -136,6 +136,16 @@
             this.splitContainer2.SplitterDistance = 105;
             this.splitContainer2.TabIndex = 0;
             // 
+            // buttonForfeit
+            // 
+            this.buttonForfeit.Location = new System.Drawing.Point(862, 42);
+            this.buttonForfeit.Name = "buttonForfeit";
+            this.buttonForfeit.Size = new System.Drawing.Size(75, 23);
+            this.buttonForfeit.TabIndex = 4;
+            this.buttonForfeit.Text = "Opgeven";
+            this.buttonForfeit.UseVisualStyleBackColor = true;
+            this.buttonForfeit.Click += new System.EventHandler(this.buttonForfeit_Click);
+            // 
             // labelSituation2
             // 
             this.labelSituation2.Font = new System.Drawing.Font("Consolas", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -182,16 +192,6 @@
             this.panelGame1.Size = new System.Drawing.Size(945, 649);
             this.panelGame1.TabIndex = 0;
             // 
-            // buttonForfeit
-            // 
-            this.buttonForfeit.Location = new System.Drawing.Point(862, 42);
-            this.buttonForfeit.Name = "buttonForfeit";
-            this.buttonForfeit.Size = new System.Drawing.Size(75, 23);
-            this.buttonForfeit.TabIndex = 4;
-            this.buttonForfeit.Text = "Opgeven";
-            this.buttonForfeit.UseVisualStyleBackColor = true;
-            this.buttonForfeit.Click += new System.EventHandler(this.buttonForfeit_Click);
-            // 
             // ClientGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -200,6 +200,7 @@
             this.Controls.Add(this.splitcontainer);
             this.Name = "ClientGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClientGUI_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ClientGUI_FormClosed);
             this.splitcontainer.Panel1.ResumeLayout(false);
             this.splitcontainer.Panel1.PerformLayout();
