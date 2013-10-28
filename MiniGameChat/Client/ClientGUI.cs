@@ -59,6 +59,15 @@ namespace Client
             }));
         }
 
+        public void removePages(string name)
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                int number = tabController.Controls.Count;
+                tabController.TabPages.RemoveByKey(name);
+            }));
+        }
+
         private void buttonSend_Click(object sender, EventArgs e)
         {
             Send();
@@ -118,6 +127,12 @@ namespace Client
                     addPages(newUser);
                     break;
 
+                case Flag.RemoveClient :
+                    string oldUser = packet.Data as string;
+                    removePages(oldUser);
+                    break;
+                    
+
                 case Flag.GameRequest: 
                     if(packet.Data is ConnectFour)
                     {
@@ -151,7 +166,7 @@ namespace Client
                         }
                     }
 
-                    if (packet.Data is RPSLS)
+                    if (packet.Data is RockPaperScissorsLizardSpock)
                     {
                         RockPaperScissorsLizardSpock rpsls = packet.Data as RockPaperScissorsLizardSpock;
                         opponent = rpsls.You;
@@ -199,8 +214,7 @@ namespace Client
                             case GameSituation.Disconnect:
                                 Console.WriteLine("disconnect");
 
-                                labelSituation.Text = "Game afgewezen";
-                                labelSituation2.Text = "";
+                                EndGameLabel("Game afgewezen");
                                 break;
                         }
                     }
@@ -215,7 +229,7 @@ namespace Client
                                 break;
 
                             case GameSituation.Disconnect:
-                                labelSituation.Text = "Game afgewezen";
+                                EndGameLabel("Game afgewezen");
                                 break;
                         }
                     }
@@ -235,13 +249,13 @@ namespace Client
                             break;
 
                         case GameSituation.Win:
-                            labelSituation.Text = "You WON!!!";
-                            labelSituation2.Text = "";
+                            panelGame1.Controls.Clear();
+                            EndGameLabel("You WON!!!");
                             break;
 
                         case GameSituation.Loss:
-                            labelSituation.Text = "You Lost...";
-                            labelSituation2.Text = "";
+                            playingConnect4(connect_four, packet);
+                            EndGameLabel("You Lost...");
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
@@ -255,22 +269,12 @@ namespace Client
                             }
                             break;
                         case GameSituation.Tie:
-                            labelSituation.Text = "It's a Tie";
-                            labelSituation2.Text = ""; 
+                            EndGameLabel("It's a Tie");                             
                             newGame = new NewGame();
                             break;
 
-                        case GameSituation.Normal:                            
-                            this.Invoke(new MethodInvoker(() =>
-                            {
-                                labelSituation.Text = "Playing...";
-
-                                if (connect_four.SetPlayedBy != name)
-                                    connect4.Play(packet);
-                                else
-                                    labelSituation2.Text = "Your Move";
-                                
-                            }));
+                        case GameSituation.Normal:
+                            playingConnect4(connect_four, packet);
                             break;
                     }
                     break;
@@ -298,7 +302,7 @@ namespace Client
                             break;
 
                         case GameSituation.Tie:
-                            labelSituation2.Text = "It's a Tie";
+                            EndGameLabel("It's a Tie");
                             labelSituation.Text = "";
                             
                             if (openGames.ContainsKey(opponent))
@@ -308,8 +312,7 @@ namespace Client
                             break;
 
                         case GameSituation.Loss:
-                            labelSituation2.Text = "You lost...";
-                            labelSituation.Text = "";
+                            EndGameLabel("You Lost...");
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
@@ -324,8 +327,7 @@ namespace Client
                             break;
 
                         case GameSituation.Win:
-                            labelSituation2.Text = "YOU WON!!!";
-                            labelSituation.Text = "";
+                            EndGameLabel("You WON!!!");
 
                              if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
@@ -353,6 +355,32 @@ namespace Client
                     AddText("Handshake = " + handShake, broadcast,false);
                     break;
             }            
+        }
+
+        public void EndGameLabel(string situation)
+        {
+            this.Invoke(new MethodInvoker(() =>
+                            {
+                                labelSituation2.Text = situation;
+                                labelSituation.Text = "";
+                            }));
+        }
+
+        public void playingConnect4(ConnectFour connect_four, Packet packet)
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                labelSituation.Text = "Playing...";
+
+                if (connect_four.SetPlayedBy != name)
+                {
+                    connect4.Play(packet);
+                    labelSituation2.Text = "Opponent's Move";
+                }
+                else
+                    labelSituation2.Text = "Your Move";
+
+            }));
         }
 
         public void AddText(string text, string sender,bool isMe)
@@ -532,6 +560,14 @@ namespace Client
 
             buttonRpsls.Enabled = true;
             buttonConnect4.Enabled = true;
+        }
+
+        private void ClientGUI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Packet packet = new Packet();
+            packet.Flag = Flag.RemoveClient;
+
+            Comm.OutgoingMessageHandler(packet);
         }
 
         
