@@ -142,7 +142,7 @@ namespace Client
                         {
                             case GameSituation.Connect : 
                             newGame = new NewGame();
-                            newGame.setLabel(opponent + " verzoekt om te spelen");
+                            newGame.setLabel(opponent + " verzoekt om " + Environment.NewLine + " Connect 4 te spelen");
                             if(newGame.ShowDialog() == DialogResult.OK)
                             {
                                 packet = new Packet();
@@ -174,7 +174,7 @@ namespace Client
                         {
                             case GameSituation.Connect:
                                 newGame = new NewGame();
-                                newGame.setLabel(opponent + " verzoekt om te spelen");
+                                newGame.setLabel(opponent + " verzoekt om" + Environment.NewLine + " RockPaperScissorsLizardSpock te spelen");
                                 if (newGame.ShowDialog() == DialogResult.OK)
                                 {
                                     packet = new Packet();
@@ -209,7 +209,7 @@ namespace Client
                             case GameSituation.Connect :                                                                
                                 StartNewConnect4(con4.Opponent, con4.ItIsYourTurn);
                                 connect4.start(con4.ItIsYourTurn);
-                                openGames.Add(opponent, "Connect4");
+                                openGames.Add(con4.Opponent, "Connect4");
                                 break;
 
                             case GameSituation.Disconnect:
@@ -226,7 +226,8 @@ namespace Client
                         switch (rpsls.Situation)
                         {
                             case GameSituation.Connect:
-                                StartNewRpsls(opponent);
+                                StartNewRpsls(rpsls.Opponent);
+                                openGames.Add(rpsls.Opponent, "RPSLS");
                                 break;
 
                             case GameSituation.Disconnect:
