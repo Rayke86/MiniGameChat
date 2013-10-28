@@ -245,7 +245,6 @@ namespace Client
                         {
                             case GameSituation.Connect:
                                 StartNewRpsls(rpsls.Opponent);
-                                openGames.Add(rpsls.Opponent, "RPSLS");
                                 break;
 
                             case GameSituation.Disconnect:
@@ -289,8 +288,13 @@ namespace Client
                             }
                             break;
                         case GameSituation.Tie:
-                            EndGameLabel("It's a Tie");                             
-                            newGame = new NewGame();
+                            EndGameLabel("It's a Tie");
+                            
+                            if (openGames.ContainsKey(opponent))
+                                openGames.Remove(opponent);
+
+                            buttonConnect4.Enabled = true;
+                            buttonRpsls.Enabled = true;
                             break;
 
                         case GameSituation.Normal:
@@ -323,7 +327,10 @@ namespace Client
                             
                             if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
-
+                        
+                            buttonConnect4.Enabled = true;
+                            buttonRpsls.Enabled = true;
+                        
                             clearPanel();                            
                             break;
 
@@ -333,7 +340,7 @@ namespace Client
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
-                                sendRpslsRequest();
+                                sendRpslsRequest(opponent);
                             }
                             else
                             {
@@ -461,14 +468,14 @@ namespace Client
         {
             if (tabController.SelectedTab.Name != broadcast)
             {
-                sendRpslsRequest();
+                string opp = tabController.SelectedTab.Name;
+                sendRpslsRequest(opp);
             }
             buttonConnect4.Enabled = false;
         }
 
-        public void sendRpslsRequest()
+        public void sendRpslsRequest(string opp)
         {
-            string opp = tabController.SelectedTab.Name;
             RockPaperScissorsLizardSpock rpsls = new RockPaperScissorsLizardSpock(name, opp, GameSituation.Connect);
             Packet packet = new Packet();
             packet.Flag = Flag.GameRequest;
