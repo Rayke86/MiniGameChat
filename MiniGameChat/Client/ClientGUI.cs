@@ -336,8 +336,7 @@ namespace Client
 
                             buttonConnect4.Enabled = true;
                             buttonRpsls.Enabled = true;
-                        
-                            clearPanel();                            
+                                                  
                             break;
 
                         case GameSituation.Loss:
