@@ -64,9 +64,6 @@ namespace Server
                     break;
                 case Flag.GameRequest:
                     serverMain.HandleGameRequest(packet);
-                    Console.WriteLine("GameRequest from {0}", Username);
-                    BaseGame game = packet.Data as BaseGame;
-                    Console.WriteLine(game.Opponent);
                     break;
                 case Flag.GameResponse:
                     Console.WriteLine("GameResponse from {0}", Username);
