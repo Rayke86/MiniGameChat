@@ -66,9 +66,7 @@ namespace Server
                     serverMain.HandleGameRequest(packet);
                     break;
                 case Flag.GameResponse:
-                    Console.WriteLine("GameResponse from {0}", Username);
                     BaseGame g = packet.Data as BaseGame;
-                    Console.WriteLine(g.Opponent);
                     if (g.Situation == GameSituation.Connect)
                     {
                         if (packet.Data is ConnectFour)

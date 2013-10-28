@@ -23,6 +23,17 @@ namespace Server
             {
                 serverMain.RemoveGame(this);
             }
+            else if (rockPaperScissorsLizardSpock.Situation == GameSituation.Win)
+            {
+                Packet packet = new Packet();
+                packet.Flag = Flag.RPSLS;
+                string you = rockPaperScissorsLizardSpock.Opponent;
+                rockPaperScissorsLizardSpock.Opponent = rockPaperScissorsLizardSpock.You;
+                rockPaperScissorsLizardSpock.You = you;
+                packet.Data = rockPaperScissorsLizardSpock;
+                serverMain.SendResolvedGameSituation(you, packet);
+                serverMain.RemoveGame(this);
+            }
             else
             {
                 ChosenHands.Add(player, rockPaperScissorsLizardSpock.YourHand);
@@ -33,7 +44,6 @@ namespace Server
                         x => x.Key,
                         y => y.Value
                         ));
-                    //ChosenHands = new Dictionary<string, Hands>();
                 }
             }
         }
@@ -188,6 +198,11 @@ namespace Server
                 //g.OpponentHand = Rounds.Last()[Players[(i+1)%Players.Count]];
                 packet.Data = g;
                 serverMain.SendResolvedGameSituation(Players[i], packet);
+
+                if (situation == GameSituation.Win || situation == GameSituation.Tie || situation == GameSituation.Loss)
+                {
+                    serverMain.RemoveGame(this);
+                }
             }
         }
     }

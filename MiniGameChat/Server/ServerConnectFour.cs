@@ -44,6 +44,7 @@ namespace Server
                 setConnectFour.You = you;
                 packet.Data = setConnectFour;
                 serverMain.SendResolvedGameSituation(you, packet);
+                serverMain.RemoveGame(this);
             }
             else
             {
@@ -94,6 +95,11 @@ namespace Server
                 g.ItIsYourTurn = (lastSet.SetPlayedBy != Players[i]);
                 packet.Data = g;
                 serverMain.SendResolvedGameSituation(Players[i], packet);
+
+                if (situation == GameSituation.Win || situation == GameSituation.Tie || situation == GameSituation.Loss)
+                {
+                    serverMain.RemoveGame(this);
+                }
             }
         }
 
