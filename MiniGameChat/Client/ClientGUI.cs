@@ -409,7 +409,8 @@ namespace Client
         {
             this.Invoke(new MethodInvoker(() =>
             {
-                panelGame1.Controls.Clear();
+                if(panelGame1 != null)
+                    panelGame1.Controls.Clear();
             }));
         }
 
