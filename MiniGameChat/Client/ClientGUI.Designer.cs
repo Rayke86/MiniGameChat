@@ -180,6 +180,7 @@
             this.tabControlGame.SelectedIndex = 0;
             this.tabControlGame.Size = new System.Drawing.Size(946, 647);
             this.tabControlGame.TabIndex = 1;
+            this.tabControlGame.Visible = false;
             // 
             // ClientGUI
             // 

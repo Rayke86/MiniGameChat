@@ -45,12 +45,12 @@ namespace Client
             Comm.IncommingMessageHandler += Comm_IncommingMessageHandler;
 
             buttonRpsls.Text = "Rock - Paper - Scissors -" + Environment.NewLine +"Lizard - Spock";
-            
-                     
+
+            this.BackColor = Color.Gray;
+
             buttonConnect4.Enabled = false;
             buttonRpsls.Enabled = false;
 
-            this.BackColor = Color.Gray;
         }
 
         public Image getImage(string img)
@@ -102,7 +102,7 @@ namespace Client
                         connect4.connect4SChoice += connect4_connect4Choice;
                         break;
                 }
-
+                tabControlGame.Visible = true;
             }));
         }
 
@@ -121,6 +121,16 @@ namespace Client
             {
                 if(tab != null)
                 tabControlGame.TabPages.RemoveByKey(tab);
+
+                if (tabControlGame.TabPages.Count == 0)
+                {
+                    tabControlGame.Visible = false;
+                }
+                else
+                {
+                    tabControlGame.Visible = true;
+                }
+
                 buttonConnect4.Enabled = true;
                 buttonRpsls.Enabled = true;
             }));
