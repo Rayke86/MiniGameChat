@@ -48,7 +48,7 @@ namespace Client
             buttonConnect4.Enabled = false;
             buttonRpsls.Enabled = false;
 
-            this.BackgroundImage = getImage("eclipse");
+            this.BackColor = Color.Gray;
         }
 
         public Image getImage(string img)
@@ -304,11 +304,8 @@ namespace Client
                     GameSituation game = ropasilisp.Situation;
                     Hands myhand = ropasilisp.YourHand;
                     Hands opponenthand = ropasilisp.OpponentHand;
-                    opponent = ropasilisp.You;
-                                        
-                    labelSituation.Text = "You chose " + myhand;
-                    labelSituation2.Text = "Other player chose " + opponenthand;
-    
+                    opponent = ropasilisp.Opponent;
+                        
                 switch (game)
                     {
                         case GameSituation.Disconnect:
@@ -323,7 +320,6 @@ namespace Client
 
                         case GameSituation.Tie:
                             EndGameLabel("It's a Tie");
-                            labelSituation.Text = "";
                             
                             if (openGames.ContainsKey(opponent))
                                 openGames.Remove(opponent);
@@ -333,6 +329,7 @@ namespace Client
 
                         case GameSituation.Loss:
                             EndGameLabel("You Lost...");
+                            clearPanel();
                             newGame = new NewGame();
                             if (newGame.ShowDialog() == DialogResult.OK)
                             {
@@ -341,8 +338,7 @@ namespace Client
                             else
                             {
                                 if (openGames.ContainsKey(opponent))
-                                    openGames.Remove(opponent);
-                                clearPanel();
+                                    openGames.Remove(opponent);                                
                             }
                             break;
 
