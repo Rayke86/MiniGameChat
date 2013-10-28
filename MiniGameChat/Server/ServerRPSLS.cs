@@ -23,6 +23,17 @@ namespace Server
             {
                 serverMain.RemoveGame(this);
             }
+            else if (rockPaperScissorsLizardSpock.Situation == GameSituation.Win)
+            {
+                Packet packet = new Packet();
+                packet.Flag = Flag.RPSLS;
+                string you = rockPaperScissorsLizardSpock.Opponent;
+                rockPaperScissorsLizardSpock.Opponent = rockPaperScissorsLizardSpock.You;
+                rockPaperScissorsLizardSpock.You = you;
+                packet.Data = rockPaperScissorsLizardSpock;
+                serverMain.SendResolvedGameSituation(you, packet);
+                serverMain.RemoveGame(this);
+            }
             else
             {
                 ChosenHands.Add(player, rockPaperScissorsLizardSpock.YourHand);

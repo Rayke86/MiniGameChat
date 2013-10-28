@@ -44,6 +44,7 @@ namespace Server
                 setConnectFour.You = you;
                 packet.Data = setConnectFour;
                 serverMain.SendResolvedGameSituation(you, packet);
+                serverMain.RemoveGame(this);
             }
             else
             {
