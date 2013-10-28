@@ -33,7 +33,7 @@ namespace Server
                         x => x.Key,
                         y => y.Value
                         ));
-                    ChosenHands = new Dictionary<string, Hands>();
+                    //ChosenHands = new Dictionary<string, Hands>();
                 }
             }
         }
@@ -182,9 +182,10 @@ namespace Server
                         situation = GameSituation.Win;
                 }
                 RockPaperScissorsLizardSpock g = new RockPaperScissorsLizardSpock(Players[i], Players[(i+1)%Players.Count], situation);
-                g.YourHand = Rounds.Last()[Players[i]];
-                g.OpponentHand = Rounds.Last()[Players[(i+1)%Players.Count]];
-                
+                g.YourHand = ChosenHands[Players[i]];
+                g.OpponentHand = ChosenHands[Players[(i + 1)%2]];
+                //g.YourHand = Rounds.Last()[Players[i]];
+                //g.OpponentHand = Rounds.Last()[Players[(i+1)%Players.Count]];
                 packet.Data = g;
                 serverMain.SendResolvedGameSituation(Players[i], packet);
             }

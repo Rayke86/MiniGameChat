@@ -221,10 +221,6 @@ namespace Server
                         {
                             currentGames.Add(rpslsData.Opponent, new List<Game>() { rpslsGame });
                         }
-                        foreach (string player in rpslsGame.Players)
-                        {
-                            onlineUsers[player].send(packet);
-                        }
                         for (int i = 0; i < rpslsGame.Players.Count; i++)
                         {
                             rpslsData.You = rpslsGame.Players[i];
