@@ -35,6 +35,16 @@ namespace Server
             {
                 serverMain.RemoveGame(this);
             }
+            else if (setConnectFour.Situation == GameSituation.Win)
+            {
+                Packet packet = new Packet();
+                packet.Flag = Flag.Connect4;
+                String you = setConnectFour.Opponent;
+                setConnectFour.Opponent = setConnectFour.You;
+                setConnectFour.You = you;
+                packet.Data = setConnectFour;
+                serverMain.SendResolvedGameSituation(you, packet);
+            }
             else
             {
                 sets++;

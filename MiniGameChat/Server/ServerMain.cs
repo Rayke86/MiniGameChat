@@ -245,6 +245,14 @@ namespace Server
             }
         }
 
+        public void RemoveGames(String player)
+        {
+            foreach (Game game in currentGames[player])
+            {
+                RemoveGame(game);
+            }
+        }
+
         public void HandleGameRequest(Packet packet)
         {
             BaseGame g = packet.Data as BaseGame;
