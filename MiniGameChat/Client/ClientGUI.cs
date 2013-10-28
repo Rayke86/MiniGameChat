@@ -209,6 +209,7 @@ namespace Client
                             case GameSituation.Connect :                                                                
                                 StartNewConnect4(con4.Opponent, con4.ItIsYourTurn);
                                 connect4.start(con4.ItIsYourTurn);
+                                openGames.Add(opponent, "Connect4");
                                 break;
 
                             case GameSituation.Disconnect:
@@ -237,7 +238,7 @@ namespace Client
 
                 case Flag.Connect4:
                     ConnectFour connect_four = packet.Data as ConnectFour;
-                    opponent = connect_four.You;
+                    opponent = connect_four.Opponent;
 
                     switch (connect_four.Situation)
                     {                        
@@ -555,11 +556,17 @@ namespace Client
             {
                 openGames.Remove(tabController.SelectedTab.Name);
             }
-            labelSituation.Text = "";
-            labelSituation2.Text = "";
-
             buttonRpsls.Enabled = true;
             buttonConnect4.Enabled = true;
+
+            string opp = tabController.SelectedTab.Name;
+
+            Packet packet = new Packet();
+            ConnectFour con4 = new ConnectFour(name, opp, GameSituation.Win);
+            packet.Flag = Flag.Connect4;
+            packet.Data = con4;
+
+            Comm.OutgoingMessageHandler(packet);
         }
 
         private void ClientGUI_FormClosing(object sender, FormClosingEventArgs e)
