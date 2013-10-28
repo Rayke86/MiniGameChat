@@ -80,6 +80,7 @@ namespace Client
             {
                 Console.WriteLine(e.StackTrace);
             }
+
         }
 
         protected virtual void OnIncommingMessageHandler(Packet packet)
