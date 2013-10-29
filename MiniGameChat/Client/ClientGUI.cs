@@ -172,14 +172,22 @@ namespace Client
                     ChatMessage message = packet.Data as ChatMessage;
                     string sender = message.Sender;
                     string chatMessage = message.Message;
+                    string tab = "";
                     if (sender == name)
                     {
                         Tab = message.Receiver;
-                        AddText(chatMessage, Tab,true);
+                        AddText(chatMessage, Tab, true, Tab);
                     }
                     else
-                        AddText(chatMessage, sender,false);
-                    break;
+                    {
+                        if (message.Receiver == broadcast)
+                            tab = broadcast; 
+                        else
+                            tab = sender;
+
+                        AddText(chatMessage, sender, false, tab);
+                    }
+                        break;
 
                 case Flag.OnlineUserList: 
                     onlineUserList = packet.Data as List<string>;
@@ -430,7 +438,7 @@ namespace Client
                         }
                     }
 
-                    AddText("Handshake = " + handShake, broadcast,false);
+                    //AddText("Handshake = " + handShake, broadcast,false, broadcast);
                     break;
             }            
         }
@@ -462,20 +470,20 @@ namespace Client
             }));
         }
 
-        public void AddText(string text, string sender,bool isMe)
+        public void AddText(string text, string sender,bool isMe, string tab)
         {
             this.Invoke(new MethodInvoker(() =>
             {
                 if (isMe)
                 {
-                    tabController.SelectTab(sender);
+                    tabController.SelectTab(tab);
                     int index = tabController.SelectedTab.TabIndex;
                     ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
                     panel.addChat(name + " : " + text);
                 }
                 else
                 {
-                    tabController.SelectTab(sender);
+                    tabController.SelectTab(tab);
                     int index = tabController.SelectedTab.TabIndex;
                     ChatPanel panel = (ChatPanel)tabController.TabPages[index].Controls[0];
                     panel.addChat(sender + " : " + text);
