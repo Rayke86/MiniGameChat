@@ -211,7 +211,7 @@ namespace Client
                         {
                             case GameSituation.Connect : 
                             newGame = new NewGame();
-                            newGame.setLabel(opponent + " verzoekt om " + Environment.NewLine + " Connect 4" + Environment.NewLine + "te spelen");
+                            newGame.setLabel(opponent + " requests to play " + Environment.NewLine + " Connect 4");
                             if(newGame.ShowDialog() == DialogResult.OK)
                             {
                                 packet = new Packet();
@@ -244,7 +244,7 @@ namespace Client
                         {
                             case GameSituation.Connect:
                                 newGame = new NewGame();
-                                newGame.setLabel(opponent + " verzoekt om" + Environment.NewLine + "Rock-Paper-Scissors-Lizard-Spock" + Environment.NewLine + "te spelen");
+                                newGame.setLabel(opponent + " requests to play" + Environment.NewLine + "Rock-Paper-Scissors-Lizard-Spock");
                                 if (newGame.ShowDialog() == DialogResult.OK)
                                 {
                                     packet = new Packet();
@@ -284,7 +284,7 @@ namespace Client
                             case GameSituation.Disconnect:
                                 Console.WriteLine("disconnect");
 
-                                EndGameLabel("Game afgewezen");
+                                EndGameLabel("Game denied");
                                 break;
                         }
                     }
@@ -300,7 +300,7 @@ namespace Client
                                 break;
 
                             case GameSituation.Disconnect:
-                                EndGameLabel("Game afgewezen");
+                                EndGameLabel("Game denied");
                                 break;
                         }
                     }

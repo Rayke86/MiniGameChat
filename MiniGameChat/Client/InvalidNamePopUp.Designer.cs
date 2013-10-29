@@ -39,22 +39,22 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(95, 23);
+            this.label1.Location = new System.Drawing.Point(121, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 15);
+            this.label1.Size = new System.Drawing.Size(140, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Uw gekozen naam bestaat al";
+            this.label1.Text = "Name already in use";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Consolas", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(95, 46);
+            this.label2.Location = new System.Drawing.Point(107, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(189, 15);
+            this.label2.Size = new System.Drawing.Size(154, 15);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Voer nieuwe naam in a.u.b.";
+            this.label2.Text = "Please enter new name";
             // 
             // textBoxName
             // 
@@ -86,7 +86,7 @@
             this.Controls.Add(this.label1);
             this.Name = "InvalidNamePopUp";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "InvalidName";
+            this.Text = "Invalid Name";
             this.ResumeLayout(false);
             this.PerformLayout();
 

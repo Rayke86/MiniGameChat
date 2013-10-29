@@ -46,11 +46,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(107, 71);
+            this.label1.Location = new System.Drawing.Point(157, 72);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(392, 15);
+            this.label1.Size = new System.Drawing.Size(259, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Hieronder graag naam en IP-adres van de server invoeren";
+            this.label1.Text = "Please enter your name and Server IP";
             // 
             // imageList1
             // 
@@ -64,9 +64,9 @@
             this.label2.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(107, 126);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 15);
+            this.label2.Size = new System.Drawing.Size(70, 15);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Gebruikers naam";
+            this.label2.Text = "User name";
             // 
             // label3
             // 
@@ -74,9 +74,9 @@
             this.label3.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(107, 183);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(112, 15);
+            this.label3.Size = new System.Drawing.Size(70, 15);
             this.label3.TabIndex = 2;
-            this.label3.Text = "IP-adres server";
+            this.label3.Text = "Server IP";
             // 
             // textBoxName
             // 
@@ -85,7 +85,6 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(110, 23);
             this.textBoxName.TabIndex = 3;
-            this.textBoxName.Text = "Ray";
             // 
             // textBoxIP
             // 
@@ -94,7 +93,7 @@
             this.textBoxIP.Name = "textBoxIP";
             this.textBoxIP.Size = new System.Drawing.Size(110, 23);
             this.textBoxIP.TabIndex = 4;
-            this.textBoxIP.Text = "145.48.133.37";
+            this.textBoxIP.Text = "Localhost";
             // 
             // buttonOK
             // 
@@ -124,9 +123,9 @@
             this.label4.Font = new System.Drawing.Font("Consolas", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(254, 29);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 22);
+            this.label4.Size = new System.Drawing.Size(80, 22);
             this.label4.TabIndex = 7;
-            this.label4.Text = "WELKOM";
+            this.label4.Text = "WELCOME";
             // 
             // labelNoName
             // 
@@ -165,7 +164,7 @@
             this.Controls.Add(this.label1);
             this.Name = "PopUp";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PopUp";
+            this.Text = "MGC Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 

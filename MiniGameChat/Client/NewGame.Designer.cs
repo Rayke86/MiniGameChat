@@ -40,9 +40,9 @@
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 19);
+            this.label1.Size = new System.Drawing.Size(270, 19);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Nog een keer spelen?";
+            this.label1.Text = "Would you like to play again?";
             // 
             // button1
             // 
@@ -75,7 +75,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Name = "NewGame";
-            this.Text = "NewGame";
+            this.Text = "New Game";
             this.ResumeLayout(false);
             this.PerformLayout();
 
